@@ -10,6 +10,8 @@ router.get("/", function (req, res, next) {
 //POST route for updating data
 router.post("/register", function (req, res, next) {
   // confirm that user typed same password twice
+  console.log(req.body.email);
+  console.log(req.body.password);
   if (req.body.password !== req.body.passwordConf) {
     var err = new Error("Passwords do not match.");
     err.status = 400;
@@ -44,18 +46,22 @@ router.post("/register", function (req, res, next) {
   }
 });
 router.post("/login", (req, res, next) => {
+  console.log(req.body.email, req.body.password);
+
   if (req.body.email && req.body.password) {
     User.authenticate(req.body.email, req.body.password, function (
       error,
       user
     ) {
+      console.log(error, user);
       if (error || !user) {
         var err = new Error("Wrong email or password.");
         err.status = 401;
         return next(err);
       } else {
         req.session.userId = user._id;
-        return res.send("logged in");
+        // res.send("logged in");
+        return res.redirect("/profile");
       }
     });
   }

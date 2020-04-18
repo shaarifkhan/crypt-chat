@@ -4,9 +4,12 @@ var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var session = require("express-session");
 var MongoStore = require("connect-mongo")(session);
+var cors = require("cors");
 
 //connect to MongoDB
-mongoose.connect("mongodb://localhost/testForAuth");
+mongoose.Promise = global.Promise;
+
+mongoose.connect("mongodb://localhost/testForAuth", { useMongoClient: true });
 var db = mongoose.connection;
 // console.log(db);
 
@@ -15,6 +18,8 @@ db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", function () {
   // we're connected!
 });
+
+app.use(cors({ origin: "http://192.168.1.104.", credentials: true }));
 
 //use sessions for tracking logins
 app.use(
