@@ -1,13 +1,13 @@
 import React, { useState } from "react";
+
 import {
   StyleSheet,
-  TextInput,
   View,
-  Image,
   Text,
   TouchableWithoutFeedback,
-  Alert,
   Keyboard,
+  Image,
+  Alert,
 } from "react-native";
 import { globalStyles } from "../styles/global.js";
 import { Formik } from "formik";
@@ -17,25 +17,25 @@ import { ActivityIndicator } from "react-native";
 import firebase from "../config/firebase";
 
 import { Input, Button } from "react-native-elements";
+import axios from "axios";
+axios.defaults.withCredentials = true;
 
 const reviewSchema = yup.object({
-    email: yup.string()
-      .required(),
-    password: yup.string()
-      .required(),
-});
+  email: yup.string().required(),
 
+  password: yup.string().required(),
+});
 export default function Login({ navigation }) {
   const [error, setError] = useState(null);
-  const [actions, setActions] = useState(null);
+
   const pressHandler = () => {
     navigation.navigate("Signup");
   };
-  const handleLogin = (values) => {
+  handleLogin = (values) => {
     const { email, password } = values;
     firebase
       .auth()
-      .signInWithEmailAndPassword(email.trim(), password)
+      .signInWithEmailAndPassword(email, password)
       .then((user) => {
         console.log("signed in");
       })
@@ -43,36 +43,28 @@ export default function Login({ navigation }) {
         console.log(err);
         setError(err);
       });
-      navigation.navigate("Home")
   };
-
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={globalStyles.container}>
         <Image source={require("../assets/cc.png")} style={styles.img} />
-        {error &&
+        {/* {error &&
           Alert.alert(
             "Login Error",
             "username or password maybe incorrect",
-            [
-              {
-                text: "Retry",
-                onPress: () => {
-                  actions.resetForm();
-                  return setError(null);
-                },
-              },
-            ],
+            {
+              text: "Retry",
+              onPress: () => this.setError(err),
+            },
             { cancelable: false }
-          )}
+          )} */}
         <Formik
-          initialValues={{ email: "", password: "" }}
+          initialValues={{ username: "", password: "" }}
           validationSchema={reviewSchema}
           onSubmit={(values, actions) => {
-            setActions(actions);
+            console.log(values);
             actions.resetForm();
             handleLogin(values);
-            console.log(values);
           }}
         >
           {(props) => (
@@ -81,13 +73,13 @@ export default function Login({ navigation }) {
                 leftIcon={<Icon name="user" size={24} color="black" />}
                 style={globalStyles.input}
                 placeholder="Username"
-                onChangeText={props.handleChange("email")}
-                onBlur={props.handleBlur("email")}
-                value={props.values.email}
+                onChangeText={props.handleChange("username")}
+                onBlur={props.handleBlur("username")}
+                value={props.values.username}
               />
               {/* only if the left value is a valid string, will the right value be displayed */}
               <Text style={globalStyles.errorText}>
-                {props.touched.email && props.errors.email}
+                {props.touched.username && props.errors.username}
               </Text>
 
               <Input
@@ -102,11 +94,16 @@ export default function Login({ navigation }) {
                 {props.touched.password && props.errors.password}
               </Text>
 
-              <Button title="LOGIN" onPress={props.handleSubmit} />
+              <Button
+                color="maroon"
+                title="LOGIN"
+                onPress={props.handleSubmit}
+              />
 
-              <Text style={styles.nT}>Don't Have an Account? Signup</Text>
+              <Text style={styles.nT}>Don't Have an Account? Sign Up</Text>
               <View style={styles.nB}>
                 <Button
+                  color="maroon"
                   title="Register Now"
                   type="clear"
                   onPress={pressHandler}
