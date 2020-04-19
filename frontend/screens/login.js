@@ -19,8 +19,10 @@ import firebase from "../config/firebase";
 import { Input, Button } from "react-native-elements";
 
 const reviewSchema = yup.object({
-  email: yup.string().required(),
-  password: yup.string().required(),
+    email: yup.string()
+      .required(),
+    password: yup.string()
+      .required(),
 });
 
 export default function Login({ navigation }) {
@@ -50,6 +52,7 @@ export default function Login({ navigation }) {
         console.log(err);
         setError(err);
       });
+      navigation.navigate("Home")
   };
 
   return (
