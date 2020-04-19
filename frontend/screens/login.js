@@ -18,7 +18,6 @@ axios.defaults.withCredentials = true;
 
 const reviewSchema = yup.object({
   email: yup.string().required(),
-
   password: yup.string().required(),
 });
 
@@ -42,20 +41,16 @@ export default function Login({ navigation }) {
         console.log(err);
       });
   };
-return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-    <View style={globalStyles.container}>
-    <Image
-  source={require('../assets/cc.png')} style={styles.img}/>
+    return (
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={globalStyles.container}>
+      <Image source={require('../assets/cc.png')} style={styles.img}/>
       <Formik
-        initialValues={{ username: '',password:'' }}
+        initialValues={{ email: '', password:'' }}
         validationSchema={reviewSchema}
         onSubmit={(values, actions) => {
-          actions.resetForm(); 
-          //addReview(values);
-          console.log(values)
-        }}
-      >
+          submitToserver(values)
+        }}>
         {props => (
           <View>
             <Input
@@ -67,9 +62,9 @@ return (
                 />
               }
               style={globalStyles.input}
-              placeholder='Username'
-              onChangeText={props.handleChange('username')}
-              onBlur={props.handleBlur('username')} 
+              placeholder=' Email'
+              onChangeText={props.handleChange('email')}
+              onBlur={props.handleBlur('email')} 
               value={props.values.username}
             />
             {/* only if the left value is a valid string, will the right value be displayed */}
@@ -83,17 +78,14 @@ return (
                 />
               }
               style={globalStyles.input}
-              
-              placeholder='Password'
+              placeholder=' Password'
               onChangeText={props.handleChange('password')}
               onBlur={props.handleBlur('password')}
               value={props.values.password}
             />
             <Text style={globalStyles.errorText}>{props.touched.password && props.errors.password}</Text>
-            
-            <Button color='maroon' title="LOGIN" onPress={()=>navigation.navigate("Home")} /> 
-             
-             <Text style={styles.nT}>Don't Have an Acount</Text>
+            <Button color='maroon' title="LOGIN" onPress={props.handleSubmit} /> 
+             <Text style={styles.nT}>Don't Have an Acount?</Text>
              <View style={styles.nB}>
             <Button color='maroon' title="Register Now" type="clear" onPress={pressHandler} /> 
             </View>

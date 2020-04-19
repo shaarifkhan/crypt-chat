@@ -14,8 +14,6 @@ const screens = {
       headerTitle:() => <Header title='LOGIN'/>,
     }
   },
-  
-
 Signup: {
   screen: Signup,
   navigationOptions: {

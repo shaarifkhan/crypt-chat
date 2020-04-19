@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import Header from '../shared/header';
 
-
 export default function Home ({navigation}) {
     const [contacts, setContacts]= useState([
         {id:1,  name: "Fawaz Ansari",    status:"active", image:'https://scontent.fkhi6-1.fna.fbcdn.net/v/t1.0-9/s960x960/86490745_10216871382282325_2101349845200535552_o.jpg?_nc_cat=103&_nc_sid=85a577&_nc_ohc=9PfyP7Qn_yEAX98rA3s&_nc_ht=scontent.fkhi6-1.fna&_nc_tp=7&oh=90e4beb69a20a3054d0c0f632753bc22&oe=5EC2F9B7'},
