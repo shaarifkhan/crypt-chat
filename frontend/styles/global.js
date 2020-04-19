@@ -20,9 +20,10 @@ export const globalStyles = StyleSheet.create({
   input: {
     borderWidth: 1,
     borderColor: '#ddd',
-    padding: 10,
+    padding: 20,
     fontSize: 18,
     borderRadius: 6,
+    marginLeft:10
   },
   errorText: {
     color: 'crimson',

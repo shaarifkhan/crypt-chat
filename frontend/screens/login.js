@@ -17,8 +17,10 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 
 const reviewSchema = yup.object({
-  email: yup.string().required(),
-  password: yup.string().required(),
+    email: yup.string()
+      .required(),
+    password: yup.string()
+      .required(),
 });
 
 export default function Login({ navigation }) {
@@ -40,6 +42,7 @@ export default function Login({ navigation }) {
       .catch((err) => {
         console.log(err);
       });
+      navigation.navigate("Home")
   };
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -51,6 +54,7 @@ export default function Login({ navigation }) {
         onSubmit={(values, actions) => {
           submitToserver(values)
         }}>
+        
         {props => (
           <View>
             <Input
