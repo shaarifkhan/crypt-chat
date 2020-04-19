@@ -30,7 +30,8 @@ export default function Signup({ navigation }) {
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then((user) => {
-        console.log("signed in");
+        console.log("signed up");
+        navigation.navigate("Login");
       })
       .catch((err) => {
         console.log(err);
@@ -53,7 +54,6 @@ export default function Signup({ navigation }) {
             console.log(values);
             console.log("submit hojana chahiye");
             handleSubmit(values);
-            navigation.navigate("Login");
           }}
         >
           {(props) => (

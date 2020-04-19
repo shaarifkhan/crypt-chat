@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   TextInput,
@@ -24,6 +24,14 @@ const reviewSchema = yup.object({
 });
 
 export default function Login({ navigation }) {
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        // console.log(user);
+        navigation.navigate("Home");
+      } else pass;
+    });
+  });
   const [error, setError] = useState(null);
   const [actions, setActions] = useState(null);
   const pressHandler = () => {
@@ -36,6 +44,7 @@ export default function Login({ navigation }) {
       .signInWithEmailAndPassword(email.trim(), password)
       .then((user) => {
         console.log("signed in");
+        navigation.navigate("Home");
       })
       .catch((err) => {
         console.log(err);
