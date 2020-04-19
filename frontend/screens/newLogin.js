@@ -1,59 +1,70 @@
 import React, { useState } from "react";
+
 import {
   StyleSheet,
-  TextInput,
   View,
   Text,
   TouchableWithoutFeedback,
   Keyboard,
+  Image,
+  Alert,
 } from "react-native";
 import { globalStyles } from "../styles/global.js";
 import { Formik } from "formik";
 import * as yup from "yup";
+import Icon from "react-native-vector-icons/FontAwesome";
+import { ActivityIndicator } from "react-native";
 import firebase from "../config/firebase";
 
-import { ActivityIndicator } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
 import { Input, Button } from "react-native-elements";
-import Header from "../shared/header";
+import axios from "axios";
+axios.defaults.withCredentials = true;
+
 const reviewSchema = yup.object({
-  username: yup.string().required().min(4),
-  fullname: yup.string().required().min(8),
-  password: yup.string().required().min(8),
-  email: yup.string().required().min(8),
+  email: yup.string().required(),
+
+  password: yup.string().required(),
 });
-export default function Signup({ navigation }) {
+export default function Login({ navigation }) {
   const [error, setError] = useState(null);
-  handleSubmit = (values) => {
+
+  const pressHandler = () => {
+    navigation.navigate("Signup");
+  };
+  handleLogin = (values) => {
     const { email, password } = values;
     firebase
       .auth()
-      .createUserWithEmailAndPassword(email, password)
+      .signInWithEmailAndPassword(email, password)
       .then((user) => {
         console.log("signed in");
       })
       .catch((err) => {
         console.log(err);
+        setError(err);
       });
   };
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={globalStyles.container}>
+        <Image source={require("../assets/cc.png")} style={styles.img} />
+        {/* {error &&
+          Alert.alert(
+            "Login Error",
+            "username or password maybe incorrect",
+            {
+              text: "Retry",
+              onPress: () => this.setError(err),
+            },
+            { cancelable: false }
+          )} */}
         <Formik
-          initialValues={{
-            username: "",
-            fullname: "",
-            email: "",
-            password: "",
-          }}
+          initialValues={{ username: "", password: "" }}
           validationSchema={reviewSchema}
           onSubmit={(values, actions) => {
-            actions.resetForm();
-            //addReview(values);
             console.log(values);
-            console.log("submit hojana chahiye");
-            handleSubmit(values);
-            navigation.navigate("Login");
+            actions.resetForm();
+            handleLogin(values);
           }}
         >
           {(props) => (
@@ -72,17 +83,6 @@ export default function Signup({ navigation }) {
               </Text>
 
               <Input
-                leftIcon={<Icon name="book" size={24} color="black" />}
-                style={globalStyles.input}
-                placeholder="Fullname"
-                onChangeText={props.handleChange("fullname")}
-                onBlur={props.handleBlur("fullname")}
-                value={props.values.fullname}
-              />
-              <Text style={globalStyles.errorText}>
-                {props.touched.fullname && props.errors.fullname}
-              </Text>
-              <Input
                 leftIcon={<Icon name="lock" size={24} color="black" />}
                 style={globalStyles.input}
                 placeholder="Password"
@@ -93,24 +93,22 @@ export default function Signup({ navigation }) {
               <Text style={globalStyles.errorText}>
                 {props.touched.password && props.errors.password}
               </Text>
-              <Input
-                leftIcon={<Icon name="envelope" size={24} color="black" />}
-                style={globalStyles.input}
-                placeholder="email"
-                onChangeText={props.handleChange("email")}
-                onBlur={props.handleBlur("email")}
-                value={props.values.rating}
-                //keyboardType='numeric'
-              />
-              <Text style={globalStyles.errorText}>
-                {props.touched.email && props.errors.email}
-              </Text>
 
               <Button
                 color="maroon"
-                title="Submit"
+                title="LOGIN"
                 onPress={props.handleSubmit}
               />
+
+              <Text style={styles.nT}>Don't Have an Account? Sign Up</Text>
+              <View style={styles.nB}>
+                <Button
+                  color="maroon"
+                  title="Register Now"
+                  type="clear"
+                  onPress={pressHandler}
+                />
+              </View>
             </View>
           )}
         </Formik>
@@ -118,3 +116,16 @@ export default function Signup({ navigation }) {
     </TouchableWithoutFeedback>
   );
 }
+const styles = StyleSheet.create({
+  nT: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333",
+    alignItems: "center",
+    marginLeft: 70,
+    marginTop: 20,
+  },
+  nB: {
+    marginTop: 5,
+  },
+});

@@ -1,7 +1,7 @@
 import { createStackNavigator } from 'react-navigation-stack';
 import React from 'react';
 import {createAppContainer} from 'react-navigation';
-import Signup from '../screens/singup';
+import Signup from '../screens/signup';
 import Login from '../screens/login';
 import Header from '../shared/header';
 
