@@ -31,7 +31,7 @@ export default function Login({ navigation }) {
       if (user) {
         // console.log(user);
         navigation.navigate("Home");
-      } else pass;
+      } //else pass;
     });
   });
   const [error, setError] = useState(null);
@@ -113,7 +113,7 @@ export default function Login({ navigation }) {
 
               <Button title="LOGIN" onPress={props.handleSubmit} />
 
-              <Text style={styles.nT}>Don't Have an Account? Signup</Text>
+              <Text style={styles.nT}>Don't Have an Account?</Text>
               <View style={styles.nB}>
                 <Button
                   title="Register Now"

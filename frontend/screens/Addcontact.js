@@ -11,19 +11,18 @@ import { globalStyles } from "../styles/global.js";
 import { Formik } from "formik";
 import * as yup from "yup";
 import axios from "axios";
-import { ActivityIndicator } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Input, Button } from "react-native-elements";
-import Header from "../shared/header";
-
 const ContactSchema = yup.object({
   name: yup.string().required(),
   email: yup.string(),
   contact: yup.string(),
 });
 
-export default function AddContact({ navigation, addcontact }) {
-  const submitToserver = (values) => {
+export default function AddContact({ navigation,addcontact}) {
+
+    //const addcontact= navigation.params.addcontact()
+    const submitToserver = (values) => {
     console.log("hello world");
     const { name, email, contact } = values;
     axios
@@ -52,7 +51,7 @@ export default function AddContact({ navigation, addcontact }) {
             validationSchema={ContactSchema}
             onSubmit={(values, actions) => {
               console.log(values);
-              addcontact(values);
+              addcontact(values)
               //submitToserver(values);
               navigation.navigate("Home");
             }}

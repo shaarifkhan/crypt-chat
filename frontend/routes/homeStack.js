@@ -6,6 +6,7 @@ import Login from "../screens/login";
 import Header from "../shared/header";
 import Home from "../screens/Home";
 import Chat from "../screens/Chat";
+import Addcontact from '../screens/Addcontact'
 const screens = {
   Login: {
     screen: Login,
@@ -24,6 +25,12 @@ const screens = {
     navigationOptions: {
       headerTitle: () => <Header title="Crypt Chat" />,
     },
+  },
+  Addcontact: {
+    screen: Addcontact,
+    navigationOptions: {
+      headerTitle: () => <Header title="Add New" />,
+    }
   },
   Chat: {
     screen: Chat,

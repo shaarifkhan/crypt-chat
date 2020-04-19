@@ -9,10 +9,13 @@ import {
   ScrollView,
   FlatList,
   Modal,
+  Button,
 } from "react-native";
 import Header from "../shared/header";
 import { MaterialIcons } from "@expo/vector-icons";
 import AddContact from "./Addcontact";
+import Icon from "react-native-vector-icons/FontAwesome";
+import MakeGroup from '../screens/MakeGroup'
 export default function Home({ navigation }) {
   const [contacts, setContacts] = useState([
     {
@@ -88,7 +91,6 @@ export default function Home({ navigation }) {
   ]);
 
   const addcontact = (values) => {
-    console.log({ values });
     values.key = Math.random().toString();
     values.status = "active";
     values.image =
@@ -99,7 +101,10 @@ export default function Home({ navigation }) {
     setModal(false);
   };
 
+
   const [modal, setModal] = useState(false);
+  const [modal1, setModal1] = useState(false);
+
   return (
     <View style={{ flex: 1 }}>
       <Modal visible={modal} animationType="slide">
@@ -107,19 +112,46 @@ export default function Home({ navigation }) {
           <MaterialIcons
             name="close"
             size={24}
-            style={{ ...styles.modalToggle, ...styles.modalClose }}
-            onPress={() => setModal(false)}
+            style={{ ...styles.modalToggle, ...styles.modalClose}}
+            onPress= {()=>setModal(false)}
           />
-          <AddContact addcontact={addcontact} navigation={navigation} />
+          <AddContact addcontact={addcontact} />
         </View>
       </Modal>
 
-      <MaterialIcons
-        name="add"
-        size={24}
-        style={styles.modalToggle}
-        onPress={() => setModal(true)}
-      />
+      <Modal visible={modal1} animationType="slide">
+        <View style={styles.modalContent}>
+          <Icon
+            name="arrow-circle-right"
+            size={28}
+            style={{ ...styles.modalToggle, ...styles.modalClose}}
+            onPress= {()=>setModal1(false)}
+          >
+          </Icon>
+          <MakeGroup contacts={contacts} />
+        </View>
+      </Modal>
+
+        <Icon.Button
+        name="user"
+        style={styles.iconsize}
+        backgroundColor="#3b5998"
+        onPress={()=>setModal(true)}>
+        <Text style={styles.iconsize}>
+        Add a new contact
+        </Text>
+        </Icon.Button>
+
+        <Icon.Button
+        name="group"
+        style={styles.iconsize}
+        backgroundColor="#3b5998"
+        onPress={()=>setModal1(true)}>
+        <Text style={styles.iconsize}>
+        Make a new room
+        </Text>
+        </Icon.Button>
+
       <FlatList
         data={contacts}
         keyExtractor={(item) => {
@@ -203,6 +235,16 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignSelf: "center",
   },
+  modalToggle1: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 10,
+    borderWidth: 2,
+    borderColor: "#f2f2f2",
+    padding: 20,
+    borderRadius: 20,
+    alignSelf: "center",
+  },
   modalClose: {
     marginTop: 20,
     marginBottom: 0,
@@ -210,4 +252,8 @@ const styles = StyleSheet.create({
   modalContent: {
     flex: 1,
   },
+  iconsize: {
+    padding:5,
+    fontWeight: "bold"
+  }
 });
