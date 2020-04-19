@@ -10,7 +10,7 @@ export default function Header({ title, navigation }) {
 
   return (
     <ImageBackground source={require('../assets/game_bg.png')} style={styles.header}>
-      <MaterialIcons name='menu' size={28} onPress={openMenu} style={styles.icon} />
+      
       <View style={styles.headerTitle}>
         
         <Text style={styles.headerText}>{title}</Text>
@@ -34,8 +34,8 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
   },
   icon: {
-    position: 'absolute',
-    left: 16,
+    //position: 'absolute',
+    //left: -10,
   },
   headerTitle: {
     flexDirection: 'row'

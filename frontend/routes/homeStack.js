@@ -3,7 +3,7 @@ import React from 'react';
 import {createAppContainer} from 'react-navigation';
 import Signup from '../screens/singup';
 import Login from '../screens/login';
-//import Signup from '../screens/signup';
+import Header from '../shared/header';
 
 const screens = {
  
@@ -11,7 +11,8 @@ const screens = {
   Login: {
     screen: Login,
     navigationOptions: {
-      title: 'Login',
+      //title: 'Login',
+      headerTitle:() => <Header title='LOGIN'/>,
     }
   },
   
@@ -19,7 +20,8 @@ const screens = {
 Signup: {
   screen: Signup,
   navigationOptions: {
-    title: 'Signup',
+    //title: 'Login',
+    headerTitle:() => <Header title='SIGNUP'/>,
   }
 },
 };
