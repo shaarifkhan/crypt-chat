@@ -5,13 +5,13 @@ import {
   Text,
   TouchableWithoutFeedback,
   Keyboard,
+  Image
 } from "react-native";
 import { globalStyles } from "../styles/global.js";
 import { Formik } from "formik";
 import * as yup from "yup";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ActivityIndicator } from 'react-native';
-
 import { Input,Button } from 'react-native-elements';
 import axios from "axios";
 axios.defaults.withCredentials = true;
@@ -21,6 +21,7 @@ const reviewSchema = yup.object({
 
   password: yup.string().required(),
 });
+
 export default function Login({ navigation }) {
   const pressHandler = () => {
     navigation.navigate("Signup");
@@ -42,15 +43,10 @@ export default function Login({ navigation }) {
       });
   };
 return (
-    
-    
-    
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={globalStyles.container}>
     <Image
-  source={require('../assets/cc.png')} style={styles.img}
-/>
-     
+  source={require('../assets/cc.png')} style={styles.img}/>
       <Formik
         initialValues={{ username: '',password:'' }}
         validationSchema={reviewSchema}
@@ -78,9 +74,6 @@ return (
             />
             {/* only if the left value is a valid string, will the right value be displayed */}
             <Text style={globalStyles.errorText}>{props.touched.username && props.errors.username}</Text>
-
-            
-            
             <Input
               leftIcon={
                 <Icon
@@ -98,7 +91,7 @@ return (
             />
             <Text style={globalStyles.errorText}>{props.touched.password && props.errors.password}</Text>
             
-            <Button color='maroon' title="LOGIN" onPress={props.handleSubmit} /> 
+            <Button color='maroon' title="LOGIN" onPress={()=>navigation.navigate("Home")} /> 
              
              <Text style={styles.nT}>Don't Have an Acount</Text>
              <View style={styles.nB}>
@@ -109,8 +102,6 @@ return (
       </Formik>
       </View>
       </TouchableWithoutFeedback>
-    
-    
   );
 }
 const styles = StyleSheet.create({
@@ -120,9 +111,7 @@ const styles = StyleSheet.create({
     color: '#333',
     alignItems:'center',
     marginLeft:70,
-    marginTop: 20,
-
-    
+    marginTop: 20,    
   },
   nB:{
     marginTop: 5,
