@@ -20,7 +20,6 @@ import { Input, Button } from "react-native-elements";
 
 const reviewSchema = yup.object({
   email: yup.string().required(),
-
   password: yup.string().required(),
 });
 

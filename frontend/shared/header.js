@@ -3,16 +3,12 @@ import { StyleSheet, Text, View, Image, ImageBackground } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
 export default function Header({ title, navigation }) {
-
   const openMenu = () => {
     navigation.openDrawer();
   }
-
   return (
     <ImageBackground source={require('../assets/game_bg.png')} style={styles.header}>
-      
       <View style={styles.headerTitle}>
-        
         <Text style={styles.headerText}>{title}</Text>
       </View>
     </ImageBackground>
