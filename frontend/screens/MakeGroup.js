@@ -20,11 +20,11 @@ import Header from '../shared/header'
 
 export default function MakeGroup ({navigation,contacts}) {
   return(
-      <View style={{ flex: 1 }} >
+      <View style={{ flex: 1, marginTop: 10 }} >
       <Icon.Button
         name="check"
         style={styles.iconsize}
-        backgroundColor="#3b5998"
+        backgroundColor="coral"
         onPress={()=>setModal1(true)}>
         Tap on the members to select
         </Icon.Button>

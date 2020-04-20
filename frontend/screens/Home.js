@@ -109,12 +109,14 @@ export default function Home({ navigation }) {
     <View style={{ flex: 1 }}>
       <Modal visible={modal} animationType="slide">
         <View style={styles.modalContent}>
-          <MaterialIcons
+          {/* <MaterialIcons
             name="close"
             size={24}
             style={{ ...styles.modalToggle, ...styles.modalClose}}
             onPress= {()=>setModal(false)}
-          />
+          /> */}
+          <View style={styles.addoption}>
+              </View>
           <AddContact addcontact={addcontact} />
         </View>
       </Modal>
@@ -124,6 +126,7 @@ export default function Home({ navigation }) {
           <Icon
             name="arrow-circle-right"
             size={28}
+            color= 'white'
             style={{ ...styles.modalToggle, ...styles.modalClose}}
             onPress= {()=>setModal1(false)}
           >
@@ -132,25 +135,35 @@ export default function Home({ navigation }) {
         </View>
       </Modal>
 
-        <Icon.Button
-        name="user"
-        style={styles.iconsize}
-        backgroundColor="#3b5998"
-        onPress={()=>setModal(true)}>
-        <Text style={styles.iconsize}>
-        Add a new contact
-        </Text>
-        </Icon.Button>
-
-        <Icon.Button
-        name="group"
-        style={styles.iconsize}
-        backgroundColor="#3b5998"
-        onPress={()=>setModal1(true)}>
-        <Text style={styles.iconsize}>
-        Make a new room
-        </Text>
-        </Icon.Button>
+        <TouchableOpacity style={styles.option} onPress={() => setModal(true)}>
+            <View style={styles.option}>
+                <View style={styles.iconsize}>
+                <Icon name="user" size={24} color="white" />
+                  <Text
+                    style={styles.optiontxt}
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                  >
+                    Add A New Contact
+                  </Text>
+                </View>
+              </View>
+          </TouchableOpacity>
+            
+          <TouchableOpacity style={styles.option} onPress={() => setModal1(true)}>
+            <View style={styles.option}>
+                <View style={styles.iconsize}>
+                <Icon name="group" size={24} color="white" />
+                  <Text
+                    style={styles.optiontxt}
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                  >
+                    Make A New Room
+                  </Text>
+                </View>
+              </View>
+          </TouchableOpacity>
 
       <FlatList
         data={contacts}
@@ -201,7 +214,7 @@ const styles = StyleSheet.create({
   nameContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    width: 280,
+    width: 280
   },
   nameTxt: {
     marginLeft: 15,
@@ -251,9 +264,39 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     flex: 1,
+    backgroundColor:"coral"
   },
   iconsize: {
-    padding:5,
-    fontWeight: "bold"
-  }
+    flexDirection: "row",
+    width: 280
+  },
+  option: {
+    backgroundColor:"coral",
+    padding: 4
+  },
+  optiontxt: {
+    marginLeft: 15,
+    fontWeight: "800",
+    color: "white",
+    fontSize: 16,
+    width: 170,
+  },
+  addoption: {
+    backgroundColor:"coral",
+    padding: 30
+  },
+  addoptiontxt: {
+    marginLeft: 15,
+    fontWeight: "800",
+    color: "white",
+    fontSize: 16,
+    width: 170,
+  },
+  addoptiontxt: {
+    marginLeft: 50,
+    fontWeight: "800",
+    color: "white",
+    fontSize: 16,
+    width: 170,
+  },
 });

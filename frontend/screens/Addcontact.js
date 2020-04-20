@@ -94,8 +94,9 @@ export default function AddContact({ navigation,addcontact}) {
                 </Text>
 
                 <Button
-                  color="maroon"
-                  title="Add"
+                  buttonStyle={{
+                    backgroundColor: "coral"}}
+                  title='Add'
                   onPress={props.handleSubmit}
                 />
               </View>
@@ -108,7 +109,7 @@ export default function AddContact({ navigation,addcontact}) {
 }
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
+    marginTop: 100,
     padding: 10,
     justifyContent: "center",
   },

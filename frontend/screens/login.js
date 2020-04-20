@@ -111,7 +111,8 @@ export default function Login({ navigation }) {
                 {props.touched.password && props.errors.password}
               </Text>
 
-              <Button title="LOGIN" onPress={props.handleSubmit} />
+              <Button title="LOGIN" style={styles.button} onPress={props.handleSubmit}  buttonStyle={{
+                    backgroundColor: "coral"}} />
 
               <Text style={styles.nT}>Don't Have an Account?</Text>
               <View style={styles.nB}>
@@ -140,4 +141,7 @@ const styles = StyleSheet.create({
   nB: {
     marginTop: 5,
   },
+  button: {
+    backgroundColor: "coral"
+  }
 });
