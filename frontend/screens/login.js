@@ -19,17 +19,15 @@ import firebase from "../config/firebase";
 import { Input, Button } from "react-native-elements";
 
 const reviewSchema = yup.object({
-    email: yup.string()
-      .required(),
-    password: yup.string()
-      .required(),
+  email: yup.string().required(),
+  password: yup.string().required(),
 });
 
 export default function Login({ navigation }) {
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        // console.log(user);
+        // console.log(user.uid);
         navigation.navigate("Home");
       } //else pass;
     });
@@ -46,13 +44,12 @@ export default function Login({ navigation }) {
       .signInWithEmailAndPassword(email.trim(), password)
       .then((user) => {
         console.log("signed in");
-        navigation.navigate("Home");
+        console.log(user.uid);
       })
       .catch((err) => {
         console.log(err);
         setError(err);
       });
-      navigation.navigate("Home")
   };
 
   return (
@@ -81,7 +78,6 @@ export default function Login({ navigation }) {
             setActions(actions);
             actions.resetForm();
             handleLogin(values);
-            console.log(values);
           }}
         >
           {(props) => (
@@ -111,8 +107,14 @@ export default function Login({ navigation }) {
                 {props.touched.password && props.errors.password}
               </Text>
 
-              <Button title="LOGIN" style={styles.button} onPress={props.handleSubmit}  buttonStyle={{
-                    backgroundColor: "coral"}} />
+              <Button
+                title="LOGIN"
+                style={styles.button}
+                onPress={props.handleSubmit}
+                buttonStyle={{
+                  backgroundColor: "coral",
+                }}
+              />
 
               <Text style={styles.nT}>Don't Have an Account?</Text>
               <View style={styles.nB}>
@@ -142,6 +144,6 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   button: {
-    backgroundColor: "coral"
-  }
+    backgroundColor: "coral",
+  },
 });

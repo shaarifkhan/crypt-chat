@@ -16,12 +16,17 @@ import { ActivityIndicator } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Input, Button } from "react-native-elements";
 import Header from "../shared/header";
+import Axios from "axios";
 const reviewSchema = yup.object({
   username: yup.string().required().min(4),
   fullname: yup.string().required().min(8),
   password: yup.string().required().min(8),
   email: yup.string().required().min(8),
 });
+const submitToServer = (userId, values) => {
+  Axios.post("http://192.168.43.42:3000");
+};
+
 export default function Signup({ navigation }) {
   const [error, setError] = useState(null);
   handleSubmit = (values) => {
@@ -31,6 +36,7 @@ export default function Signup({ navigation }) {
       .createUserWithEmailAndPassword(email, password)
       .then((user) => {
         console.log("signed up");
+        submitToServer(user.uid, values);
         navigation.navigate("Login");
       })
       .catch((err) => {

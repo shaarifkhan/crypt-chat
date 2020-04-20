@@ -15,7 +15,7 @@ import Header from "../shared/header";
 import { MaterialIcons } from "@expo/vector-icons";
 import AddContact from "./Addcontact";
 import Icon from "react-native-vector-icons/FontAwesome";
-import MakeGroup from '../screens/MakeGroup'
+import MakeGroup from "../screens/MakeGroup";
 export default function Home({ navigation }) {
   const [contacts, setContacts] = useState([
     {
@@ -101,7 +101,6 @@ export default function Home({ navigation }) {
     setModal(false);
   };
 
-
   const [modal, setModal] = useState(false);
   const [modal1, setModal1] = useState(false);
 
@@ -115,9 +114,8 @@ export default function Home({ navigation }) {
             style={{ ...styles.modalToggle, ...styles.modalClose}}
             onPress= {()=>setModal(false)}
           /> */}
-          <View style={styles.addoption}>
-              </View>
-          <AddContact addcontact={addcontact} />
+          <View style={styles.addoption}></View>
+          <AddContact addcontact={addcontact} navigation={navigation} />
         </View>
       </Modal>
 
@@ -126,44 +124,43 @@ export default function Home({ navigation }) {
           <Icon
             name="arrow-circle-right"
             size={28}
-            color= 'white'
-            style={{ ...styles.modalToggle, ...styles.modalClose}}
-            onPress= {()=>setModal1(false)}
-          >
-          </Icon>
+            color="white"
+            style={{ ...styles.modalToggle, ...styles.modalClose }}
+            onPress={() => setModal1(false)}
+          ></Icon>
           <MakeGroup contacts={contacts} />
         </View>
       </Modal>
 
-        <TouchableOpacity style={styles.option} onPress={() => setModal(true)}>
-            <View style={styles.option}>
-                <View style={styles.iconsize}>
-                <Icon name="user" size={24} color="white" />
-                  <Text
-                    style={styles.optiontxt}
-                    numberOfLines={1}
-                    ellipsizeMode="tail"
-                  >
-                    Add A New Contact
-                  </Text>
-                </View>
-              </View>
-          </TouchableOpacity>
-            
-          <TouchableOpacity style={styles.option} onPress={() => setModal1(true)}>
-            <View style={styles.option}>
-                <View style={styles.iconsize}>
-                <Icon name="group" size={24} color="white" />
-                  <Text
-                    style={styles.optiontxt}
-                    numberOfLines={1}
-                    ellipsizeMode="tail"
-                  >
-                    Make A New Room
-                  </Text>
-                </View>
-              </View>
-          </TouchableOpacity>
+      <TouchableOpacity style={styles.option} onPress={() => setModal(true)}>
+        <View style={styles.option}>
+          <View style={styles.iconsize}>
+            <Icon name="user" size={24} color="white" />
+            <Text
+              style={styles.optiontxt}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              Add A New Contact
+            </Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.option} onPress={() => setModal1(true)}>
+        <View style={styles.option}>
+          <View style={styles.iconsize}>
+            <Icon name="group" size={24} color="white" />
+            <Text
+              style={styles.optiontxt}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              Make A New Room
+            </Text>
+          </View>
+        </View>
+      </TouchableOpacity>
 
       <FlatList
         data={contacts}
@@ -214,7 +211,7 @@ const styles = StyleSheet.create({
   nameContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    width: 280
+    width: 280,
   },
   nameTxt: {
     marginLeft: 15,
@@ -264,15 +261,15 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     flex: 1,
-    backgroundColor:"coral"
+    backgroundColor: "coral",
   },
   iconsize: {
     flexDirection: "row",
-    width: 280
+    width: 280,
   },
   option: {
-    backgroundColor:"coral",
-    padding: 4
+    backgroundColor: "coral",
+    padding: 4,
   },
   optiontxt: {
     marginLeft: 15,
@@ -282,8 +279,8 @@ const styles = StyleSheet.create({
     width: 170,
   },
   addoption: {
-    backgroundColor:"coral",
-    padding: 30
+    backgroundColor: "coral",
+    padding: 30,
   },
   addoptiontxt: {
     marginLeft: 15,
