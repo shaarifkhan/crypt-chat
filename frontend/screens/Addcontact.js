@@ -14,44 +14,30 @@ import axios from "axios";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Input, Button } from "react-native-elements";
 const ContactSchema = yup.object({
-  name: yup.string().required(),
+  username: yup.string().required(),
   email: yup.string(),
   contact: yup.string(),
 });
 
-export default function AddContact({ navigation,addcontact}) {
+export default function AddContact({ navigation, addcontact, userId }) {
+  //const addcontact= navigation.params.addcontact()
 
-    //const addcontact= navigation.params.addcontact()
-    const submitToserver = (values) => {
-    console.log("hello world");
-    const { name, email, contact } = values;
-    axios
-      .post("http://192.168.1.105:3000/register", {
-        name: name,
-        email: email,
-        contact: contact,
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
   return (
     <View>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
           <Formik
             initialValues={{
-              name: "",
+              username: "",
               email: "",
               contact: "",
             }}
             validationSchema={ContactSchema}
             onSubmit={(values, actions) => {
-              console.log(values);
-              addcontact(values)
+              // console.log(values);
+              friendId = Math.floor(Math.random() * 1000);
+              values["friendId"] = friendId;
+              addcontact(values);
               //submitToserver(values);
               navigation.navigate("Home");
             }}
@@ -59,19 +45,21 @@ export default function AddContact({ navigation,addcontact}) {
             {(props) => (
               <View>
                 <Input
-                  leftIcon={<Icon name="user" size={24} color="black" />}
+                  leftIcon={<Icon username="user" size={24} color="black" />}
                   style={globalStyles.input}
-                  placeholder=" Full name"
-                  onChangeText={props.handleChange("name")}
-                  onBlur={props.handleBlur("name")}
-                  value={props.values.name}
+                  placeholder=" Friend name"
+                  onChangeText={props.handleChange("username")}
+                  onBlur={props.handleBlur("username")}
+                  value={props.values.username}
                 />
                 <Text style={globalStyles.errorText}>
-                  {props.touched.name && props.errors.name}
+                  {props.touched.username && props.errors.username}
                 </Text>
 
                 <Input
-                  leftIcon={<Icon name="envelope" size={24} color="black" />}
+                  leftIcon={
+                    <Icon username="envelope" size={24} color="black" />
+                  }
                   style={globalStyles.input}
                   placeholder=" Email"
                   onChangeText={props.handleChange("email")}
@@ -82,7 +70,7 @@ export default function AddContact({ navigation,addcontact}) {
                   {props.touched.email && props.errors.email}
                 </Text>
                 <Input
-                  leftIcon={<Icon name="book" size={24} color="black" />}
+                  leftIcon={<Icon username="book" size={24} color="black" />}
                   style={globalStyles.input}
                   placeholder=" Contact Number"
                   onChangeText={props.handleChange("contact")}
@@ -95,8 +83,9 @@ export default function AddContact({ navigation,addcontact}) {
 
                 <Button
                   buttonStyle={{
-                    backgroundColor: "coral"}}
-                  title='Add'
+                    backgroundColor: "coral",
+                  }}
+                  title="Add"
                   onPress={props.handleSubmit}
                 />
               </View>

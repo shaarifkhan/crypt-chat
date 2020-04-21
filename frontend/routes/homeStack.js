@@ -6,7 +6,7 @@ import Login from "../screens/login";
 import Header from "../shared/header";
 import Home from "../screens/Home";
 import Chat from "../screens/Chat";
-import Addcontact from '../screens/Addcontact'
+import Addcontact from "../screens/Addcontact";
 const screens = {
   Login: {
     screen: Login,
@@ -20,21 +20,25 @@ const screens = {
       headerTitle: () => <Header title="SIGNUP" />,
     },
   },
+  // Room: {
+  //   screen: Rooms,
+  //   headerTitle: () => <Header title="Room" />,
+  // },
   Home: {
     screen: Home,
     navigationOptions: {
-      headerTitle: () => <Header title="Crypt Chat" />,
+      headerTitle: () => <Header title="Home" />,
     },
   },
   Addcontact: {
     screen: Addcontact,
     navigationOptions: {
       headerTitle: () => <Header title="Add New" />,
-    }
+    },
   },
   Chat: {
     screen: Chat,
-    headerTitle: () => <Header title="Crypt Chat" />,
+    headerTitle: () => <Header title="Chat" />,
   },
 };
 

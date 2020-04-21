@@ -10,33 +10,28 @@ router.get("/", function (req, res, next) {
 //POST route for updating data
 router.post("/register", function (req, res, next) {
   // confirm that user typed same password twice
-  console.log(req.body.email);
-  console.log(req.body.password);
-  if (req.body.password !== req.body.passwordConf) {
-    var err = new Error("Passwords do not match.");
-    err.status = 400;
-    res.send("passwords dont match");
-    return next(err);
-  }
+  console.log("hello", req.body);
+  // if (req.body.password !== req.body.confPassword) {
+  //   var err = new Error("Passwords do not match.");
+  //   err.status = 400;
+  //   // res.send("passwords dont match");
+  //   return next(err);
+  // }
 
-  if (
-    req.body.email &&
-    req.body.username &&
-    req.body.password &&
-    req.body.passwordConf
-  ) {
+  if (req.body.email && req.body.username) {
     var userData = {
-      email: req.body.email,
+      _id: req.body.userId,
       username: req.body.username,
-      password: req.body.password,
+      email: req.body.email,
     };
 
     User.create(userData, function (error, user) {
       if (error) {
         return next(error);
       } else {
-        req.session.userId = user._id;
-        return res.send("registered");
+        // req.session.userId = user._id;
+        console.log(user);
+        return res.status(200).send("registered");
       }
     });
   } else {
@@ -44,6 +39,26 @@ router.post("/register", function (req, res, next) {
     err.status = 400;
     return next(err);
   }
+});
+router.post("/addContact", (req, res, next) => {
+  console.log("req body", req.body);
+  User.findOneAndUpdate(
+    req.body.userId,
+    req.body.friendId,
+    req.body.friendname,
+    (err, data) => {
+      if (err) throw err;
+      res.status(200).send("updated");
+    }
+  );
+});
+router.post("/getContacts", (req, res, next) => {
+  // console.log("yeh check", req.body.userId);
+  User.findById(req.body.userId, (error, userData) => {
+    contacts = userData.contacts;
+    console.log(contacts);
+    res.send(contacts);
+  });
 });
 router.post("/login", (req, res, next) => {
   console.log(req.body.email, req.body.password);

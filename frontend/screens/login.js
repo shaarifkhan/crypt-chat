@@ -31,7 +31,7 @@ export default function Login({ navigation }) {
         navigation.navigate("Home");
       } //else pass;
     });
-  });
+  }, []);
   const [error, setError] = useState(null);
   const [actions, setActions] = useState(null);
   const pressHandler = () => {

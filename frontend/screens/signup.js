@@ -17,14 +17,28 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { Input, Button } from "react-native-elements";
 import Header from "../shared/header";
 import Axios from "axios";
+Axios.defaults.withCredentials = true;
+
 const reviewSchema = yup.object({
   username: yup.string().required().min(4),
-  fullname: yup.string().required().min(8),
-  password: yup.string().required().min(8),
   email: yup.string().required().min(8),
+  password: yup.string().required().min(8),
+  confPassword: yup.string().required().min(8),
 });
 const submitToServer = (userId, values) => {
-  Axios.post("http://192.168.43.42:3000");
+  userData = {
+    userId: userId,
+    username: values.username,
+    email: values.email,
+  };
+  console.log(userData);
+  Axios.post("http://192.168.43.42:3000/register", userData)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      throw err;
+    });
 };
 
 export default function Signup({ navigation }) {
@@ -34,9 +48,10 @@ export default function Signup({ navigation }) {
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then((user) => {
+      .then((res) => {
         console.log("signed up");
-        submitToServer(user.uid, values);
+        console.log(res.user.uid);
+        submitToServer(res.user.uid, values);
         navigation.navigate("Login");
       })
       .catch((err) => {
@@ -49,9 +64,9 @@ export default function Signup({ navigation }) {
         <Formik
           initialValues={{
             username: "",
-            fullname: "",
             email: "",
             password: "",
+            confPassword: "",
           }}
           validationSchema={reviewSchema}
           onSubmit={(values, actions) => {
@@ -80,13 +95,13 @@ export default function Signup({ navigation }) {
               <Input
                 leftIcon={<Icon name="book" size={24} color="black" />}
                 style={globalStyles.input}
-                placeholder="Fullname"
-                onChangeText={props.handleChange("fullname")}
-                onBlur={props.handleBlur("fullname")}
-                value={props.values.fullname}
+                placeholder="Confirm Password"
+                onChangeText={props.handleChange("confPassword")}
+                onBlur={props.handleBlur("confPassword")}
+                value={props.values.confPassword}
               />
               <Text style={globalStyles.errorText}>
-                {props.touched.fullname && props.errors.fullname}
+                {props.touched.confPassword && props.errors.confPassword}
               </Text>
               <Input
                 leftIcon={<Icon name="lock" size={24} color="black" />}
