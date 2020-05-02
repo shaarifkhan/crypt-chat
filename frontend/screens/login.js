@@ -27,8 +27,8 @@ export default function Login({ navigation }) {
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        // console.log(user.uid);
-        navigation.navigate("Home");
+        console.log(user.uid);
+        navigation.navigate("Room");
       } //else pass;
     });
   }, []);

@@ -10,7 +10,9 @@
     "cors": "^2.8.5",
     "express": "^4.15.2",
     "express-session": "^1.15.2",
-    "mongoose": "^4.13.20"
+    "firebase-admin": "^8.11.0",
+    "mongoose": "^4.13.20",
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {},
   "scripts": {

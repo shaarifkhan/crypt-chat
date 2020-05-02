@@ -17,6 +17,8 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { Input, Button } from "react-native-elements";
 import Header from "../shared/header";
 import Axios from "axios";
+import { baseUrl } from "../config/dev-config.json";
+
 Axios.defaults.withCredentials = true;
 
 const reviewSchema = yup.object({
@@ -32,7 +34,7 @@ const submitToServer = (userId, values) => {
     email: values.email,
   };
   console.log(userData);
-  Axios.post("http://192.168.43.42:3000/register", userData)
+  Axios.post(baseUrl + "/register", userData)
     .then((res) => {
       console.log(res);
     })

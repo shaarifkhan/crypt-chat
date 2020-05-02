@@ -1,5 +1,6 @@
 var express = require("express");
 var app = express();
+const ioServer = require("./socket/index")(app);
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var session = require("express-session");
@@ -50,6 +51,6 @@ app.use(function (err, req, res, next) {
 });
 
 // listen on port 3000
-app.listen(3000, function () {
+ioServer.listen(3000, function () {
   console.log("listening on port 3000");
 });

@@ -9,5 +9,20 @@ router.get("/rooms", (req, res, next) => {
     res.json(rooms);
   });
 });
+router.get("/chat/:id", (req, res, next) => {
+  const roomId = req.params.id;
+  Room.findById(roomId, (err, room) => {
+    if (err) {
+      console.log("error aya he");
+      throw err;
+    }
+    if (!room) {
+      return next();
+    }
+    res.json({
+      roomId: roomId,
+    });
+  });
+});
 
 module.exports = router;

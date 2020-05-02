@@ -6,17 +6,38 @@ const create = (data, callback) => {
   newRoom.save(callback);
 };
 const find = (data, callback) => {
+  roomModel.find(data, callback);
+};
+
+const findOne = (data, callback) => {
   roomModel.findOne(data, callback);
 };
+
+const findById = (id, callback) => {
+  roomModel.findById(id, callback);
+};
 const addUser = (room, socket, callback) => {
-  const userId = socket.userId;
+  const userId = socket.id;
   const conn = { userId: userId, socketId: socket.id };
   room.connections.push(conn);
   room.save(callback);
 };
+
+const removeUser = (socket, callback) => {
+  find(socket.id, (err, rooms) => {
+    if (err) return callback(err);
+    rooms.every((room) => {
+      const pass = true,
+        count = 0,
+        target = 0;
+    });
+  });
+};
 module.exports = {
   create,
   find,
-  // findOne,
-  // findById,
+  findById,
+  findOne,
+  addUser,
+  removeUser,
 };
