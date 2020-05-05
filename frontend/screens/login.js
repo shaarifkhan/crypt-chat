@@ -15,7 +15,7 @@ import * as yup from "yup";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { ActivityIndicator } from "react-native";
 import firebase from "../config/firebase";
-
+import {StackActions, NavigationActions} from 'react-navigation';
 import { Input, Button } from "react-native-elements";
 
 const reviewSchema = yup.object({
@@ -24,14 +24,19 @@ const reviewSchema = yup.object({
 });
 
 export default function Login({ navigation }) {
+  const resetHandler = () => {
+    navigation.navigate("Home")
+    }
+
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         console.log(user.uid);
-        navigation.navigate("Room");
+        resetHandler()
       } //else pass;
     });
   }, []);
+  
   const [error, setError] = useState(null);
   const [actions, setActions] = useState(null);
   const pressHandler = () => {
@@ -51,6 +56,7 @@ export default function Login({ navigation }) {
         setError(err);
       });
   };
+
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -83,9 +89,9 @@ export default function Login({ navigation }) {
           {(props) => (
             <View>
               <Input
-                leftIcon={<Icon name="user" size={24} color="black" />}
+                leftIcon={<Icon name="user" size={24} color="black" style={styles.margin} />}
                 style={globalStyles.input}
-                placeholder="Username"
+                placeholder=" Email id"
                 onChangeText={props.handleChange("email")}
                 onBlur={props.handleBlur("email")}
                 value={props.values.email}
@@ -96,9 +102,10 @@ export default function Login({ navigation }) {
               </Text>
 
               <Input
-                leftIcon={<Icon name="lock" size={24} color="black" />}
+                secureTextEntry={true}
+                leftIcon={ <Icon name="lock" size={24} color="black" style={styles.margin} />}
                 style={globalStyles.input}
-                placeholder="Password"
+                placeholder=" Password"
                 onChangeText={props.handleChange("password")}
                 onBlur={props.handleBlur("password")}
                 value={props.values.password}
@@ -146,4 +153,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "coral",
   },
+  margin:{
+    marginRight:10
+  }
 });

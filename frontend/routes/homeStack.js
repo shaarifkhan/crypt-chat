@@ -1,55 +1,65 @@
-import { createStackNavigator } from "react-navigation-stack";
-import React from "react";
-import { createAppContainer } from "react-navigation";
-import Signup from "../screens/signup";
-import Login from "../screens/login";
-import Header from "../shared/header";
-import Home from "../screens/Home";
-import Room from "../screens/Room";
-import Chat from "../screens/Chat";
-import Addcontact from "../screens/Addcontact";
+import { createStackNavigator } from 'react-navigation-stack';
+import React from 'react';
+import Header from '../shared/header';
+import Home from '../screens/Home';
+import Login from '../screens/login'
+import Signup from '../screens/signup'
+import Chat from '../screens/Chat'
+import Room from '../screens/Room'
+import Addcontact from '../screens/Addcontact'
 const screens = {
   Login: {
     screen: Login,
-    navigationOptions: {
-      headerTitle: () => <Header title="LOGIN" />,
-    },
   },
+
   Signup: {
     screen: Signup,
-    navigationOptions: {
-      headerTitle: () => <Header title="SIGNUP" />,
+    navigationOptions: ({ navigation }) => {
+      return {
+        headerTitle: () => <Header title='Signup' navigation={navigation} />
+      }
     },
   },
   Chat: {
     screen: Chat,
-    navigationOptions: {
-      headerTitle: () => <Header title="Chat" />,
+    navigationOptions: ({ navigation }) => {
+      return {
+        headerTitle: () => <Header title='Chat' navigation={navigation} />
+      }
     },
   },
   Room: {
     screen: Room,
-    headerTitle: () => <Header title="Room" />,
+    navigationOptions: ({ navigation }) => {
+      return {
+        headerTitle: () => <Header title='Room' navigation={navigation} />
+      }
+    },
   },
   Home: {
     screen: Home,
-    navigationOptions: {
-      headerTitle: () => <Header title="Home" />,
+    navigationOptions: ({ navigation }) => {
+      return {
+        headerTitle: () => <Header title='' navigation={navigation} />
+      }
     },
   },
   Addcontact: {
     screen: Addcontact,
-    navigationOptions: {
-      headerTitle: () => <Header title="Add New" />,
-    },
-  },
-  Chat: {
-    screen: Chat,
-    navigationOptions: {
-      headerTitle: () => <Header title="Chat" />,
+    navigationOptions: ({ navigation }) => {
+      return {
+        headerTitle: () => <Header title='Add New Contact' navigation={navigation} />
+      }
     },
   },
 };
 
-const HomeStack = createStackNavigator(screens);
+// home stack navigator screens
+const HomeStack = createStackNavigator(screens, {
+  defaultNavigationOptions: {
+    headerTintColor: '#444',
+    headerStyle: { backgroundColor: '#eee', height: 60 },
+  }
+});
+
 export default HomeStack;

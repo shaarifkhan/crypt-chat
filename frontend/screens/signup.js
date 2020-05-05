@@ -81,8 +81,9 @@ export default function Signup({ navigation }) {
         >
           {(props) => (
             <View>
+
               <Input
-                leftIcon={<Icon name="user" size={24} color="black" />}
+                leftIcon={<Icon name="user" size={24} color="black" style={styles.margin} />}
                 style={globalStyles.input}
                 placeholder="Username"
                 onChangeText={props.handleChange("username")}
@@ -95,18 +96,8 @@ export default function Signup({ navigation }) {
               </Text>
 
               <Input
-                leftIcon={<Icon name="book" size={24} color="black" />}
-                style={globalStyles.input}
-                placeholder="Confirm Password"
-                onChangeText={props.handleChange("confPassword")}
-                onBlur={props.handleBlur("confPassword")}
-                value={props.values.confPassword}
-              />
-              <Text style={globalStyles.errorText}>
-                {props.touched.confPassword && props.errors.confPassword}
-              </Text>
-              <Input
-                leftIcon={<Icon name="lock" size={24} color="black" />}
+                secureTextEntry={true}
+                leftIcon={<Icon name="lock" size={24} color="black" style={styles.margin} />}
                 style={globalStyles.input}
                 placeholder="Password"
                 onChangeText={props.handleChange("password")}
@@ -116,8 +107,22 @@ export default function Signup({ navigation }) {
               <Text style={globalStyles.errorText}>
                 {props.touched.password && props.errors.password}
               </Text>
+
               <Input
-                leftIcon={<Icon name="envelope" size={24} color="black" />}
+                secureTextEntry={true}
+                leftIcon={<Icon name="book" size={24} color="black" style={styles.margin} />}
+                style={globalStyles.input}
+                placeholder="Confirm Password"
+                onChangeText={props.handleChange("confPassword")}
+                onBlur={props.handleBlur("confPassword")}
+                value={props.values.confPassword}
+              />
+              <Text style={globalStyles.errorText}>
+                {props.touched.confPassword && props.errors.confPassword}
+              </Text>
+
+              <Input
+                leftIcon={<Icon name="envelope" size={24} color="black" style={styles.margin} />}
                 style={globalStyles.input}
                 placeholder="email"
                 onChangeText={props.handleChange("email")}
@@ -141,3 +146,19 @@ export default function Signup({ navigation }) {
     </TouchableWithoutFeedback>
   );
 }
+const styles = StyleSheet.create({
+  container: {
+    marginTop: 100,
+    padding: 10,
+    justifyContent: "center",
+  },
+  titleText: {
+    fontSize: 55,
+    marginTop: 50,
+    marginLeft: 45,
+    justifyContent: "center",
+  },
+  margin:{
+    marginRight:10
+  }
+});

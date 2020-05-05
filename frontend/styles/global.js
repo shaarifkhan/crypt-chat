@@ -18,12 +18,12 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: "white",
   },
   input: {
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: "#ddd",
-    padding: 10,
+    padding: 15,
     fontSize: 18,
     borderRadius: 6,
-    marginLeft:10
+    marginLeft:15,
   },
   errorText: {
     color: "crimson",
@@ -34,12 +34,4 @@ export const globalStyles = StyleSheet.create({
   },
 });
 
-export const images = {
-  ratings: {
-    "1": require("../assets/rating-1.png"),
-    "2": require("../assets/rating-2.png"),
-    "3": require("../assets/rating-3.png"),
-    "4": require("../assets/rating-4.png"),
-    "5": require("../assets/rating-5.png"),
-  },
-};
+

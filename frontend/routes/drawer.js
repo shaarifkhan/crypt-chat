@@ -8,10 +8,8 @@ const RootDrawerNavigator = createDrawerNavigator({
     },
     Logout: {
       screen: Logout,
-      navigationOptions: {
-        headerTitle: () => <Header title="Log Out" />,
-      },
     }
+    
   });
   
   export default createAppContainer(RootDrawerNavigator);

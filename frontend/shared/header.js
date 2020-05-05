@@ -3,15 +3,19 @@ import { StyleSheet, Text, View, Image, ImageBackground } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
 export default function Header({ title, navigation }) {
+
   const openMenu = () => {
+    console.log("here")
     navigation.openDrawer();
   }
+
   return (
-    <ImageBackground source={require('../assets/game_bg.png')} style={styles.header}>
+    <View>
+      <MaterialIcons name='menu' size={28} onPress={openMenu} style={styles.icon} />
       <View style={styles.headerTitle}>
         <Text style={styles.headerText}>{title}</Text>
       </View>
-    </ImageBackground>
+    </View>
   );
 }
 
@@ -30,11 +34,13 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
   },
   icon: {
-    //position: 'absolute',
-    //left: -10,
+    position: 'absolute',
+    alignContent: 'flex-end',
+    left:200
   },
   headerTitle: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    marginLeft:20
   },
   headerImage: {
     width: 26,
