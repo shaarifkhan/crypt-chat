@@ -21,22 +21,16 @@ const screens = {
       headerTitle: () => <Header title="SIGNUP" />,
     },
   },
-  Chat: {
-    screen: Chat,
-    navigationOptions: {
-      headerTitle: () => <Header title="Chat" />,
-    },
-  },
-  Room: {
-    screen: Room,
-    headerTitle: () => <Header title="Room" />,
-  },
   Home: {
     screen: Home,
     navigationOptions: {
       headerTitle: () => <Header title="Home" />,
     },
   },
+  // Room: {
+  //   screen: Room,
+  //   headerTitle: () => <Header title="Room" />,
+  // },
   Addcontact: {
     screen: Addcontact,
     navigationOptions: {

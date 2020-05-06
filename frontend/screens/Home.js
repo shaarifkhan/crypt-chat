@@ -17,78 +17,20 @@ import AddContact from "./Addcontact";
 import Icon from "react-native-vector-icons/FontAwesome";
 import MakeGroup from "../screens/MakeGroup";
 import firebase from "../config/firebase";
-import Axios from "axios";
+import axios from "axios";
 import { baseUrl } from "../config/dev-config.json";
+import { getIdToken } from "../commons/index";
+axios.defaults.withCredentials = true;
 
 export default function Home({ navigation }) {
+  const [modal, setModal] = useState(false);
+  const [modal1, setModal1] = useState(false);
   const [userId, setUserId] = useState(null);
   const [contacts, setContacts] = useState([
-    // {
-    //   _id: 1,
-    //   username: "Fawaz Ansari",
-    //   status: "active",
-    //   image:
-    //     "https://scontent.fkhi6-1.fna.fbcdn.net/v/t1.0-9/s960x960/86490745_10216871382282325_2101349845200535552_o.jpg?_nc_cat=103&_nc_sid=85a577&_nc_ohc=9PfyP7Qn_yEAX98rA3s&_nc_ht=scontent.fkhi6-1.fna&_nc_tp=7&oh=90e4beb69a20a3054d0c0f632753bc22&oe=5EC2F9B7",
-    // },
-    // {
-    //   _id: 2,
-    //   username: "Yahya Zuberi",
-    //   status: "active",
-    //   image:
-    //     "https://scontent.fkhi6-1.fna.fbcdn.net/v/t1.0-9/71756573_10216348027757629_612090860393201664_n.jpg?_nc_cat=108&_nc_sid=85a577&_nc_ohc=4v2bQle5oAkAX8xGmx2&_nc_ht=scontent.fkhi6-1.fna&oh=3f01386abf6150ac32a062732ffb6a25&oe=5EC14F0F",
-    // },
-    // {
-    //   _id: 3,
-    //   username: "Shaarif Khan",
-    //   status: "active",
-    //   image:
-    //     "https://www.pngfind.com/pngs/m/110-1102775_download-empty-profile-hd-png-download.png",
-    // },
-    // {
-    //   _id: 4,
-    //   username: "Usman Hussain",
-    //   status: "active",
-    //   image:
-    //     "https://www.pngfind.com/pngs/m/110-1102775_download-empty-profile-hd-png-download.png",
-    // },
-    // {
-    //   _id: 5,
-    //   username: "Azhan Ali",
-    //   status: "active",
-    //   image:
-    //     "https://www.pngfind.com/pngs/m/110-1102775_download-empty-profile-hd-png-download.png",
-    // },
-    // {
-    //   _id: 6,
-    //   username: "Osama Rajput",
-    //   status: "active",
-    //   image:
-    //     "https://www.pngfind.com/pngs/m/110-1102775_download-empty-profile-hd-png-download.png",
-    // },
-    // {
-    //   _id: 8,
-    //   username: "Arbaz Khan",
-    //   status: "active",
-    //   image:
-    //     "https://www.pngfind.com/pngs/m/110-1102775_download-empty-profile-hd-png-download.png",
-    // },
-    // {
-    //   _id: 9,
-    //   username: "Fahad Lodi",
-    //   status: "active",
-    //   image:
-    //     "https://www.pngfind.com/pngs/m/110-1102775_download-empty-profile-hd-png-download.png",
-    // },
-    // {
-    //   _id: 10,
-    //   username: "Taha Farooqui",
-    //   status: "active",
-    //   image:
-    //     "https://www.pngfind.com/pngs/m/110-1102775_download-empty-profile-hd-png-download.png",
-    // },
     {
       _id: 11,
       username: "Imran Khan",
+      email: "imran@tatti.com",
       status: "active",
       image:
         "https://www.pngfind.com/pngs/m/110-1102775_download-empty-profile-hd-png-download.png",
@@ -107,7 +49,8 @@ export default function Home({ navigation }) {
         body["friendId"] = friendId;
         console.log(body);
 
-        Axios.post(baseUrl + "/addContact", body)
+        axios
+          .post(baseUrl + "/postContact", body)
           .then((res) => {
             console.log(res.status);
           })
@@ -131,27 +74,31 @@ export default function Home({ navigation }) {
     setModal(false);
   };
 
-  const [modal, setModal] = useState(false);
-  const [modal1, setModal1] = useState(false);
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         // console.log(user.uid);
+        getIdToken().then((token) => {
+          console.log("first");
+          axios.defaults.headers.common["Authorization"] = token;
 
-        Axios.post(baseUrl + "/getContacts", {
-          userId: user.uid,
-        })
-          .then((res) => {
-            for (i = 0; i < res.data.length; i++) {
-              console.log(res.data[i]);
-              res.data[i]["image"] =
-                "https://www.pngfind.com/pngs/m/110-1102775_download-empty-profile-hd-png-download.png";
-              setContacts((oldContacts) => [res.data[i], ...oldContacts]);
-            }
-          })
-          .catch((err) => {
-            throw err;
-          });
+          axios
+            .get(baseUrl + "/secured/getContact")
+            .then((res) => {
+              const result = res.data.result;
+              // console.log(result);
+              for (i = 0; i < result.length; i++) {
+                console.log(result[i]);
+                result[i]["image"] =
+                  "https://www.pngfind.com/pngs/m/110-1102775_download-empty-profile-hd-png-download.png";
+                setContacts((oldContacts) => [result[i], ...oldContacts]);
+              }
+            })
+            .catch((err) => {
+              console.log("yhi par error aa gaya");
+              throw err;
+            });
+        });
       }
     });
   }, []);
@@ -224,7 +171,8 @@ export default function Home({ navigation }) {
           return item._id ? item._id.toString() : "";
         }}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => navigation.navigate("Chat", item)}>
+          <TouchableOpacity>
+            {/* onPress={() => navigation.navigate("Chat", item)} */}
             <View style={styles.row}>
               <Image source={{ uri: item.image }} style={styles.pic} />
               <View>

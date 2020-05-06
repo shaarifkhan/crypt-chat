@@ -5,22 +5,36 @@ const create = (data, callback) => {
   newUser.save(callback);
 };
 
-const findOneAndUpdate = async (userId, friendId, friendname, callback) => {
-  console.log(userId, friendId);
-  doc = await userModel.findOneAndUpdate(
-    { _id: userId },
-    { $push: { contacts: { username: friendname, _id: friendId } } },
+const findOneAndUpdate = (id, params, callback) => {
+  userModel.findOneAndUpdate(
+    {
+      _id: id,
+    },
+    params,
     callback
   );
 };
 
-const findById = (id, callback) => {
+const findById = (id, params, callback) => {
   console.log(id);
   userModel.findById(id, callback);
 };
+
+const findOne = (query, callback) => {
+  console.log("now here 2");
+  userModel.findOne(query, callback);
+};
+const find = (query, params, callback) => {
+  userModel.find(query, params, callback);
+};
+// exports.findUser = (query,params,callback) => {
+
+// }
 
 module.exports = {
   create,
   findOneAndUpdate,
   findById,
+  findOne,
+  find,
 };

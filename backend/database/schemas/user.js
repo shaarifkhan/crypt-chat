@@ -1,15 +1,11 @@
 "use strict";
 
-const Mongoose = require("mongoose");
+const mongoose = require("mongoose");
+const { ContactSchema } = require("./contact/index");
+// const { ObjectId } = mongoose.Schema.Types;
 
-const UserSchema = new Mongoose.Schema({
+const UserSchema = new mongoose.Schema({
   _id: {
-    type: String,
-    unique: true,
-    required: true,
-    trim: true,
-  },
-  username: {
     type: String,
     required: true,
   },
@@ -17,12 +13,16 @@ const UserSchema = new Mongoose.Schema({
     type: String,
     required: true,
   },
-  contacts: {
-    type: [{ _id: String, username: String }],
-    unique: true,
-    trim: true,
+  username: {
+    type: String,
+    required: true,
   },
+  contacts: [
+    {
+      type: ContactSchema,
+    },
+  ],
 });
 
-const userModel = Mongoose.model("user", UserSchema);
+const userModel = mongoose.model("User", UserSchema);
 module.exports = userModel;

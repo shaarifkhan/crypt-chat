@@ -2,7 +2,14 @@ const Room = require("../models/rooms");
 
 const init = (app) => {
   const server = require("http").Server(app);
-  const io = require("socket.io")(server);
+  global.io = require("socket.io")(server);
+
+  global.io.on("connection", (socket) => {
+    socket.on("login", ({ uid }) => {
+      console.log("login uid ayi he", uid);
+      socket.join(uid);
+    });
+  });
 
   io.of("/rooms").on("connection", (socket) => {
     console.log("connected");
@@ -26,7 +33,7 @@ const init = (app) => {
   });
 
   io.of("/chatroom").on("connection", (socket) => {
-    console.log(socket.id);
+    console.log("chatroom namespace call hoa he", socket.id);
     socket.on("join", (roomId) => {
       console.log(roomId);
       Room.findById(roomId, (err, room) => {

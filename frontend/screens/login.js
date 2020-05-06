@@ -17,6 +17,11 @@ import { ActivityIndicator } from "react-native";
 import firebase from "../config/firebase";
 
 import { Input, Button } from "react-native-elements";
+import { baseUrl } from "../config/dev-config.json";
+import axios from "axios";
+axios.defaults.withCredentials = true;
+const io = require("socket.io-client");
+const socket = io(baseUrl, { forceNode: true });
 
 const reviewSchema = yup.object({
   email: yup.string().required(),
@@ -27,8 +32,10 @@ export default function Login({ navigation }) {
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        console.log(user.uid);
-        navigation.navigate("Room");
+        socket.emit("login", {
+          uid: user.uid,
+        });
+        navigation.navigate("Home");
       } //else pass;
     });
   }, []);
@@ -42,7 +49,7 @@ export default function Login({ navigation }) {
     firebase
       .auth()
       .signInWithEmailAndPassword(email.trim(), password)
-      .then((user) => {
+      .then(({ user }) => {
         console.log("signed in");
         console.log(user.uid);
       })

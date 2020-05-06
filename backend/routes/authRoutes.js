@@ -7,16 +7,9 @@ router.get("/", function (req, res, next) {
   return res.send("server is live");
 });
 
-//POST route for updating data
-router.post("/register", function (req, res, next) {
+postRegister = (req, res, next) => {
   // confirm that user typed same password twice
   console.log("hello", req.body);
-  // if (req.body.password !== req.body.confPassword) {
-  //   var err = new Error("Passwords do not match.");
-  //   err.status = 400;
-  //   // res.send("passwords dont match");
-  //   return next(err);
-  // }
 
   if (req.body.email && req.body.username) {
     var userData = {
@@ -27,6 +20,7 @@ router.post("/register", function (req, res, next) {
 
     User.create(userData, function (error, user) {
       if (error) {
+        console.log("error aya he");
         return next(error);
       } else {
         // req.session.userId = user._id;
@@ -39,48 +33,17 @@ router.post("/register", function (req, res, next) {
     err.status = 400;
     return next(err);
   }
-});
-router.post("/addContact", (req, res, next) => {
-  console.log("req body", req.body);
-  User.findOneAndUpdate(
-    req.body.userId,
-    req.body.friendId,
-    req.body.friendname,
-    (err, data) => {
-      if (err) throw err;
-      res.status(200).send("updated");
-    }
-  );
-});
-router.post("/getContacts", (req, res, next) => {
-  // console.log("yeh check", req.body.userId);
-  User.findById(req.body.userId, (error, userData) => {
-    contacts = userData.contacts;
-    console.log(contacts);
-    res.send(contacts);
-  });
-});
-router.post("/login", (req, res, next) => {
-  console.log(req.body.email, req.body.password);
+};
 
-  if (req.body.email && req.body.password) {
-    User.authenticate(req.body.email, req.body.password, function (
-      error,
-      user
-    ) {
-      console.log(error, user);
-      if (error || !user) {
-        var err = new Error("Wrong email or password.");
-        err.status = 401;
-        return next(err);
-      } else {
-        req.session.userId = user._id;
-        // res.send("logged in");
-        return res.redirect("/profile");
-      }
-    });
-  }
-});
+// postLogin = (req, res, next) => {
+//   console.log(req.body.email, req.body.password);
+
+//   const {email}
+// }
+//POST route for updating data
+router.post("/register", postRegister);
+// router.post("/login", postLogin);
+// route.get("/verify-nickname", getVerifyNickname);
 
 // GET route after registering
 router.get("/profile", function (req, res, next) {
