@@ -1,21 +1,22 @@
-const mongoose = require("mognoose");
+const mongoose = require("mongoose");
 
-const { model, Schema } = mongoose;
-const { ObjectID } = Schema.Types;
-
-const ConversationSchema = new Schema({
+const ConversationSchema = new mongoose.Schema({
   ownerId: {
-    type: ObjectId,
+    type: String,
     ref: "User",
   },
   partnerId: {
-    type: ObjectID,
+    type: String,
     ref: "User",
   },
   messages: [
     {
-      type: ObjectId,
+      type: String,
       ref: "Message",
     },
   ],
 });
+
+const ConversationModel = mongoose.model("Conversation", ConversationSchema);
+exports.ConversationModel = ConversationModel;
+exports.ConversationSchema = ConversationSchema;

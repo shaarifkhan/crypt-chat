@@ -5,14 +5,9 @@ import {
   View,
   TouchableOpacity,
   Image,
-  Alert,
-  ScrollView,
   FlatList,
   Modal,
-  Button,
 } from "react-native";
-import Header from "../shared/header";
-import { MaterialIcons } from "@expo/vector-icons";
 import AddContact from "./Addcontact";
 import Icon from "react-native-vector-icons/FontAwesome";
 import MakeGroup from "../screens/MakeGroup";
@@ -25,6 +20,7 @@ axios.defaults.withCredentials = true;
 export default function Home({ navigation }) {
   const [modal, setModal] = useState(false);
   const [modal1, setModal1] = useState(false);
+  const [modal2, setModal2] = useState(false);
   const [userId, setUserId] = useState(null);
   const [contacts, setContacts] = useState([
     {
@@ -35,6 +31,20 @@ export default function Home({ navigation }) {
       image:
         "https://www.pngfind.com/pngs/m/110-1102775_download-empty-profile-hd-png-download.png",
     },
+    {
+      _id: 10,
+      username: "Taha Farooqui",
+      status: "active",
+      image:
+        "https://www.pngfind.com/pngs/m/110-1102775_download-empty-profile-hd-png-download.png",
+    },
+    // {
+    //   _id: 11,
+    //   username: "Imran Khan",
+    //   status: "active",
+    //   image:
+    //     "https://www.pngfind.com/pngs/m/110-1102775_download-empty-profile-hd-png-download.png",
+    // },
   ]);
   const submitToServer = (contact) => {
     firebase.auth().onAuthStateChanged((user) => {
@@ -62,6 +72,7 @@ export default function Home({ navigation }) {
   };
 
   const addcontact = (contact) => {
+    console.log("here");
     submitToServer(contact);
     contact._id = Math.floor(Math.random() * 1000);
     contact.status = "active";
@@ -71,6 +82,7 @@ export default function Home({ navigation }) {
     setContacts((currentcontact) => {
       return [contact, ...currentcontact];
     });
+    setModal2(false);
     setModal(false);
   };
 
@@ -81,7 +93,7 @@ export default function Home({ navigation }) {
         getIdToken().then((token) => {
           console.log("first");
           axios.defaults.headers.common["Authorization"] = token;
-
+          console.log(token);
           axios
             .get(baseUrl + "/secured/getContact")
             .then((res) => {
@@ -95,7 +107,7 @@ export default function Home({ navigation }) {
               }
             })
             .catch((err) => {
-              console.log("yhi par error aa gaya");
+              console.log("yhi par error aa gaya", err);
               throw err;
             });
         });
@@ -107,13 +119,15 @@ export default function Home({ navigation }) {
     <View style={{ flex: 1 }}>
       <Modal visible={modal} animationType="slide">
         <View style={styles.modalContent}>
-          {/* <MaterialIcons
-            username="close"
-            size={24}
-            style={{ ...styles.modalToggle, ...styles.modalClose}}
-            onPress= {()=>setModal(false)}
-          /> */}
-          <View style={styles.addoption}></View>
+          <View style={styles.addoption}>
+            <Icon
+              name="close"
+              size={28}
+              color="white"
+              style={{ ...styles.modalToggle, ...styles.modalClose }}
+              onPress={() => setModal(false)}
+            ></Icon>
+          </View>
           <AddContact
             addcontact={addcontact}
             navigation={navigation}
@@ -124,18 +138,30 @@ export default function Home({ navigation }) {
 
       <Modal visible={modal1} animationType="slide">
         <View style={styles.modalContent}>
-          <Icon
-            name="arrow-circle-right"
-            size={28}
-            color="white"
-            style={{ ...styles.modalToggle, ...styles.modalClose }}
-            onPress={() => setModal1(false)}
-          ></Icon>
+          <View style={styles.addoption}>
+            <Icon
+              name="arrow-circle-right"
+              size={28}
+              color="white"
+              style={{ ...styles.modalToggle, ...styles.modalClose }}
+              onPress={() => setModal1(false)}
+            ></Icon>
+          </View>
           <MakeGroup contacts={contacts} />
         </View>
       </Modal>
 
-      <TouchableOpacity style={styles.option} onPress={() => setModal(true)}>
+      <Modal visible={modal2} animationType="slide">
+        <View style={styles.addoption}>
+          <Icon
+            name="close"
+            size={28}
+            color="white"
+            style={{ ...styles.modalToggle, ...styles.modalClose }}
+            onPress={() => setModal2(false)}
+          ></Icon>
+        </View>
+        {/* <TouchableOpacity style={styles.option} onPress={() => setModal(true)}>
         <View style={styles.option}>
           <View style={styles.iconsize}>
             <Icon name="user" size={24} color="white" />
@@ -148,9 +174,17 @@ export default function Home({ navigation }) {
             </Text>
           </View>
         </View>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
+        <View style={styles.storyCounters}>
+          <Icon
+            name="user"
+            style={styles.iconCounter}
+            onPress={() => setModal(true)}
+          />
+          <Text style={styles.iconCounterText}>Add A New Contact</Text>
+        </View>
 
-      <TouchableOpacity style={styles.option} onPress={() => setModal1(true)}>
+        {/* <TouchableOpacity style={styles.option} onPress={() => setModal1(true)}>
         <View style={styles.option}>
           <View style={styles.iconsize}>
             <Icon name="group" size={24} color="white" />
@@ -163,7 +197,17 @@ export default function Home({ navigation }) {
             </Text>
           </View>
         </View>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
+        <View style={styles.storyCounters}>
+          <Icon
+            name="users"
+            color="coral"
+            style={styles.iconCounter}
+            onPress={() => setModal1(true)}
+          />
+          <Text style={styles.iconCounterText}>Add A New Group</Text>
+        </View>
+      </Modal>
 
       <FlatList
         data={contacts}
@@ -194,11 +238,24 @@ export default function Home({ navigation }) {
           </TouchableOpacity>
         )}
       />
+      <Icon
+        name="user-plus"
+        size={50}
+        color="coral"
+        style={styles.fab}
+        onPress={() => setModal2(true)}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  fab: {
+    position: "absolute",
+    margin: 16,
+    right: 0,
+    bottom: 0,
+  },
   row: {
     flexDirection: "row",
     alignItems: "center",
@@ -265,7 +322,6 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     flex: 1,
-    backgroundColor: "coral",
   },
   iconsize: {
     flexDirection: "row",
@@ -284,7 +340,7 @@ const styles = StyleSheet.create({
   },
   addoption: {
     backgroundColor: "coral",
-    padding: 30,
+    padding: 5,
   },
   addoptiontxt: {
     marginLeft: 15,
@@ -299,5 +355,23 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     width: 170,
+  },
+  storyCounters: {
+    alignContent: "center",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 150,
+  },
+
+  iconCounter: {
+    fontSize: 50,
+    color: "coral",
+    textAlign: "center",
+  },
+
+  iconCounterText: {
+    color: "black",
+    fontSize: 25,
+    textAlign: "center",
   },
 });

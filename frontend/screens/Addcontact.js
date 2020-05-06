@@ -21,7 +21,6 @@ const ContactSchema = yup.object({
 
 export default function AddContact({ navigation, addcontact, userId }) {
   //const addcontact= navigation.params.addcontact()
-
   return (
     <View>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -45,9 +44,11 @@ export default function AddContact({ navigation, addcontact, userId }) {
             {(props) => (
               <View>
                 <Input
-                  leftIcon={<Icon username="user" size={24} color="black" />}
+                  leftIcon={
+                    <Icon name="user" size={24} color="black" style={styles.margin} />
+                  }
                   style={globalStyles.input}
-                  placeholder=" Friend name"
+                  placeholder=" Full name"
                   onChangeText={props.handleChange("username")}
                   onBlur={props.handleBlur("username")}
                   value={props.values.username}
@@ -58,7 +59,7 @@ export default function AddContact({ navigation, addcontact, userId }) {
 
                 <Input
                   leftIcon={
-                    <Icon username="envelope" size={24} color="black" />
+                    <Icon name="envelope" size={24} color="black" style={styles.margin} />
                   }
                   style={globalStyles.input}
                   placeholder=" Email"
@@ -70,7 +71,8 @@ export default function AddContact({ navigation, addcontact, userId }) {
                   {props.touched.email && props.errors.email}
                 </Text>
                 <Input
-                  leftIcon={<Icon username="book" size={24} color="black" />}
+                  keyboardType='numeric'
+                  leftIcon={<Icon name="book" size={24} color="black" style={styles.margin} />}
                   style={globalStyles.input}
                   placeholder=" Contact Number"
                   onChangeText={props.handleChange("contact")}
@@ -108,4 +110,7 @@ const styles = StyleSheet.create({
     marginLeft: 45,
     justifyContent: "center",
   },
+  margin:{
+    marginRight:10
+  }
 });

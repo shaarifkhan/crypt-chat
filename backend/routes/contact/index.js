@@ -49,8 +49,8 @@ const postContact = async (req, res, next) => {
   }
 };
 const getContact = async (req, res, next) => {
-  console.log("get contact ki req ayi ", req.body);
   const { _id } = req.currentUser;
+  console.log("inside get contacts");
   try {
     //find if the user who requested for his contact, is present
     User.findOne({ _id }, (err, result) => {
