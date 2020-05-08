@@ -18,6 +18,8 @@ import { getIdToken } from "../commons/index";
 axios.defaults.withCredentials = true;
 
 export default function Home({ navigation }) {
+  const { socket } = navigation.state.params;
+  console.log("in home socket is ", socket.id);
   const [modal, setModal] = useState(false);
   const [modal1, setModal1] = useState(false);
   const [modal2, setModal2] = useState(false);
@@ -114,6 +116,10 @@ export default function Home({ navigation }) {
       }
     });
   }, []);
+
+  const openChat = (contact) => {
+    navigation.navigate("Conversation", { contact: contact, socket: socket });
+  };
 
   return (
     <View style={{ flex: 1 }}>
@@ -215,7 +221,7 @@ export default function Home({ navigation }) {
           return item._id ? item._id.toString() : "";
         }}
         renderItem={({ item }) => (
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => openChat(item)}>
             {/* onPress={() => navigation.navigate("Chat", item)} */}
             <View style={styles.row}>
               <Image source={{ uri: item.image }} style={styles.pic} />

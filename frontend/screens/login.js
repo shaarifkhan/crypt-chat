@@ -29,17 +29,13 @@ const reviewSchema = yup.object({
 });
 
 export default function Login({ navigation }) {
-  const resetHandler = () => {
-    navigation.navigate("Home");
-  };
-
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         socket.emit("login", {
           uid: user.uid,
         });
-        navigation.navigate("Home");
+        navigation.navigate("Home", { socket: socket });
       } //else pass;
     });
   }, []);

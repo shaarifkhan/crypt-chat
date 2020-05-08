@@ -8,9 +8,10 @@ import Chat from "../screens/Chat";
 import Room from "../screens/Room";
 import Addcontact from "../screens/Addcontact";
 import LoginScreen3 from "../screens/login2";
+import Conversation from "../screens/conversation";
 const screens = {
   Login: {
-    screen: LoginScreen3,
+    screen: Login,
   },
 
   Signup: {
@@ -34,6 +35,16 @@ const screens = {
     navigationOptions: ({ navigation }) => {
       return {
         headerTitle: () => <Header title="Chat" navigation={navigation} />,
+      };
+    },
+  },
+  Conversation: {
+    screen: Conversation,
+    navigationOptions: ({ navigation }) => {
+      return {
+        headerTitle: () => (
+          <Header title="Conversation" navigation={navigation} />
+        ),
       };
     },
   },

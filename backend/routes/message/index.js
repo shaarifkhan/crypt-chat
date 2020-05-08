@@ -67,6 +67,8 @@ const postMessage = async (req, res, next) => {
 const getMessages = async (req, res, next) => {
   const { partnerId } = req.query;
   const { _id: ownerId } = req.currentUser;
+  console.log("inside getmessage");
+  console.log("req.query is ", req.query);
   try {
     const result = await getConversation({
       partnerId,
