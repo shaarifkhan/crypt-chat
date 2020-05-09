@@ -51,25 +51,20 @@ export default function Home({ navigation }) {
   const submitToServer = (contact) => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        console.log("submit to server", contact);
-        setUserId(user.uid);
-        body = {
-          userId: user.uid,
-          friendname: contact.username,
-        };
-        friendId = Math.floor(Math.random() * 1000);
-        body["friendId"] = friendId;
-        console.log(body);
-
-        axios
-          .post(baseUrl + "/postContact", body)
-          .then((res) => {
-            console.log(res.status);
-          })
-          .catch((err) => {
-            throw err;
-          });
-      } //else pass;
+        // console.log(user.uid);
+        getIdToken().then((token) => {
+          axios.defaults.headers.common["Authorization"] = token;
+          body = axios
+            .post(baseUrl + "/secured/postContact", { email: contact.email })
+            .then(({ data }) => {
+              console.log(data);
+            })
+            .catch((err) => {
+              console.log("yhi par error aa gaya", err);
+              throw err;
+            });
+        });
+      }
     });
   };
 
