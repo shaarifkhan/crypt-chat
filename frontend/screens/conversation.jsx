@@ -1,3 +1,5 @@
+import AutoScrollFlatList from "react-native-autoscroll-flatlist";
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 import React, { Component, useState, useEffect } from "react";
 import {
   StyleSheet,
@@ -6,6 +8,7 @@ import {
   TouchableOpacity,
   Image,
   Alert,
+  KeyboardAvoidingView,
   ScrollView,
   TextInput,
   FlatList,
@@ -16,6 +19,7 @@ import axios from "axios";
 import { getIdToken } from "../commons/index";
 import firebase from "../config/firebase";
 import moment from "moment";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 axios.defaults.withCredentials = true;
 
@@ -164,8 +168,10 @@ export default function Conversation({ navigation }) {
     });
   }, []);
   return (
-    <View style={styles.container}>
-      <FlatList
+    
+    <SafeAreaView style={styles.container}>
+      
+      <AutoScrollFlatList
         style={styles.list}
         data={data}
         keyExtractor={(item) => {
@@ -191,7 +197,9 @@ export default function Conversation({ navigation }) {
           );
         }}
       />
+      
       <View style={styles.footer}>
+      
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.inputs}
@@ -210,8 +218,11 @@ export default function Conversation({ navigation }) {
             style={styles.iconSend}
           />
         </TouchableOpacity>
+        
       </View>
-    </View>
+      <KeyboardSpacer />
+    </SafeAreaView>
+    
   );
 }
 
