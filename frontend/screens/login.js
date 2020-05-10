@@ -28,6 +28,12 @@ const reviewSchema = yup.object({
   password: yup.string().required(),
 });
 
+const resetAction = StackActions.reset({
+    index: 0,
+    actions: [NavigationActions.navigate({ routeName: 'Home',params: {socket: socket}  })],
+});
+
+
 export default function Login({ navigation }) {
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
@@ -35,7 +41,8 @@ export default function Login({ navigation }) {
         socket.emit("login", {
           uid: user.uid,
         });
-        navigation.navigate("Home", { socket: socket });
+        //navigation.navigate("Home", { socket: socket });
+        navigation.dispatch(resetAction)
       } //else pass;
     });
   }, []);
@@ -104,6 +111,7 @@ export default function Login({ navigation }) {
                 onChangeText={props.handleChange("email")}
                 onBlur={props.handleBlur("email")}
                 value={props.values.email}
+                autoCapitalize = 'none'
               />
               {/* only if the left value is a valid string, will the right value be displayed */}
               <Text style={globalStyles.errorText}>
@@ -125,6 +133,7 @@ export default function Login({ navigation }) {
                 onChangeText={props.handleChange("password")}
                 onBlur={props.handleBlur("password")}
                 value={props.values.password}
+                autoCapitalize = 'none'
               />
               <Text style={globalStyles.errorText}>
                 {props.touched.password && props.errors.password}
@@ -135,7 +144,7 @@ export default function Login({ navigation }) {
                 style={styles.button}
                 onPress={props.handleSubmit}
                 buttonStyle={{
-                  backgroundColor: "coral",
+                  backgroundColor: "#43484d",
                 }}
               />
 

@@ -117,7 +117,7 @@ export default function Home({ navigation }) {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1 ,backgroundColor:"#43484d"}}>
       <Modal visible={modal} animationType="slide">
         <View style={styles.modalContent}>
           <View style={styles.addoption}>
@@ -242,9 +242,9 @@ export default function Home({ navigation }) {
       <Icon
         name="user-plus"
         size={50}
-        color="coral"
+        color="#DCDCDC"
         style={styles.fab}
-        onPress={() => setModal2(true)}
+        onPress={() => setModal(true)}
       />
     </View>
   );
@@ -261,7 +261,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     borderColor: "#DCDCDC",
-    backgroundColor: "#fff",
+    backgroundColor: "#43484d",
     borderBottomWidth: 1,
     padding: 10,
   },
@@ -278,13 +278,13 @@ const styles = StyleSheet.create({
   nameTxt: {
     marginLeft: 15,
     fontWeight: "800",
-    color: "#222",
+    color: "white",
     fontSize: 16,
     width: 170,
   },
   mblTxt: {
     fontWeight: "200",
-    color: "#777",
+    color: "white",
     fontSize: 13,
   },
   msgContainer: {
@@ -340,7 +340,7 @@ const styles = StyleSheet.create({
     width: 170,
   },
   addoption: {
-    backgroundColor: "coral",
+    backgroundColor: "#00868B",
     padding: 5,
   },
   addoptiontxt: {

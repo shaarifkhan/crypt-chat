@@ -51,7 +51,7 @@ export default function Chat({ navigation }) {
         <Button
           buttonStyle={{
             marginTop: 30,
-            backgroundColor: "coral",
+            backgroundColor: "#43484d",
           }}
           title="Log Out"
           onPress={handlepress}

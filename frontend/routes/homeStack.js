@@ -9,6 +9,7 @@ import Room from "../screens/Room";
 import Addcontact from "../screens/Addcontact";
 import LoginScreen3 from "../screens/login2";
 import Conversation from "../screens/conversation";
+import Subheader from '../shared/Subheader'
 const screens = {
   Login: {
     screen: Login,
@@ -18,7 +19,7 @@ const screens = {
     screen: Signup,
     navigationOptions: ({ navigation }) => {
       return {
-        headerTitle: () => <Header title="Signup" navigation={navigation} />,
+        headerTitle: () => <Subheader title="Signup" navigation={navigation} />,
       };
     },
   },
@@ -43,7 +44,7 @@ const screens = {
     navigationOptions: ({ navigation }) => {
       return {
         headerTitle: () => (
-          <Header title="Conversation" navigation={navigation} />
+          <Subheader title="Conversation" navigation={navigation} />
         ),
       };
     },
@@ -71,8 +72,8 @@ const screens = {
 // home stack navigator screens
 const HomeStack = createStackNavigator(screens, {
   defaultNavigationOptions: {
-    headerTintColor: "#444",
-    headerStyle: { backgroundColor: "#eee", height: 60 },
+    headerTintColor: "white",
+    headerStyle: { backgroundColor: "#00868B", height: 80 },
   },
 });
 

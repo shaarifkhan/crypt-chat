@@ -45,7 +45,7 @@ const submitToServer = (userId, values) => {
 
 export default function Signup({ navigation }) {
   const [error, setError] = useState(null);
-  handleSubmit = (values) => {
+  const handleSubmit = (values) => {
     const { email, password } = values;
     firebase
       .auth()
@@ -89,6 +89,7 @@ export default function Signup({ navigation }) {
                 onChangeText={props.handleChange("username")}
                 onBlur={props.handleBlur("username")}
                 value={props.values.username}
+                autoCapitalize = 'none'
               />
               {/* only if the left value is a valid string, will the right value be displayed */}
               <Text style={globalStyles.errorText}>
@@ -103,6 +104,7 @@ export default function Signup({ navigation }) {
                 onChangeText={props.handleChange("password")}
                 onBlur={props.handleBlur("password")}
                 value={props.values.password}
+                autoCapitalize = 'none'
               />
               <Text style={globalStyles.errorText}>
                 {props.touched.password && props.errors.password}
@@ -116,6 +118,7 @@ export default function Signup({ navigation }) {
                 onChangeText={props.handleChange("confPassword")}
                 onBlur={props.handleBlur("confPassword")}
                 value={props.values.confPassword}
+                autoCapitalize = 'none'
               />
               <Text style={globalStyles.errorText}>
                 {props.touched.confPassword && props.errors.confPassword}
@@ -135,8 +138,10 @@ export default function Signup({ navigation }) {
               </Text>
 
               <Button
-                color="maroon"
-                title="Submit"
+              buttonStyle={{
+                  backgroundColor: "#43484d",
+                }}
+                title="Signup"
                 onPress={props.handleSubmit}
               />
             </View>

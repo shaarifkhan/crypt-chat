@@ -85,7 +85,7 @@ export default function AddContact({ navigation, addcontact, userId }) {
 
                 <Button
                   buttonStyle={{
-                    backgroundColor: "coral",
+                    backgroundColor: "#43484d",
                   }}
                   title="Add"
                   onPress={props.handleSubmit}
