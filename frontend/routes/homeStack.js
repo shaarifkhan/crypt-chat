@@ -7,12 +7,13 @@ import Signup from "../screens/signup";
 import Chat from "../screens/Chat";
 import Room from "../screens/Room";
 import Addcontact from "../screens/Addcontact";
-import LoginScreen3 from "../screens/login2";
+import Login2 from "../screens/login2";
 import Conversation from "../screens/conversation";
 import Subheader from '../shared/Subheader'
 const screens = {
   Login: {
     screen: Login,
+  
   },
 
   Signup: {
