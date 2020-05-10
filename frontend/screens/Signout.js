@@ -16,7 +16,11 @@ import { ActivityIndicator } from "react-native";
 import Header from "../shared/header";
 import { Input, Button } from "react-native-elements";
 import firebase from "../config/firebase";
-
+import { StackActions, NavigationActions } from "react-navigation";
+const resetAction = StackActions.reset({
+  index: 0,
+  actions: [NavigationActions.navigate({ routeName: 'Login'})],
+});
 export default function Chat({ navigation }) {
   <Header title={navigation.getParam("name")} />;
   const handlepress = () => {
@@ -24,7 +28,7 @@ export default function Chat({ navigation }) {
       .auth()
       .signOut()
       .then(function () {
-        navigation.navigate("Login");
+        navigation.dispatch(resetAction)
         console.log("Logged out");
       })
       .catch(function (err) {

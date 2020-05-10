@@ -7,7 +7,7 @@ import {
   createDrawerNavigator,
   DrawerNavigatorItems,
 } from 'react-navigation-drawer';
-
+import Home from '../screens/Home'
 const customContentComponent = props => (
   <SafeAreaView
     style={{ flex: 1, height: '100%', backgroundColor: '#43484d' }}
@@ -39,7 +39,7 @@ const WINDOW_WIDTH = Dimensions.get('window').width;
 const RootDrawerNavigator = createDrawerNavigator(
   {
     Home: {
-      screen: HomeStack
+      screen: HomeStack,
     },
     Logout: {
       screen: Logout,
