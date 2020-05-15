@@ -15,6 +15,8 @@ import firebase from "../config/firebase";
 import axios from "axios";
 import { baseUrl } from "../config/dev-config.json";
 import { getIdToken } from "../commons/index";
+import Spinner from "react-native-loading-spinner-overlay";
+
 axios.defaults.withCredentials = true;
 
 export default function Home({ navigation }) {
@@ -24,6 +26,7 @@ export default function Home({ navigation }) {
   const [modal1, setModal1] = useState(false);
   const [modal2, setModal2] = useState(false);
   const [userId, setUserId] = useState(null);
+  const [spinner, setSpinner] = useState(false);
   const [contacts, setContacts] = useState([
     {
       _id: 11,
@@ -57,7 +60,7 @@ export default function Home({ navigation }) {
           body = axios
             .post(baseUrl + "/secured/postContact", { email: contact.email })
             .then(({ data }) => {
-              console.log(data);
+              // console.log(data);
             })
             .catch((err) => {
               console.log("yhi par error aa gaya", err);
@@ -84,6 +87,8 @@ export default function Home({ navigation }) {
   };
 
   useEffect(() => {
+    setSpinner(true);
+
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         // console.log(user.uid);
@@ -102,6 +107,7 @@ export default function Home({ navigation }) {
                   "https://www.pngfind.com/pngs/m/110-1102775_download-empty-profile-hd-png-download.png";
                 setContacts((oldContacts) => [result[i], ...oldContacts]);
               }
+              setSpinner(false);
             })
             .catch((err) => {
               console.log("yhi par error aa gaya", err);
@@ -117,7 +123,13 @@ export default function Home({ navigation }) {
   };
 
   return (
-    <View style={{ flex: 1 ,backgroundColor:"#43484d"}}>
+    <View style={{ flex: 1, backgroundColor: "#43484d" }}>
+      <Spinner
+        visible={spinner}
+        textContent={"Loading..."}
+        textStyle={styles.spinnerTextStyle}
+        animation="slide"
+      />
       <Modal visible={modal} animationType="slide">
         <View style={styles.modalContent}>
           <View style={styles.addoption}>
@@ -137,7 +149,7 @@ export default function Home({ navigation }) {
         </View>
       </Modal>
 
-      <Modal visible={modal1} animationType="slide">
+      <Modal visible={modal1} animationType="fade">
         <View style={styles.modalContent}>
           <View style={styles.addoption}>
             <Icon
@@ -374,5 +386,8 @@ const styles = StyleSheet.create({
     color: "black",
     fontSize: 25,
     textAlign: "center",
+  },
+  spinnerTextStyle: {
+    color: "#FFF",
   },
 });

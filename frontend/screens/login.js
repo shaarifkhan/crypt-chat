@@ -29,10 +29,14 @@ const reviewSchema = yup.object({
 });
 
 const resetAction = StackActions.reset({
-    index: 0,
-    actions: [NavigationActions.navigate({ routeName: 'Home',params: {socket: socket}  })],
+  index: 0,
+  actions: [
+    NavigationActions.navigate({
+      routeName: "Home",
+      params: { socket: socket },
+    }),
+  ],
 });
-
 
 export default function Login({ navigation }) {
   useEffect(() => {
@@ -42,17 +46,20 @@ export default function Login({ navigation }) {
           uid: user.uid,
         });
         //navigation.navigate("Home", { socket: socket });
-        navigation.dispatch(resetAction)
+        navigation.dispatch(resetAction);
       } //else pass;
     });
   }, []);
 
   const [error, setError] = useState(null);
   const [actions, setActions] = useState(null);
+  const [isChecking, setChecking] = useState(false);
   const pressHandler = () => {
+    setChecking(false);
     navigation.navigate("Signup");
   };
   const handleLogin = (values) => {
+    setChecking(true);
     const { email, password } = values;
     firebase
       .auth()
@@ -111,7 +118,7 @@ export default function Login({ navigation }) {
                 onChangeText={props.handleChange("email")}
                 onBlur={props.handleBlur("email")}
                 value={props.values.email}
-                autoCapitalize = 'none'
+                autoCapitalize="none"
               />
               {/* only if the left value is a valid string, will the right value be displayed */}
               <Text style={globalStyles.errorText}>
@@ -133,7 +140,7 @@ export default function Login({ navigation }) {
                 onChangeText={props.handleChange("password")}
                 onBlur={props.handleBlur("password")}
                 value={props.values.password}
-                autoCapitalize = 'none'
+                autoCapitalize="none"
               />
               <Text style={globalStyles.errorText}>
                 {props.touched.password && props.errors.password}
@@ -141,6 +148,7 @@ export default function Login({ navigation }) {
 
               <Button
                 title="LOGIN"
+                loading={isChecking ? true : false}
                 style={styles.button}
                 onPress={props.handleSubmit}
                 buttonStyle={{

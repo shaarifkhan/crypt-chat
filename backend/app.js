@@ -14,7 +14,7 @@ const firebaseMiddleware = require("./middleware/auth/index");
 //connect to MongoDB
 // we're connected!
 
-app.use(cors({ origin: "http://192.168.1.103", credentials: true }));
+app.use(cors({ origin: "http://192.168.1.104", credentials: true }));
 
 //use sessions for tracking logins
 app.use(

@@ -1,5 +1,5 @@
 import AutoScrollFlatList from "react-native-autoscroll-flatlist";
-import KeyboardSpacer from 'react-native-keyboard-spacer';
+import KeyboardSpacer from "react-native-keyboard-spacer";
 import React, { Component, useState, useEffect } from "react";
 import {
   StyleSheet,
@@ -168,9 +168,7 @@ export default function Conversation({ navigation }) {
     });
   }, []);
   return (
-    
     <SafeAreaView style={styles.container}>
-      
       <AutoScrollFlatList
         style={styles.list}
         data={data}
@@ -197,9 +195,8 @@ export default function Conversation({ navigation }) {
           );
         }}
       />
-      
+
       <View style={styles.footer}>
-      
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.inputs}
@@ -218,11 +215,8 @@ export default function Conversation({ navigation }) {
             style={styles.iconSend}
           />
         </TouchableOpacity>
-        
       </View>
-      <KeyboardSpacer />
     </SafeAreaView>
-    
   );
 }
 

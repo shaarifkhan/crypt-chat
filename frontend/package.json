@@ -21,6 +21,7 @@
     "react-native-elements": "^1.2.7",
     "react-native-gesture-handler": "~1.6.0",
     "react-native-keyboard-spacer": "^0.4.1",
+    "react-native-loading-spinner-overlay": "^1.1.0",
     "react-native-reanimated": "~1.7.0",
     "react-native-safe-area-context": "0.7.3",
     "react-native-safe-area-view": "^1.0.0",
