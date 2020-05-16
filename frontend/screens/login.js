@@ -45,6 +45,8 @@ export default function Login({ navigation }) {
         socket.emit("login", {
           uid: user.uid,
         });
+        console.log("ye raha user");
+        console.log(user);
         //navigation.navigate("Home", { socket: socket });
         navigation.dispatch(resetAction);
       } //else pass;

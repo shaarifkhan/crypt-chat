@@ -19,16 +19,16 @@ import firebase from "../config/firebase";
 import { StackActions, NavigationActions } from "react-navigation";
 const resetAction = StackActions.reset({
   index: 0,
-  actions: [NavigationActions.navigate({ routeName: 'Login'})],
+  actions: [NavigationActions.navigate({ routeName: "Login" })],
 });
-export default function Chat({ navigation }) {
+export default function Signout({ navigation }) {
   <Header title={navigation.getParam("name")} />;
   const handlepress = () => {
     firebase
       .auth()
       .signOut()
       .then(function () {
-        navigation.dispatch(resetAction)
+        navigation.dispatch(resetAction);
         console.log("Logged out");
       })
       .catch(function (err) {

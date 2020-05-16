@@ -7,6 +7,7 @@ import {
   Image,
   FlatList,
   Modal,
+  RefreshControl,
 } from "react-native";
 import AddContact from "./Addcontact";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -27,6 +28,8 @@ export default function Home({ navigation }) {
   const [modal2, setModal2] = useState(false);
   const [userId, setUserId] = useState(null);
   const [spinner, setSpinner] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+
   const [contacts, setContacts] = useState([
     {
       _id: 11,
@@ -85,6 +88,31 @@ export default function Home({ navigation }) {
     setModal2(false);
     setModal(false);
   };
+  const getContact = () => {
+    getIdToken().then((token) => {
+      console.log("first");
+      axios.defaults.headers.common["Authorization"] = token;
+      console.log(token);
+      axios
+        .get(baseUrl + "/secured/getContact")
+        .then((res) => {
+          const result = res.data.result;
+          // console.log(result);
+          for (i = 0; i < result.length; i++) {
+            console.log(result[i]);
+            result[i]["image"] =
+              "https://www.pngfind.com/pngs/m/110-1102775_download-empty-profile-hd-png-download.png";
+            setContacts((oldContacts) => [result[i], ...oldContacts]);
+          }
+          setSpinner(false);
+        })
+        .catch((err) => {
+          console.log("yhi par error aa gaya", err);
+          throw err;
+        });
+    });
+    console.log(1);
+  };
 
   useEffect(() => {
     setSpinner(true);
@@ -92,28 +120,8 @@ export default function Home({ navigation }) {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         // console.log(user.uid);
-        getIdToken().then((token) => {
-          console.log("first");
-          axios.defaults.headers.common["Authorization"] = token;
-          console.log(token);
-          axios
-            .get(baseUrl + "/secured/getContact")
-            .then((res) => {
-              const result = res.data.result;
-              // console.log(result);
-              for (i = 0; i < result.length; i++) {
-                console.log(result[i]);
-                result[i]["image"] =
-                  "https://www.pngfind.com/pngs/m/110-1102775_download-empty-profile-hd-png-download.png";
-                setContacts((oldContacts) => [result[i], ...oldContacts]);
-              }
-              setSpinner(false);
-            })
-            .catch((err) => {
-              console.log("yhi par error aa gaya", err);
-              throw err;
-            });
-        });
+        getContact();
+        console.log(2);
       }
     });
   }, []);
@@ -121,6 +129,17 @@ export default function Home({ navigation }) {
   const openChat = (contact) => {
     navigation.navigate("Conversation", { contact: contact, socket: socket });
   };
+  function wait(timeout) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, timeout);
+    });
+  }
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    getContact();
+
+    wait(2000).then(() => setRefreshing(false));
+  }, [refreshing]);
 
   return (
     <View style={{ flex: 1, backgroundColor: "#43484d" }}>
@@ -223,6 +242,9 @@ export default function Home({ navigation }) {
       </Modal>
 
       <FlatList
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
         data={contacts}
         keyExtractor={(item) => {
           return item._id ? item._id.toString() : "";
