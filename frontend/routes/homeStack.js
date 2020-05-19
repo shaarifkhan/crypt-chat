@@ -50,6 +50,7 @@ const screens = {
       };
     },
   },
+<<<<<<< HEAD
   ImagePicker: {
     screen: ImagePickerExample,
     navigationOptions: ({ navigation }) => {
@@ -60,6 +61,8 @@ const screens = {
       };
     },
   },
+=======
+>>>>>>> 4b33e9dfc0aff09ac66d3aca33a0977a06dad4a0
   Room: {
     screen: Room,
     navigationOptions: ({ navigation }) => {
