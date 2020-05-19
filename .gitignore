@@ -1,0 +1,6 @@
+node_modules/
+babel.config.js/
+app.json
+/backend/middleware/auth
+package-lock.json
+./crypt-chat.sh
