@@ -11,19 +11,7 @@ import Login2 from "../screens/login2";
 import Conversation from "../screens/conversation";
 import Subheader from "../shared/Subheader";
 import ImagePickerExample from "../screens/imagePicker";
-const screens = {
-  Login: {
-    screen: Login,
-  },
-
-  Signup: {
-    screen: Signup,
-    navigationOptions: ({ navigation }) => {
-      return {
-        headerTitle: () => <Subheader title="Signup" navigation={navigation} />,
-      };
-    },
-  },
+const AppScreens = {
   Home: {
     screen: Home,
     navigationOptions: ({ navigation }) => {
@@ -50,7 +38,6 @@ const screens = {
       };
     },
   },
-<<<<<<< HEAD
   ImagePicker: {
     screen: ImagePickerExample,
     navigationOptions: ({ navigation }) => {
@@ -61,8 +48,6 @@ const screens = {
       };
     },
   },
-=======
->>>>>>> 4b33e9dfc0aff09ac66d3aca33a0977a06dad4a0
   Room: {
     screen: Room,
     navigationOptions: ({ navigation }) => {
@@ -82,13 +67,32 @@ const screens = {
     },
   },
 };
+const AuthScreens = {
+  Login: {
+    screen: Login,
+  },
 
+  Signup: {
+    screen: Signup,
+    navigationOptions: ({ navigation }) => {
+      return {
+        headerTitle: () => <Subheader title="Signup" navigation={navigation} />,
+      };
+    },
+  },
+};
 // home stack navigator screens
-const HomeStack = createStackNavigator(screens, {
+const AppStack = createStackNavigator(AppScreens, {
+  defaultNavigationOptions: {
+    headerTintColor: "white",
+    headerStyle: { backgroundColor: "#00868B", height: 80 },
+  },
+});
+const AuthStack = createStackNavigator(AuthScreens, {
   defaultNavigationOptions: {
     headerTintColor: "white",
     headerStyle: { backgroundColor: "#00868B", height: 80 },
   },
 });
 
-export default HomeStack;
+export { AppStack, AuthStack };

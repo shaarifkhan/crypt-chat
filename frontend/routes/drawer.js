@@ -1,14 +1,46 @@
-import { createAppContainer } from "react-navigation";
-import HomeStack from "./homeStack";
-import Logout from "../screens/Signout";
 import React from "react";
-import { View, Image, Dimensions, SafeAreaView } from "react-native";
+import {
+  View,
+  Image,
+  Dimensions,
+  SafeAreaView,
+  Text,
+  Alert,
+} from "react-native";
 import {
   createDrawerNavigator,
   DrawerNavigatorItems,
 } from "react-navigation-drawer";
 import Home from "../screens/Home";
 import Profile from "../screens/profile";
+import { AppStack } from "./homeStack";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import firebase from "../config/firebase";
+
+const handleLogout = (navigation) => {
+  firebase
+    .auth()
+    .signOut()
+    .then(function () {
+      console.log("Logged out");
+      navigation.navigate("Auth");
+    })
+    .catch(function (err) {
+      Alert.alert(
+        "Error",
+        "Something Went Wrong",
+        [
+          {
+            text: "Retry",
+            onPress: () => {
+              handleLogout();
+            },
+          },
+        ],
+        { cancelable: false }
+      );
+    });
+};
 const customContentComponent = (props) => (
   <SafeAreaView
     style={{ flex: 1, height: "100%", backgroundColor: "#43484d" }}
@@ -30,20 +62,46 @@ const customContentComponent = (props) => (
     </View>
     <View style={{ marginLeft: 20, marginTop: 0 }}>
       <DrawerNavigatorItems {...props} />
+      <TouchableOpacity
+        onPress={() =>
+          Alert.alert(
+            "Log out",
+            "Do you want to logout?",
+            [
+              {
+                text: "Cancel",
+                onPress: () => {
+                  props.navigation.closeDrawer();
+                },
+              },
+              {
+                text: "Confirm",
+                onPress: () => {
+                  console.log("logout");
+                  handleLogout(props.navigation);
+                },
+              },
+            ],
+            { cancelable: false }
+          )
+        }
+      >
+        <Text>Logout</Text>
+      </TouchableOpacity>
     </View>
   </SafeAreaView>
 );
 
 const WINDOW_WIDTH = Dimensions.get("window").width;
 
-const RootDrawerNavigator = createDrawerNavigator(
+const DrawerNavigator = createDrawerNavigator(
   {
     Home: {
-      screen: HomeStack,
+      screen: AppStack,
     },
-    Logout: {
-      screen: Logout,
-    },
+    // Logout: {
+    //   screen: Logout,
+    // },
     Profile: {
       screen: Profile,
     },
@@ -64,6 +122,6 @@ const RootDrawerNavigator = createDrawerNavigator(
     drawerWidth: Math.min(WINDOW_WIDTH * 0.8, 300),
     contentComponent: customContentComponent,
   }
+  //   { contentComponent: Signout }
 );
-
-export default createAppContainer(RootDrawerNavigator);
+export default DrawerNavigator;

@@ -21,14 +21,15 @@ import Spinner from "react-native-loading-spinner-overlay";
 axios.defaults.withCredentials = true;
 
 export default function Home({ navigation }) {
-  const { socket } = navigation.state.params;
-  console.log("in home socket is ", socket.id);
+  // const { socket } = navigation.state.params;
+  // console.log("in home socket is ", socket.id);
   const [modal, setModal] = useState(false);
   const [modal1, setModal1] = useState(false);
   const [modal2, setModal2] = useState(false);
   const [userId, setUserId] = useState(null);
   const [spinner, setSpinner] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+  const [_isMounted, setIsMounted] = useState(false);
 
   const [contacts, setContacts] = useState([
     {
@@ -115,19 +116,25 @@ export default function Home({ navigation }) {
   };
 
   useEffect(() => {
-    setSpinner(true);
-
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        // console.log(user.uid);
-        getContact();
-        console.log(2);
-      }
-    });
+    setIsMounted(true);
+    if (_isMounted) {
+      setSpinner(true);
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          // console.log(user.uid);
+          getContact();
+          console.log(2);
+        }
+      });
+    }
+    return () => {
+      setIsMounted(false);
+    };
   }, []);
 
   const openChat = (contact) => {
-    navigation.navigate("Conversation", { contact: contact, socket: socket });
+    // navigation.navigate("Conversation", { contact: contact, socket: socket });
+    navigation.navigate("Conversation", { contact: contact });
   };
   function wait(timeout) {
     return new Promise((resolve) => {

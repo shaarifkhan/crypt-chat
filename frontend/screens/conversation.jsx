@@ -13,62 +13,28 @@ import {
   TextInput,
   FlatList,
   Button,
+  RefreshControl,
 } from "react-native";
+import Spinner from "react-native-loading-spinner-overlay";
+
 const { baseUrl } = require("../config/dev-config.json");
 import axios from "axios";
 import { getIdToken } from "../commons/index";
 import firebase from "../config/firebase";
 import moment from "moment";
 import { SafeAreaView } from "react-native-safe-area-context";
-
 axios.defaults.withCredentials = true;
+
+// const io = require("socket.io-client");
+// const socket = io(baseUrl, { forceNode: true });
 
 export default function Conversation({ navigation }) {
   const { socket, contact } = navigation.state.params;
   console.log("in conversation contact is ", contact);
+  const [spinner, setSpinner] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+
   const [data, setData] = useState([
-    {
-      id: 1,
-      date: "9:50 am",
-      type: "in",
-      message: "Lorem ipsum dolor sit amet",
-    },
-    {
-      id: 2,
-      date: "9:50 am",
-      type: "out",
-      message: "Lorem ipsum dolor sit amet",
-    },
-    {
-      id: 3,
-      date: "9:50 am",
-      type: "in",
-      message: "Lorem ipsum dolor sit a met",
-    },
-    {
-      id: 4,
-      date: "9:50 am",
-      type: "in",
-      message: "Lorem ipsum dolor sit a met",
-    },
-    {
-      id: 5,
-      date: "9:50 am",
-      type: "out",
-      message: "Lorem ipsum dolor sit a met",
-    },
-    {
-      id: 6,
-      date: "9:50 am",
-      type: "out",
-      message: "Lorem ipsum dolor sit a met",
-    },
-    {
-      id: 7,
-      date: "9:50 am",
-      type: "in",
-      message: "Lorem ipsum dolor sit a met",
-    },
     {
       id: 8,
       date: "9:50 am",
@@ -133,42 +99,63 @@ export default function Conversation({ navigation }) {
     ]);
     setMessage("");
   };
+  const getMessages = () => {
+    getIdToken().then((token) => {
+      console.log("first");
+      axios.defaults.headers.common["Authorization"] = token;
+      console.log(token);
+      axios
+        .get(baseUrl + `/secured/getmessages?partnerId=${contact._id}`)
+        .then(({ data }) => {
+          const result = data.result;
+          // console.log(result);
+          for (i = 0; i < result.length; i++) {
+            console.log(result[i]);
+            const body = {
+              id: result[i]._id,
+              message: result[i].message,
+              type: result[i].currentUserIsSender ? "out" : "in",
+              date: moment(result[i].dateTime).format("DD/MM/YYYY hh:mm a"),
+            };
+
+            setData((oldMessages) => [...oldMessages, body]);
+            setSpinner(false);
+          }
+          console.log("data is", data);
+        })
+        .catch((err) => {
+          console.log("yhi par error aa gaya", err);
+          throw err;
+        });
+    });
+  };
+
+  //on every component did mount
   useEffect(() => {
+    setSpinner(true);
+
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        // console.log(user.uid);
-        getIdToken().then((token) => {
-          console.log("first");
-          axios.defaults.headers.common["Authorization"] = token;
-          console.log(token);
-          axios
-            .get(baseUrl + `/secured/getmessages?partnerId=${contact._id}`)
-            .then(({ data }) => {
-              const result = data.result;
-              // console.log(result);
-              for (i = 0; i < result.length; i++) {
-                console.log(result[i]);
-                const body = {
-                  id: result[i]._id,
-                  message: result[i].message,
-                  type: result[i].currentUserIsSender ? "out" : "in",
-                  date: moment(result[i].dateTime).format("DD/MM/YYYY hh:mm a"),
-                };
-
-                setData((oldMessages) => [...oldMessages, body]);
-              }
-              console.log("data is", data);
-            })
-            .catch((err) => {
-              console.log("yhi par error aa gaya", err);
-              throw err;
-            });
-        });
+        getMessages();
       }
     });
   }, []);
+
+  // pull to refresh component
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    getContact();
+
+    wait(2000).then(() => setRefreshing(false));
+  }, [refreshing]);
   return (
     <SafeAreaView style={styles.container}>
+      <Spinner
+        visible={spinner}
+        textContent={"Loading..."}
+        textStyle={styles.spinnerTextStyle}
+        animation="slide"
+      />
       <AutoScrollFlatList
         style={styles.list}
         data={data}

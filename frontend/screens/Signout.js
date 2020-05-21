@@ -17,19 +17,16 @@ import Header from "../shared/header";
 import { Input, Button } from "react-native-elements";
 import firebase from "../config/firebase";
 import { StackActions, NavigationActions } from "react-navigation";
-const resetAction = StackActions.reset({
-  index: 0,
-  actions: [NavigationActions.navigate({ routeName: "Login" })],
-});
+
 export default function Signout({ navigation }) {
-  <Header title={navigation.getParam("name")} />;
+  // <Header title={navigation.getParam("name")} />;
   const handlepress = () => {
     firebase
       .auth()
       .signOut()
       .then(function () {
-        navigation.dispatch(resetAction);
         console.log("Logged out");
+        navigation.navigate("Auth");
       })
       .catch(function (err) {
         Alert.alert(
@@ -49,18 +46,37 @@ export default function Signout({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.innercontainer}>
-        <Text style={styles.titleText}>Are you sure you want to logout?</Text>
-        <Button
-          buttonStyle={{
-            marginTop: 30,
-            backgroundColor: "#43484d",
-          }}
-          title="Log Out"
-          onPress={handlepress}
-        />
-      </View>
+    <View style={{ flex: 1 }}>
+      <SideMenu {...props} />
+      <DrawerItems {...props} />
+      <TouchableOpacity
+        onPress={() =>
+          Alert.alert(
+            "Log out",
+            "Do you want to logout?",
+            [
+              {
+                text: "Cancel",
+                onPress: () => {
+                  this.props.navigation.dispatch(DrawerActions.closeDrawer());
+                },
+              },
+              {
+                text: "Confirm",
+                onPress: () => {
+                  console.log("logout");
+                  // props.navigation.navigate("LoginScreen");
+                },
+              },
+            ],
+            { cancelable: false }
+          )
+        }
+      >
+        <Text style={{ margin: 16, fontWeight: "bold", color: "red" }}>
+          Logout
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 }

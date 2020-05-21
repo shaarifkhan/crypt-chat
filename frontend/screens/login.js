@@ -28,30 +28,21 @@ const reviewSchema = yup.object({
   password: yup.string().required(),
 });
 
-const resetAction = StackActions.reset({
-  index: 0,
-  actions: [
-    NavigationActions.navigate({
-      routeName: "Home",
-      params: { socket: socket },
-    }),
-  ],
-});
-
 export default function Login({ navigation }) {
-  useEffect(() => {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        socket.emit("login", {
-          uid: user.uid,
-        });
-        console.log("ye raha user");
-        console.log(user.email);
-        //navigation.navigate("Home", { socket: socket });
-        navigation.dispatch(resetAction);
-      } //else pass;
-    });
-  }, []);
+  console.log(navigation);
+  // useEffect(() => {
+  //   firebase.auth().onAuthStateChanged((user) => {
+  //     if (user) {
+  //       socket.emit("login", {
+  //         uid: user.uid,
+  //       });
+  //       console.log("ye raha user");
+  //       console.log(user.email);
+  //       navigation.navigate("Home", { socket: socket });
+  //       // navigation.dispatch(resetAction);
+  //     } //else pass;
+  //   });
+  // }, []);
 
   const [error, setError] = useState(null);
   const [actions, setActions] = useState(null);
@@ -69,8 +60,15 @@ export default function Login({ navigation }) {
       .then(({ user }) => {
         console.log("signed in");
         console.log(user.uid);
+        socket.emit("login", {
+          uid: user.uid,
+        });
+        setChecking(false);
+        navigation.navigate("App");
       })
       .catch((err) => {
+        setChecking(false);
+
         console.log(err);
         setError(err);
       });

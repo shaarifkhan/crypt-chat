@@ -9,7 +9,7 @@ export default function Header({ title, navigation }) {
   };
 
   return (
-    <View style= {styles.header}>
+    <View style={styles.header}>
       <MaterialIcons
         name="menu"
         size={28}
@@ -36,12 +36,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "white",
     letterSpacing: 1,
-    marginLeft:10
+    marginLeft: 10,
   },
   icon: {
     alignContent: "flex-start",
     left: 0,
-    color:"white"
+    color: "white",
   },
   headerTitle: {
     flexDirection: "row",
