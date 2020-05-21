@@ -11,6 +11,7 @@ import Login2 from "../screens/login2";
 import Conversation from "../screens/conversation";
 import Subheader from "../shared/Subheader";
 import ImagePickerExample from "../screens/imagePicker";
+import TabNavigator from "./tabNavigator";
 const AppScreens = {
   Home: {
     screen: Home,
@@ -82,12 +83,19 @@ const AuthScreens = {
   },
 };
 // home stack navigator screens
-const AppStack = createStackNavigator(AppScreens, {
-  defaultNavigationOptions: {
-    headerTintColor: "white",
-    headerStyle: { backgroundColor: "#00868B", height: 80 },
+const AppStack = createStackNavigator(
+  {
+    Main: {
+      screen: TabNavigator,
+    },
   },
-});
+  {
+    defaultNavigationOptions: {
+      headerTintColor: "white",
+      headerStyle: { backgroundColor: "#00868B", height: 80 },
+    },
+  }
+);
 const AuthStack = createStackNavigator(AuthScreens, {
   defaultNavigationOptions: {
     headerTintColor: "white",

@@ -18,7 +18,9 @@ export default function AuthLoadingScreen({ navigation }) {
     });
   };
   useEffect(() => {
-    _bootstrapAsync();
+    let isSubscribed = true;
+    if (isSubscribed) _bootstrapAsync();
+    return () => (isSubscribed = false);
   }, []);
 
   return (

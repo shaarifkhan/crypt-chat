@@ -29,7 +29,7 @@ export default function Home({ navigation }) {
   const [userId, setUserId] = useState(null);
   const [spinner, setSpinner] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
-  const [_isMounted, setIsMounted] = useState(false);
+  const [_isMounted, setIsMounted] = useState(true);
 
   const [contacts, setContacts] = useState([
     {
@@ -90,6 +90,8 @@ export default function Home({ navigation }) {
     setModal(false);
   };
   const getContact = () => {
+    let isSubscribed = true;
+
     getIdToken().then((token) => {
       console.log("first");
       axios.defaults.headers.common["Authorization"] = token;
@@ -103,9 +105,12 @@ export default function Home({ navigation }) {
             console.log(result[i]);
             result[i]["image"] =
               "https://www.pngfind.com/pngs/m/110-1102775_download-empty-profile-hd-png-download.png";
-            setContacts((oldContacts) => [result[i], ...oldContacts]);
+            if (isSubscribed) {
+              setContacts((oldContacts) => [result[i], ...oldContacts]);
+            }
           }
           setSpinner(false);
+          isSubscribed = false;
         })
         .catch((err) => {
           console.log("yhi par error aa gaya", err);
@@ -117,19 +122,22 @@ export default function Home({ navigation }) {
 
   useEffect(() => {
     setIsMounted(true);
+    let isSubscribed = true;
+
     if (_isMounted) {
+      console.log("in useeffect");
       setSpinner(true);
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           // console.log(user.uid);
-          getContact();
-          console.log(2);
+          if (isSubscribed) {
+            getContact();
+            console.log(2);
+          }
         }
       });
     }
-    return () => {
-      setIsMounted(false);
-    };
+    return () => (isSubscribed = false);
   }, []);
 
   const openChat = (contact) => {

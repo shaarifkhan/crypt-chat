@@ -132,13 +132,17 @@ export default function Conversation({ navigation }) {
 
   //on every component did mount
   useEffect(() => {
-    setSpinner(true);
+    let isSubscribed = true;
 
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        getMessages();
-      }
-    });
+    setSpinner(true);
+    if (isSubscribed)
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          getMessages();
+        }
+      });
+
+    return () => (isSubscribed = false);
   }, []);
 
   // pull to refresh component
