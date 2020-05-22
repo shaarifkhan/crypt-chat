@@ -12,7 +12,7 @@ import Conversation from "../screens/conversation";
 import Subheader from "../shared/Subheader";
 import ImagePickerExample from "../screens/imagePicker";
 import TabNavigator from "./tabNavigator";
-const AppScreens = {
+const ConvoScreens = {
   Home: {
     screen: Home,
     navigationOptions: ({ navigation }) => {
@@ -29,44 +29,44 @@ const AppScreens = {
       };
     },
   },
-  Conversation: {
-    screen: Conversation,
-    navigationOptions: ({ navigation }) => {
-      return {
-        headerTitle: () => (
-          <Subheader title="Conversation" navigation={navigation} />
-        ),
-      };
-    },
-  },
-  ImagePicker: {
-    screen: ImagePickerExample,
-    navigationOptions: ({ navigation }) => {
-      return {
-        headerTitle: () => (
-          <Subheader title="CameraRoll" navigation={navigation} />
-        ),
-      };
-    },
-  },
-  Room: {
-    screen: Room,
-    navigationOptions: ({ navigation }) => {
-      return {
-        headerTitle: () => <Header title="Room" navigation={navigation} />,
-      };
-    },
-  },
-  Addcontact: {
-    screen: Addcontact,
-    navigationOptions: ({ navigation }) => {
-      return {
-        headerTitle: () => (
-          <Header title="Add New Contact" navigation={navigation} />
-        ),
-      };
-    },
-  },
+  // Conversation: {
+  //   screen: Conversation,
+  //   navigationOptions: ({ navigation }) => {
+  //     return {
+  //       headerTitle: () => (
+  //         <Subheader title="Conversation" navigation={navigation} />
+  //       ),
+  //     };
+  //   },
+  // },
+  // ImagePicker: {
+  //   screen: ImagePickerExample,
+  //   navigationOptions: ({ navigation }) => {
+  //     return {
+  //       headerTitle: () => (
+  //         <Subheader title="CameraRoll" navigation={navigation} />
+  //       ),
+  //     };
+  //   },
+  // },
+  // Room: {
+  //   screen: Room,
+  //   navigationOptions: ({ navigation }) => {
+  //     return {
+  //       headerTitle: () => <Header title="Room" navigation={navigation} />,
+  //     };
+  //   },
+  // },
+  // Addcontact: {
+  //   screen: Addcontact,
+  //   navigationOptions: ({ navigation }) => {
+  //     return {
+  //       headerTitle: () => (
+  //         <Header title="Add New Contact" navigation={navigation} />
+  //       ),
+  //     };
+  //   },
+  // },
 };
 const AuthScreens = {
   Login: {
@@ -82,6 +82,13 @@ const AuthScreens = {
     },
   },
 };
+const headerConfig = {
+  defaultNavigationOptions: {
+    headerTintColor: "white",
+    headerStyle: { backgroundColor: "#00868B", height: 80 },
+  },
+};
+const ConvoStack = createStackNavigator(ConvoScreens, headerConfig);
 // home stack navigator screens
 const AppStack = createStackNavigator(
   {
@@ -89,18 +96,8 @@ const AppStack = createStackNavigator(
       screen: TabNavigator,
     },
   },
-  {
-    defaultNavigationOptions: {
-      headerTintColor: "white",
-      headerStyle: { backgroundColor: "#00868B", height: 80 },
-    },
-  }
+  headerConfig
 );
-const AuthStack = createStackNavigator(AuthScreens, {
-  defaultNavigationOptions: {
-    headerTintColor: "white",
-    headerStyle: { backgroundColor: "#00868B", height: 80 },
-  },
-});
+const AuthStack = createStackNavigator(AuthScreens, headerConfig);
 
-export { AppStack, AuthStack };
+export { AppStack, AuthStack, ConvoStack };

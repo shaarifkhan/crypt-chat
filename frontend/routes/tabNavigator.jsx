@@ -23,7 +23,7 @@ const TabNavigator = createMaterialTopTabNavigator(
         initialRouteName: "Home",
         activeColor: "#C71585",
         inactiveColor: "#226557",
-        barStyle: { backgroundColor: "#FFC0CB" },
+        barStyle: { backgroundColor: "black" },
       },
     },
     Chat: {
@@ -41,7 +41,7 @@ const TabNavigator = createMaterialTopTabNavigator(
         ),
         activeColor: "#4B0082",
         inactiveColor: "#226557",
-        barStyle: { backgroundColor: "#B0C4DE" },
+        barStyle: { backgroundColor: "black" },
       },
     },
   },

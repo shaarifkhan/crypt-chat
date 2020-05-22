@@ -1,5 +1,4 @@
 node_modules/
 babel.config.js/
-/backend/middleware/auth
 package-lock.json
 crypt-chat.sh
