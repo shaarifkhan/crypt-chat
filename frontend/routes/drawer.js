@@ -11,7 +11,6 @@ import {
   createDrawerNavigator,
   DrawerNavigatorItems,
 } from "react-navigation-drawer";
-import Home from "../screens/Home";
 import Profile from "../screens/profile";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import firebase from "../config/firebase";

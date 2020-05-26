@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import AddContact from "./Addcontact";
 import Icon from "react-native-vector-icons/FontAwesome";
-import MakeGroup from "../screens/MakeGroup";
+import MakeGroup from "./MakeGroup";
 import firebase from "../config/firebase";
 import axios from "axios";
 import { baseUrl } from "../config/dev-config.json";
@@ -20,7 +20,7 @@ import Spinner from "react-native-loading-spinner-overlay";
 
 axios.defaults.withCredentials = true;
 
-export default function Home({ navigation }) {
+export default function Contacts({ navigation }) {
   // const { socket } = navigation.state.params;
   // console.log("in home socket is ", socket.id);
   const [modal, setModal] = useState(false);

@@ -123,6 +123,7 @@ export default function FlatListDemo() {
       <SearchBar
         placeholder="Type Here..."
         lightTheme
+        showLoading
         round
         onChangeText={(text) => searchFilterFunction(text)}
         autoCorrect={false}
@@ -132,17 +133,17 @@ export default function FlatListDemo() {
   };
 
   // return {renderHeader()};
-  if (loading) {
-    return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        {/* {renderHeader()} */}
-        {/* <ActivityIndicator /> */}
-      </View>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+  //       {renderHeader()}
+  //       {/* <ActivityIndicator /> */}
+  //     </View>
+  //   );
+  // }
   return (
     <View style={{ flex: 1 }}>
-      {renderHeader()}
+      {/* {renderHeader()} */}
       <FlatList
         data={data}
         renderItem={({ item }) => (
@@ -153,7 +154,7 @@ export default function FlatListDemo() {
                   "https://www.pngfind.com/pngs/m/110-1102775_download-empty-profile-hd-png-download.png",
               },
             }}
-            // title={`${item.name.first} ${item.name.last}`}
+            key={item._id}
             title={item.username}
             subtitle={item.email}
             rightIcon={
@@ -167,10 +168,9 @@ export default function FlatListDemo() {
             }
           />
         )}
-        keyExtractor={(item) => item._id}
+        keyExtractor={(item, index) => index.toString()}
         ItemSeparatorComponent={renderSeparator}
-
-        // ListHeaderComponent={renderHeader}
+        ListHeaderComponent={renderHeader}
       />
     </View>
   );

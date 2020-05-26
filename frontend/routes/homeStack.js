@@ -5,64 +5,13 @@ import Icon from "react-native-vector-icons/Ionicons";
 
 import React from "react";
 import Header from "../shared/header";
-import Home from "../screens/Home";
 import Login from "../screens/login";
 import Signup from "../screens/signup";
-import Chat from "../screens/Chat";
-import Room from "../screens/Room";
-import Addcontact from "../screens/Addcontact";
 import Conversation from "../screens/conversation";
 import Subheader from "../shared/Subheader";
-import ImagePickerExample from "../screens/imagePicker";
 import FlatListDemo from "../screens/FindContact";
-const ConvoScreens = {
-  Contacts: {
-    screen: Home,
-    navigationOptions: ({ navigation }) => {
-      return {
-        headerTitle: () => <Header title="Contacts" navigation={navigation} />,
-      };
-    },
-  },
-  Conversation: {
-    screen: Conversation,
-    navigationOptions: ({ navigation }) => {
-      return {
-        headerTitle: () => (
-          <Subheader title="Conversation" navigation={navigation} />
-        ),
-      };
-    },
-  },
-  // ImagePicker: {
-  //   screen: ImagePickerExample,
-  //   navigationOptions: ({ navigation }) => {
-  //     return {
-  //       headerTitle: () => (
-  //         <Subheader title="CameraRoll" navigation={navigation} />
-  //       ),
-  //     };
-  //   },
-  // },
-  // Room: {
-  //   screen: Room,
-  //   navigationOptions: ({ navigation }) => {
-  //     return {
-  //       headerTitle: () => <Header title="Room" navigation={navigation} />,
-  //     };
-  //   },
-  // },
-  // Addcontact: {
-  //   screen: Addcontact,
-  //   navigationOptions: ({ navigation }) => {
-  //     return {
-  //       headerTitle: () => (
-  //         <Header title="Add New Contact" navigation={navigation} />
-  //       ),
-  //     };
-  //   },
-  // },
-};
+import Contacts from "../screens/Contacts";
+
 const AuthScreens = {
   Login: {
     screen: Login,
@@ -83,14 +32,13 @@ const headerConfig = {
     headerStyle: { backgroundColor: "#00868B", height: 80 },
   },
 };
-// const ConvoStack = createStackNavigator(ConvoScreens, headerConfig);
-// home stack navigator screens
+
 const TabNavigator = createMaterialTopTabNavigator(
   {
     Home: {
-      screen: Home,
+      screen: Contacts,
       navigationOptions: {
-        tabBarLabel: "Home",
+        tabBarLabel: "Contacts",
         tabBarIcon: ({ tintColor }) => (
           <View>
             <Icon
@@ -100,7 +48,7 @@ const TabNavigator = createMaterialTopTabNavigator(
             />
           </View>
         ),
-        initialRouteName: "Home",
+        initialRouteName: "Contacts",
         activeColor: "#C71585",
         inactiveColor: "#226557",
         barStyle: { backgroundColor: "black" },
