@@ -89,9 +89,10 @@ export default function Home({ navigation }) {
     setModal2(false);
     setModal(false);
   };
+
   const getContact = () => {
     let isSubscribed = true;
-
+    setContacts([]);
     getIdToken().then((token) => {
       console.log("first");
       axios.defaults.headers.common["Authorization"] = token;
@@ -121,28 +122,26 @@ export default function Home({ navigation }) {
   };
 
   useEffect(() => {
-    setIsMounted(true);
     let isSubscribed = true;
 
-    if (_isMounted) {
-      console.log("in useeffect");
-      setSpinner(true);
-      firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-          // console.log(user.uid);
-          if (isSubscribed) {
-            getContact();
-            console.log(2);
-          }
+    setSpinner(true);
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        // console.log(user.uid);
+        if (isSubscribed) {
+          getContact();
+          console.log(2);
         }
-      });
-    }
+      }
+    });
+
     return () => (isSubscribed = false);
   }, []);
 
   const openChat = (contact) => {
     // navigation.navigate("Conversation", { contact: contact, socket: socket });
-    navigation.navigate("Conversation", { contact: contact });
+    console.log("this get pressed");
+    navigation.navigate("Convo", { contact: contact });
   };
   function wait(timeout) {
     return new Promise((resolve) => {
@@ -293,7 +292,8 @@ export default function Home({ navigation }) {
         size={50}
         color="#DCDCDC"
         style={styles.fab}
-        onPress={() => setModal(true)}
+        // onPress={() => setModal(true)}
+        onPress={() => navigation.navigate("FindContact")}
       />
     </View>
   );

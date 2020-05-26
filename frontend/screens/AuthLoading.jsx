@@ -24,8 +24,8 @@ export default function AuthLoadingScreen({ navigation }) {
   }, []);
 
   return (
-    <View style={(styles.container, styles.horizontal)}>
-      <ActivityIndicator size="small" color="#00ff00" />
+    <View style={[styles.container, styles.horizontal]}>
+      <ActivityIndicator size="large" color="#00ff00" />
       <StatusBar barStyle="default" />
     </View>
   );

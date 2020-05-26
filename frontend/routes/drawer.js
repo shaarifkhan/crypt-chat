@@ -13,10 +13,9 @@ import {
 } from "react-navigation-drawer";
 import Home from "../screens/Home";
 import Profile from "../screens/profile";
-import { AppStack } from "./homeStack";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import firebase from "../config/firebase";
-import TabNavigator from "./tabNavigator";
+import { AppStack } from "./homeStack";
 
 const handleLogout = (navigation) => {
   firebase
@@ -126,6 +125,5 @@ const DrawerNavigator = createDrawerNavigator(
   {
     unmountInactiveRoutes: true,
   }
-  //   { contentComponent: Signout }
 );
 export default DrawerNavigator;

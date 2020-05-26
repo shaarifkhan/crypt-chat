@@ -1,6 +1,8 @@
 "use strict";
 
 const mongoose = require("mongoose");
+const mongoose_fuzzy_searching = require("mongoose-fuzzy-searching");
+
 const { ContactSchema } = require("./contact/index");
 // const { ObjectId } = mongoose.Schema.Types;
 
@@ -20,6 +22,18 @@ const UserSchema = new mongoose.Schema({
   contacts: [
     {
       type: ContactSchema,
+    },
+  ],
+});
+UserSchema.plugin(mongoose_fuzzy_searching, {
+  fields: [
+    {
+      name: "firstName",
+      prefixOnly: true,
+    },
+    {
+      name: "email",
+      minSize: 4,
     },
   ],
 });

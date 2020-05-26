@@ -29,7 +29,6 @@ const reviewSchema = yup.object({
 });
 
 export default function Login({ navigation }) {
-  console.log(navigation);
   // useEffect(() => {
   //   firebase.auth().onAuthStateChanged((user) => {
   //     if (user) {

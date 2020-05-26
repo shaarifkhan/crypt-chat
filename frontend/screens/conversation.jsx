@@ -33,6 +33,7 @@ export default function Conversation({ navigation }) {
   console.log("in conversation contact is ", contact);
   const [spinner, setSpinner] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+  const [_isMounted, setIsMounted] = useState(true);
 
   const [data, setData] = useState([
     {
@@ -119,8 +120,8 @@ export default function Conversation({ navigation }) {
             };
 
             setData((oldMessages) => [...oldMessages, body]);
-            setSpinner(false);
           }
+          setSpinner(false);
           console.log("data is", data);
         })
         .catch((err) => {
@@ -135,12 +136,11 @@ export default function Conversation({ navigation }) {
     let isSubscribed = true;
 
     setSpinner(true);
-    if (isSubscribed)
-      firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-          getMessages();
-        }
-      });
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        if (isSubscribed) getMessages();
+      }
+    });
 
     return () => (isSubscribed = false);
   }, []);

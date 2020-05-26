@@ -35,13 +35,21 @@ postRegister = (req, res, next) => {
   }
 };
 
-// postLogin = (req, res, next) => {
-//   console.log(req.body.email, req.body.password);
-
-//   const {email}
-// }
+const findUser = async (req, res, next) => {
+  const { userName } = req.query;
+  console.log("inside findUser");
+  try {
+    const users = await User.fuzzySeach(userName);
+    console.log(users);
+    return res.json(users);
+  } catch (e) {
+    console.log(e);
+    return next(e);
+  }
+};
 //POST route for updating data
 router.post("/register", postRegister);
+router.get("/findUser", findUser);
 // router.post("/login", postLogin);
 // route.get("/verify-nickname", getVerifyNickname);
 
