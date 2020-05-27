@@ -7,10 +7,11 @@ import React from "react";
 import Header from "../shared/header";
 import Login from "../screens/login";
 import Signup from "../screens/signup";
-import Conversation from "../screens/conversation";
 import Subheader from "../shared/Subheader";
 import FlatListDemo from "../screens/FindContact";
 import Contacts from "../screens/Contacts";
+import Chat from "../screens/Chat";
+import Conversation from "../screens/Conversations";
 
 const AuthScreens = {
   Login: {
@@ -35,29 +36,28 @@ const headerConfig = {
 
 const TabNavigator = createMaterialTopTabNavigator(
   {
-    Home: {
-      screen: Contacts,
+    Chat: {
+      screen: Conversation,
       navigationOptions: {
-        tabBarLabel: "Contacts",
+        tabBarLabel: "Chat",
         tabBarIcon: ({ tintColor }) => (
           <View>
             <Icon
               style={[{ color: tintColor }]}
-              size={25}
+              size={30}
               name={"ios-chatboxes"}
             />
           </View>
         ),
-        initialRouteName: "Contacts",
-        activeColor: "#C71585",
+        activeColor: "#4B0082",
         inactiveColor: "#226557",
         barStyle: { backgroundColor: "black" },
       },
     },
-    Chat: {
-      screen: Login,
+    Home: {
+      screen: Contacts,
       navigationOptions: {
-        tabBarLabel: "Chat",
+        tabBarLabel: "Contacts",
         tabBarIcon: ({ tintColor }) => (
           <View>
             <Icon
@@ -67,14 +67,17 @@ const TabNavigator = createMaterialTopTabNavigator(
             />
           </View>
         ),
-        activeColor: "#4B0082",
+        // initialRouteName: "Chat",
+        activeColor: "#C71585",
         inactiveColor: "#226557",
-        barStyle: { backgroundColor: "black" },
+        barStyle: { backgroundColor: "00868B" },
       },
     },
   },
 
   {
+    initialRouteName: "Chat",
+
     animationEnabled: true,
     swipeEnabled: true,
     tabBarOptions: {
@@ -83,21 +86,22 @@ const TabNavigator = createMaterialTopTabNavigator(
         backgroundColor: "white",
       },
       indicatorStyle: {
-        backgroundColor: "black",
+        backgroundColor: "#00868B",
       },
-      activeTintColor: "#000",
+      // activeTintColor: "#000",
+      activeTintColor: "#00868B",
       inactiveTintColor: "#d1cece",
       showLabel: false,
       showIcon: true,
     },
-  },
-  {
-    defaultNavigationOptions: {
-      headerTintColor: "white",
-      headerStyle: { backgroundColor: "#00868B", height: 80 },
-      //   lazy: true,
-    },
   }
+  // {
+  //   defaultNavigationOptions: {
+  //     headerTintColor: "white",
+  //     headerStyle: { backgroundColor: "#00868B", height: 80 },
+  //     //   lazy: true,
+  //   },
+  // }
 );
 
 const AppStack = createStackNavigator(
@@ -106,7 +110,7 @@ const AppStack = createStackNavigator(
       screen: TabNavigator,
     },
     Convo: {
-      screen: Conversation,
+      screen: Chat,
     },
     FindContact: {
       screen: FlatListDemo,

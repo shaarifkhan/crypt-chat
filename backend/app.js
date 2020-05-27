@@ -9,6 +9,7 @@ var cors = require("cors");
 var routes = require("./routes/roomRoutes");
 const contactRoutes = require("./routes/contact/index");
 const messageRoutes = require("./routes/message/index");
+const conversationRoutes = require("./routes/conversation/index");
 const firebaseMiddleware = require("./middleware/auth/index");
 
 //connect to MongoDB
@@ -40,10 +41,12 @@ app.use(routes);
 app.use(require("./routes/authRoutes"));
 app.use("/secured", firebaseMiddleware);
 app.use(contactRoutes);
+app.use(conversationRoutes);
 app.use(messageRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
+  console.log("inside erro handler");
   var err = new Error("File Not Found");
   err.status = 404;
   next(err);
@@ -52,6 +55,8 @@ app.use(function (req, res, next) {
 // error handler
 // define as the last app.use callback
 app.use(function (err, req, res, next) {
+  console.log("inside erro handler 2");
+
   res.status(err.status || 500);
   res.send(err.message);
 });

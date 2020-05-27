@@ -28,7 +28,7 @@ axios.defaults.withCredentials = true;
 // const io = require("socket.io-client");
 // const socket = io(baseUrl, { forceNode: true });
 
-export default function Conversation({ navigation }) {
+export default function Chat({ navigation }) {
   const { socket, contact } = navigation.state.params;
   console.log("in conversation contact is ", contact);
   const [spinner, setSpinner] = useState(false);
@@ -45,7 +45,7 @@ export default function Conversation({ navigation }) {
     {
       id: 9,
       date: "9:50 am",
-      type: "in",
+      type: "out",
       message: "Lorem ipsum dolor sit a met",
     },
   ]);
