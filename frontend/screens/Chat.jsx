@@ -29,11 +29,10 @@ axios.defaults.withCredentials = true;
 // const socket = io(baseUrl, { forceNode: true });
 
 export default function Chat({ navigation }) {
-  const { socket, contact } = navigation.state.params;
-  console.log("in conversation contact is ", contact);
+  const { contact, socket } = navigation.state.params;
+  // console.log("in conversation contact is ", contact);
   const [spinner, setSpinner] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
-  const [_isMounted, setIsMounted] = useState(true);
 
   const [data, setData] = useState([
     {
@@ -55,22 +54,7 @@ export default function Chat({ navigation }) {
     return <Text style={styles.time}>{date}</Text>;
   };
 
-  //when the socket connect with the chat
-  //   socket.on("connect", () => {
-  //     socket.emit("join", roomId);
-  //     socket.on("addMessage", (msg) => {
-  //       // console.log("addMessage call hoa he");
-  //       setData((previousData) => [
-  //         ...previousData,
-  //         {
-  //           id: Math.floor(Math.random(10000) * Math.floor(10000)),
-  //           data: "9:50 am",
-  //           type: "in",
-  //           message: msg,
-  //         },
-  //       ]);
-  //     });
-  //   });
+  // when the socket connect with the chat
 
   const handleSubmit = () => {
     getIdToken().then((token) => {
@@ -134,11 +118,22 @@ export default function Chat({ navigation }) {
   //on every component did mount
   useEffect(() => {
     let isSubscribed = true;
-
+    socket.on("newMessage", ({ msgBody, sender }) => {
+      console.log("dekhte hn kitni baar chalta");
+      const body = {
+        id: msgBody._id,
+        message: msgBody.message,
+        type: msgBody.currentUserIsSender ? "out" : "in",
+        date: moment(msgBody.dateTime).format("DD/MM/YYYY hh:mm a"),
+      };
+      setData((oldMessages) => [...oldMessages, body]);
+    });
     setSpinner(true);
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        if (isSubscribed) getMessages();
+        if (isSubscribed) {
+          getMessages();
+        }
       }
     });
 

@@ -49,8 +49,8 @@ const postMessage = async (req, res, next) => {
         },
       }
     );
-    global.io.to(receiverId).emit("message.new", {
-      message: messageResult,
+    global.io.to(receiverId).emit("newMessage", {
+      msgBody: messageResult,
       sender: req.currentUser,
     });
 
@@ -74,7 +74,6 @@ const getMessages = async (req, res, next) => {
       partnerId,
       ownerId,
     });
-    console.log("result", result);
     res.status(200).json({
       success: true,
       result: result

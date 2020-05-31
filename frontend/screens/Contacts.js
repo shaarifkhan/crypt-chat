@@ -18,11 +18,14 @@ import { baseUrl } from "../config/dev-config.json";
 import { getIdToken } from "../commons/index";
 import Spinner from "react-native-loading-spinner-overlay";
 
+const io = require("socket.io-client");
+const socket = io(baseUrl, { forceNode: true });
+
 axios.defaults.withCredentials = true;
 
 export default function Contacts({ navigation }) {
   // const { socket } = navigation.state.params;
-  // console.log("in home socket is ", socket.id);
+  console.log("in home socket is ", socket.id);
   const [modal, setModal] = useState(false);
   const [modal1, setModal1] = useState(false);
   const [modal2, setModal2] = useState(false);
@@ -141,7 +144,7 @@ export default function Contacts({ navigation }) {
   const openChat = (contact) => {
     // navigation.navigate("Conversation", { contact: contact, socket: socket });
     console.log("this get pressed");
-    navigation.navigate("Convo", { contact: contact });
+    navigation.navigate("Convo", { contact: contact, socket: socket });
   };
   function wait(timeout) {
     return new Promise((resolve) => {

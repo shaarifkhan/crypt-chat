@@ -6,7 +6,7 @@ const init = (app) => {
 
   global.io.on("connection", (socket) => {
     socket.on("login", ({ uid }) => {
-      console.log("login uid ayi he", uid);
+      console.log("new user has joined socket", uid);
       socket.join(uid);
     });
   });

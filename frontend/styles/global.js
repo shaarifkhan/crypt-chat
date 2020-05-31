@@ -23,7 +23,7 @@ export const globalStyles = StyleSheet.create({
     padding: 15,
     fontSize: 18,
     borderRadius: 6,
-    marginLeft:15,
+    marginLeft: 15,
   },
   errorText: {
     color: "crimson",
@@ -33,5 +33,3 @@ export const globalStyles = StyleSheet.create({
     textAlign: "center",
   },
 });
-
-

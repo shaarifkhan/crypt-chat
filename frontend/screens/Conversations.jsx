@@ -17,6 +17,8 @@ import axios from "axios";
 import { baseUrl } from "../config/dev-config.json";
 import { getIdToken } from "../commons/index";
 import Spinner from "react-native-loading-spinner-overlay";
+const io = require("socket.io-client");
+const socket = io(baseUrl, { forceNode: true });
 
 axios.defaults.withCredentials = true;
 
@@ -114,6 +116,10 @@ export default function Conversation({ navigation }) {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         // console.log(user.uid);
+        console.log("user has joined socket");
+        socket.emit("login", {
+          uid: user.uid,
+        });
         if (isSubscribed) {
           getConversations();
           console.log(2);
@@ -127,7 +133,7 @@ export default function Conversation({ navigation }) {
   const openChat = (contact) => {
     // navigation.navigate("Conversation", { contact: contact, socket: socket });
     console.log("this get pressed");
-    navigation.navigate("Convo", { contact: contact });
+    navigation.navigate("Convo", { contact: contact, socket: socket });
   };
   function wait(timeout) {
     return new Promise((resolve) => {
