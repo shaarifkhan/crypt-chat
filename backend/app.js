@@ -5,6 +5,8 @@ var bodyParser = require("body-parser");
 var cors = require("cors");
 const { expressRoutes } = require("./routes");
 
+const PORT = process.env.PORT || 3000;
+
 app.use(cors({ origin: "http://192.168.1.104", credentials: true }));
 
 // parse incoming requests
@@ -32,6 +34,6 @@ app.use(function (err, req, res, next) {
 });
 
 // listen on port 3000
-ioServer.listen(3000, function () {
-  console.log("listening on port 3000");
+ioServer.listen(PORT, function () {
+  console.log(`listening on port ${PORT}`);
 });
