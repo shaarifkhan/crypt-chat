@@ -24,6 +24,6 @@ module.exports = {
   Mongoose,
   models: {
     user: require("./schemas/user"),
-    rooms: require("./schemas/rooms"),
+    rooms: require("./schemas/room"),
   },
 };

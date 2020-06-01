@@ -3,8 +3,7 @@
 const mongoose = require("mongoose");
 const mongoose_fuzzy_searching = require("mongoose-fuzzy-searching");
 
-const { ContactSchema } = require("./contact/index");
-// const { ObjectId } = mongoose.Schema.Types;
+const { ContactSchema } = require("../contact");
 
 const UserSchema = new mongoose.Schema({
   _id: {

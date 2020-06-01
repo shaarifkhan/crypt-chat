@@ -1,5 +1,5 @@
-const roomModel = require("../database").models.rooms;
-const User = require("./user");
+const roomModel = require("../../database").models.rooms;
+const User = require("../user");
 
 const create = (data, callback) => {
   const newRoom = new roomModel(data);

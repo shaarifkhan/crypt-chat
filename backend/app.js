@@ -1,48 +1,18 @@
 var express = require("express");
 var app = express();
-const ioServer = require("./socket/index")(app);
+const ioServer = require("./socket")(app);
 var bodyParser = require("body-parser");
-var mongoose = require("mongoose");
-var session = require("express-session");
-var MongoStore = require("connect-mongo")(session);
 var cors = require("cors");
-var routes = require("./routes/roomRoutes");
-const contactRoutes = require("./routes/contact/index");
-const messageRoutes = require("./routes/message/index");
-const conversationRoutes = require("./routes/conversation/index");
-const firebaseMiddleware = require("./middleware/auth/index");
-
-//connect to MongoDB
-// we're connected!
+const { expressRoutes } = require("./routes");
 
 app.use(cors({ origin: "http://192.168.1.104", credentials: true }));
-
-//use sessions for tracking logins
-app.use(
-  session({
-    secret: "work hard",
-    resave: true,
-    saveUninitialized: false,
-    // store: new MongoStore({
-    //   mongooseConnection: db,
-    // }),
-  })
-);
 
 // parse incoming requests
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// serve static files from template
-// app.use(express.static(__dirname + "/templateLogReg"));
-
 // include routes
-app.use(routes);
-app.use(require("./routes/authRoutes"));
-app.use("/secured", firebaseMiddleware);
-app.use(contactRoutes);
-app.use(conversationRoutes);
-app.use(messageRoutes);
+expressRoutes(app);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

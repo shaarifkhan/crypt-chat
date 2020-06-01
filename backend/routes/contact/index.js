@@ -7,18 +7,13 @@ const postContact = async (req, res, next) => {
   const { _id: contactOwnerId } = req.currentUser;
   console.log(contactEmail, contactOwnerId);
   try {
-    console.log("now here1");
-
     User.findOne(
       {
         email: contactEmail,
       },
       (err, contactUser) => {
-        console.log("now here3");
-
         if (err) console.log(err);
         else {
-          console.log("now here");
           User.findOneAndUpdate(
             contactOwnerId,
             {
@@ -44,13 +39,11 @@ const postContact = async (req, res, next) => {
       }
     );
   } catch (e) {
-    console.log("error aya he postcontact mn");
     return next(e);
   }
 };
 const getContact = async (req, res, next) => {
   const { _id } = req.currentUser;
-  console.log("inside get contacts");
   try {
     //find if the user who requested for his contact, is present
     User.findOne({ _id }, (err, result) => {

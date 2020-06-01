@@ -1,4 +1,4 @@
-const Room = require("../models/rooms");
+const { Room } = require("../models/room");
 
 const init = (app) => {
   const server = require("http").Server(app);

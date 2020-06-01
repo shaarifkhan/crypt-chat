@@ -13,7 +13,6 @@ const postMessage = async (req, res, next) => {
   const { message, receiverId } = req.body;
   const { _id: senderId } = req.currentUser;
 
-  // const {_id:senderId}
   const model = {
     senderId,
     receiverId,
