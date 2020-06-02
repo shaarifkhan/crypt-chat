@@ -8,6 +8,7 @@ const getConvos = async (req, res, next) => {
     const result = await getConversations({
       ownerId,
     });
+    console.log("this is result", result);
     res.status(200).json({
       success: true,
       result,

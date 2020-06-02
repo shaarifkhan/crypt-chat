@@ -1,5 +1,7 @@
 import AutoScrollFlatList from "react-native-autoscroll-flatlist";
 import KeyboardSpacer from "react-native-keyboard-spacer";
+import { Audio } from "expo-av";
+
 import React, { Component, useState, useEffect } from "react";
 import {
   StyleSheet,
@@ -55,6 +57,33 @@ export default function Chat({ navigation }) {
   };
 
   // when the socket connect with the chat
+  const playSound = async (option) => {
+    if (option == "RCV") {
+      try {
+        const messageRcv = new Audio.Sound();
+
+        await messageRcv.loadAsync(
+          require("../assets/sounds/message-received.mp3")
+        );
+
+        await messageRcv.playAsync();
+        // Your sound is playing!
+      } catch (error) {
+        console.log("error while playing audio", error);
+      }
+    } else {
+      try {
+        const messageSend = new Audio.Sound();
+
+        await messageSend.loadAsync(require("../assets/sounds/send_tone2.mp3"));
+
+        await messageSend.playAsync();
+        // Your sound is playing!
+      } catch (error) {
+        console.log("error while playing audio", error);
+      }
+    }
+  };
 
   const handleSubmit = () => {
     getIdToken().then((token) => {
@@ -82,6 +111,7 @@ export default function Chat({ navigation }) {
         message: message,
       },
     ]);
+    playSound("Send");
     setMessage("");
   };
   const getMessages = () => {
@@ -127,6 +157,7 @@ export default function Chat({ navigation }) {
         date: moment(msgBody.dateTime).format("DD/MM/YYYY hh:mm a"),
       };
       setData((oldMessages) => [...oldMessages, body]);
+      playSound("RCV");
     });
     setSpinner(true);
     firebase.auth().onAuthStateChanged((user) => {

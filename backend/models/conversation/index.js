@@ -13,8 +13,8 @@ exports.getConversations = (query, options) =>
         sort: {
           dateTime: -1,
         },
-        limit: 1,
       },
+      perDocumentLimit: 1,
     })
     .populate("ownerId", { password: 0, contacts: 0, username_fuzzy: 0 })
     .populate("partnerId", { password: 0, contacts: 0, username_fuzzy: 0 });
@@ -29,5 +29,5 @@ exports.getConversation = (query, options) =>
         },
       },
     })
-    .populate("ownerId", { password: 0, contacts: 0 })
-    .populate("partnerId", { password: 0, contacts: 0 });
+    .populate("ownerId", { password: 0, contacts: 0, username_fuzzy: 0 })
+    .populate("partnerId", { password: 0, contacts: 0, username_fuzzy: 0 });

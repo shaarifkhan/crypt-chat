@@ -83,7 +83,7 @@ export default function Conversation({ navigation }) {
           // console.log(result);
           for (i = 0; i < result.length; i++) {
             user = result[i];
-            console.log(user);
+            console.log("in Conversation user is\n", user);
             if (user.messages.length == 0) continue;
             const body = {
               _id: user.partnerId._id,

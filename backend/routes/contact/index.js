@@ -58,6 +58,7 @@ const getContact = async (req, res, next) => {
           },
           {
             contacts: false,
+            username_fuzzy: 0,
           },
           (err, users) => {
             if (err) throw err;
