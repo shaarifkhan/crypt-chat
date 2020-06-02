@@ -130,7 +130,7 @@ const DrawerNavigator = createDrawerNavigator(
 const styles = StyleSheet.create({
   contentOptions: {
       fontSize: 17,
-      marginLeft: 5,
+      marginLeft: 10,
       marginTop: 8,
       color:"white",
       fontWeight:'bold'

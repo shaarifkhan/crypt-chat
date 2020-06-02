@@ -5,10 +5,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 export default function Header({ title, navigation }) {
   return (
     <View style={styles.header}>
-      <View style={styles.headerTitle}>
         <Text style={styles.headerText}>{title}</Text>
       </View>
-    </View>
   );
 }
 
@@ -17,15 +15,14 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
   },
   headerText: {
     fontWeight: "bold",
     fontSize: 20,
     color: "white",
     letterSpacing: 1,
-    marginLeft: 10,
+    marginLeft: 20,
+    alignContent: "center"
   },
   icon: {
     alignContent: "flex-start",
@@ -35,6 +32,8 @@ const styles = StyleSheet.create({
   headerTitle: {
     flexDirection: "row",
     marginLeft: 20,
+    alignContent:"center",
+    justifyContent: "center"
   },
   headerImage: {
     width: 26,

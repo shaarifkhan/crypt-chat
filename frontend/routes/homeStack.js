@@ -116,7 +116,7 @@ const AppStack = createStackNavigator(
       },
 
     },
-    Convo: {
+    Conversation: {
       screen: Chat,
     },
     FindContact: {

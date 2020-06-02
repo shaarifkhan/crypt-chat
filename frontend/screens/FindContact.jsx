@@ -155,7 +155,7 @@ export default function FlatListDemo({ navigation }) {
     <SearchBar
         placeholder="Type Here..."
         lightTheme
-        showLoading
+        showLoading= {loading}
         round
         onChangeText={(text) => searchFilterFunction(text)}
         autoCorrect={true}

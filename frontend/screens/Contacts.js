@@ -144,7 +144,7 @@ export default function Contacts({ navigation }) {
   const openChat = (contact) => {
     // navigation.navigate("Conversation", { contact: contact, socket: socket });
     console.log("this get pressed");
-    navigation.navigate("Convo", { contact: contact, socket: socket });
+    navigation.navigate("Conversation", { contact: contact, socket: socket });
   };
   function wait(timeout) {
     return new Promise((resolve) => {

@@ -112,7 +112,7 @@ export default function Signup({ navigation }) {
 
               <Input
                 secureTextEntry={true}
-                leftIcon={<Icon name="book" size={24} color="black" style={styles.margin} />}
+                leftIcon={<Icon name="lock" size={24} color="black" style={styles.margin} />}
                 style={globalStyles.input}
                 placeholder="Confirm Password"
                 onChangeText={props.handleChange("confPassword")}
@@ -131,6 +131,7 @@ export default function Signup({ navigation }) {
                 onChangeText={props.handleChange("email")}
                 onBlur={props.handleBlur("email")}
                 value={props.values.rating}
+                autoCapitalize="none"
                 //keyboardType='numeric'
               />
               <Text style={globalStyles.errorText}>

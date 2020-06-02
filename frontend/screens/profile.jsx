@@ -64,10 +64,10 @@ export default function Profile({ navigation }) {
 
       <View style={styles.body}>
         <View style={styles.bodyContent}>
-          <Text style={styles.name}>Tatti Chuhan</Text>
+          <Text style={styles.name}>Fawaz Ansari</Text>
           <Text style={styles.info}>UX/UI Designer / Mobile developer</Text>
           <Text style={styles.description}>
-            I am sexy and i know it. I play ludo with gals
+          Welcome to crypt chat
           </Text>
 
           <TouchableOpacity
