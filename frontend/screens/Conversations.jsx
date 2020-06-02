@@ -112,7 +112,7 @@ export default function Conversation({ navigation }) {
   useEffect(() => {
     let isSubscribed = true;
 
-    setSpinner(true);
+    setSpinner(false);
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         // console.log(user.uid);
@@ -187,14 +187,6 @@ export default function Conversation({ navigation }) {
             </View>
           </TouchableOpacity>
         )}
-      />
-      <Icon
-        name="user-plus"
-        size={50}
-        color="#DCDCDC"
-        style={styles.fab}
-        // onPress={() => setModal(true)}
-        onPress={() => navigation.navigate("FindContact")}
       />
     </View>
   );

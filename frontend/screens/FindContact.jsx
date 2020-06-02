@@ -6,7 +6,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { getIdToken } from "../commons";
 import axios from "axios";
 
-export default function FlatListDemo() {
+export default function FlatListDemo({ navigation }) {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([
     {
@@ -29,6 +29,7 @@ export default function FlatListDemo() {
         .post(baseUrl + "/secured/postContact", { email: email })
         .then(({ data }) => {
           // console.log(data);
+          console.log("fawaz")
         })
         .catch((err) => {
           console.log("yhi par error aa gaya", err);
@@ -65,6 +66,14 @@ export default function FlatListDemo() {
           onPress: () => {
             console.log("contact added");
             submitToServer(email);
+            Alert.alert(
+              'Contact Added Successfully',
+              '',
+              [
+                { text: 'OK', onPress: () => navigation.navigate("FindContact") }
+              ],
+              { cancelable: false }
+            );
           },
         },
       ],
@@ -118,19 +127,19 @@ export default function FlatListDemo() {
     // });
   };
 
-  renderHeader = () => {
-    return (
-      <SearchBar
-        placeholder="Type Here..."
-        lightTheme
-        showLoading
-        round
-        onChangeText={(text) => searchFilterFunction(text)}
-        autoCorrect={false}
-        value={value}
-      />
-    );
-  };
+  // renderHeader = () => {
+  //   return (
+  //     <SearchBar
+  //       placeholder="Type Here..."
+  //       lightTheme
+  //       showLoading
+  //       round
+  //       onChangeText={(text) => searchFilterFunction(text)}
+  //       autoCorrect={false}
+  //       value={value}
+  //     />
+  //   );
+  // };
 
   // return {renderHeader()};
   // if (loading) {
@@ -143,6 +152,15 @@ export default function FlatListDemo() {
   // }
   return (
     <View style={{ flex: 1 }}>
+    <SearchBar
+        placeholder="Type Here..."
+        lightTheme
+        showLoading
+        round
+        onChangeText={(text) => searchFilterFunction(text)}
+        autoCorrect={true}
+        value={value}
+      />
       {/* {renderHeader()} */}
       <FlatList
         data={data}
@@ -170,7 +188,7 @@ export default function FlatListDemo() {
         )}
         keyExtractor={(item, index) => index.toString()}
         ItemSeparatorComponent={renderSeparator}
-        ListHeaderComponent={renderHeader}
+        //ListHeaderComponent={renderHeader}
       />
     </View>
   );

@@ -10,7 +10,7 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
-
+import Header from '../shared/Profileheader'
 export default function Profile({ navigation }) {
   [image, setImage] = useState(false);
 
@@ -44,8 +44,13 @@ export default function Profile({ navigation }) {
     }
   };
   return (
+    <View>
+    <View style={styles.mainheader}>
+      <Header title="Profile" navigation={navigation} />
+      </View>
     <View style={styles.container}>
-      <View style={styles.header}></View>
+      <View style={styles.header}>
+      </View>
       <Image style={styles.avatar} source={require("../assets/fawaz.jpg")} />
       {image && <Image style={styles.avatar} source={{ uri: image }} />}
 
@@ -69,21 +74,38 @@ export default function Profile({ navigation }) {
             style={styles.buttonContainer}
             onPress={() => _pickImage()}
           >
-            <Text>Change Profile</Text>
+            <Text style= {styles.text} >Change Profile</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.buttonContainer}>
-            <Text>Change Password</Text>
+            <Text style= {styles.text}>Change Password</Text>
           </TouchableOpacity>
         </View>
       </View>
+    </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  text:{
+    color: "#FFFFFF",
+  },
   header: {
-    backgroundColor: "#00BFFF",
+    backgroundColor:"#43484d",
     height: 200,
+    marginTop:0
+    //backgroundColor: "#00868B", height: 70
+  },
+  mainheader: {
+    width: "100%",
+    height: "100%",
+    flexDirection: "row",
+    backgroundColor: "#00868B", height: 70,
+    fontWeight: "bold",
+    fontSize: 20,
+    color: "white",
+    letterSpacing: 1,
+    alignContent: "center"
   },
   avatar: {
     width: 130,
@@ -134,6 +156,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     width: 250,
     borderRadius: 30,
-    backgroundColor: "#00BFFF",
+    backgroundColor: "#00868B",
   },
 });

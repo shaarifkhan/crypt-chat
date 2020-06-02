@@ -35,12 +35,17 @@ const styles = StyleSheet.create({
     color: "white",
     letterSpacing: 1,
     marginLeft: 20,
-    alignContent: "center"
+    alignContent: "center",
+    marginTop:15,
+    justifyContent:'center'
   },
   icon: {
     alignContent: "flex-start",
-    left: 0,
+    left: 10,
+    marginTop:15,
     color: "white",
+    justifyContent:"center",
+    alignItems:'center'
   },
   headerTitle: {
     flexDirection: "row",

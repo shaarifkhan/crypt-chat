@@ -30,7 +30,7 @@ const AuthScreens = {
 const headerConfig = {
   defaultNavigationOptions: {
     headerTintColor: "white",
-    headerStyle: { backgroundColor: "#00868B", height: 80 },
+    headerStyle: { backgroundColor: "#00868B", height: 70 },
   },
 };
 
@@ -53,6 +53,7 @@ const TabNavigator = createMaterialTopTabNavigator(
         inactiveColor: "#226557",
         barStyle: { backgroundColor: "black" },
       },
+  
     },
     Home: {
       screen: Contacts,
@@ -108,6 +109,12 @@ const AppStack = createStackNavigator(
   {
     Main: {
       screen: TabNavigator,
+      navigationOptions: ({ navigation }) => {
+        return {
+          headerTitle: () => <Header title="Crypt Chat" navigation={navigation} />,
+        };
+      },
+
     },
     Convo: {
       screen: Chat,
