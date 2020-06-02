@@ -7,7 +7,7 @@ const { expressRoutes } = require("./routes");
 
 const PORT = process.env.PORT || 3000;
 
-app.use(cors({ origin: "http://192.168.1.104", credentials: true }));
+app.use(cors());
 
 // parse incoming requests
 app.use(bodyParser.json());
