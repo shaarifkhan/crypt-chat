@@ -25,13 +25,8 @@ axios.defaults.withCredentials = true;
 export default function Conversation({ navigation }) {
   // const { socket } = navigation.state.params;
   // console.log("in home socket is ", socket.id);
-  const [modal, setModal] = useState(false);
-  const [modal1, setModal1] = useState(false);
-  const [modal2, setModal2] = useState(false);
-  const [userId, setUserId] = useState(null);
   const [spinner, setSpinner] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
-  const [_isMounted, setIsMounted] = useState(true);
 
   const [contacts, setContacts] = useState([
     {
@@ -41,33 +36,7 @@ export default function Conversation({ navigation }) {
       image:
         "https://www.pngfind.com/pngs/m/110-1102775_download-empty-profile-hd-png-download.png",
     },
-    // {
-    //   _id: 11,
-    //   username: "Imran Khan",
-    //   message: "active",
-    //   image:
-    //     "https://www.pngfind.com/pngs/m/110-1102775_download-empty-profile-hd-png-download.png",
-    // },
   ]);
-  const submitToServer = (contact) => {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        // console.log(user.uid);
-        getIdToken().then((token) => {
-          axios.defaults.headers.common["Authorization"] = token;
-          body = axios
-            .post(baseUrl + "/secured/postContact", { email: contact.email })
-            .then(({ data }) => {
-              // console.log(data);
-            })
-            .catch((err) => {
-              console.log("yhi par error aa gaya", err);
-              throw err;
-            });
-        });
-      }
-    });
-  };
 
   const getConversations = () => {
     let isSubscribed = true;

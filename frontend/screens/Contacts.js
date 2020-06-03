@@ -26,13 +26,8 @@ axios.defaults.withCredentials = true;
 export default function Contacts({ navigation }) {
   // const { socket } = navigation.state.params;
   console.log("in home socket is ", socket.id);
-  const [modal, setModal] = useState(false);
-  const [modal1, setModal1] = useState(false);
-  const [modal2, setModal2] = useState(false);
-  const [userId, setUserId] = useState(null);
   const [spinner, setSpinner] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
-  const [_isMounted, setIsMounted] = useState(true);
 
   const [contacts, setContacts] = useState([
     {
@@ -50,13 +45,6 @@ export default function Contacts({ navigation }) {
       image:
         "https://www.pngfind.com/pngs/m/110-1102775_download-empty-profile-hd-png-download.png",
     },
-    // {
-    //   _id: 11,
-    //   username: "Imran Khan",
-    //   status: "active",
-    //   image:
-    //     "https://www.pngfind.com/pngs/m/110-1102775_download-empty-profile-hd-png-download.png",
-    // },
   ]);
   const submitToServer = (contact) => {
     firebase.auth().onAuthStateChanged((user) => {
@@ -66,9 +54,7 @@ export default function Contacts({ navigation }) {
           axios.defaults.headers.common["Authorization"] = token;
           body = axios
             .post(baseUrl + "/secured/postContact", { email: contact.email })
-            .then(({ data }) => {
-              // console.log(data);
-            })
+            .then(({ data }) => {})
             .catch((err) => {
               console.log("yhi par error aa gaya", err);
               throw err;
@@ -76,21 +62,6 @@ export default function Contacts({ navigation }) {
         });
       }
     });
-  };
-
-  const addcontact = (contact) => {
-    console.log("here");
-    submitToServer(contact);
-    contact._id = Math.floor(Math.random() * 1000);
-    contact.status = "active";
-    contact.image =
-      "https://www.pngfind.com/pngs/m/110-1102775_download-empty-profile-hd-png-download.png";
-    console.log("addcontact", contact);
-    setContacts((currentcontact) => {
-      return [contact, ...currentcontact];
-    });
-    setModal2(false);
-    setModal(false);
   };
 
   const getContact = () => {
@@ -166,97 +137,6 @@ export default function Contacts({ navigation }) {
         textStyle={styles.spinnerTextStyle}
         animation="slide"
       />
-      <Modal visible={modal} animationType="slide">
-        <View style={styles.modalContent}>
-          <View style={styles.addoption}>
-            <Icon
-              name="close"
-              size={28}
-              color="white"
-              style={{ ...styles.modalToggle, ...styles.modalClose }}
-              onPress={() => setModal(false)}
-            ></Icon>
-          </View>
-          <AddContact
-            addcontact={addcontact}
-            navigation={navigation}
-            userId={userId}
-          />
-        </View>
-      </Modal>
-
-      <Modal visible={modal1} animationType="fade">
-        <View style={styles.modalContent}>
-          <View style={styles.addoption}>
-            <Icon
-              name="arrow-circle-right"
-              size={28}
-              color="white"
-              style={{ ...styles.modalToggle, ...styles.modalClose }}
-              onPress={() => setModal1(false)}
-            ></Icon>
-          </View>
-          <MakeGroup contacts={contacts} />
-        </View>
-      </Modal>
-
-      <Modal visible={modal2} animationType="slide">
-        <View style={styles.addoption}>
-          <Icon
-            name="close"
-            size={28}
-            color="white"
-            style={{ ...styles.modalToggle, ...styles.modalClose }}
-            onPress={() => setModal2(false)}
-          ></Icon>
-        </View>
-        {/* <TouchableOpacity style={styles.option} onPress={() => setModal(true)}>
-        <View style={styles.option}>
-          <View style={styles.iconsize}>
-            <Icon name="user" size={24} color="white" />
-            <Text
-              style={styles.optiontxt}
-              numberOfLines={1}
-              ellipsizeMode="tail"
-            >
-              Add A New Contact
-            </Text>
-          </View>
-        </View>
-      </TouchableOpacity> */}
-        <View style={styles.storyCounters}>
-          <Icon
-            name="user"
-            style={styles.iconCounter}
-            onPress={() => setModal(true)}
-          />
-          <Text style={styles.iconCounterText}>Add A New Contact</Text>
-        </View>
-
-        {/* <TouchableOpacity style={styles.option} onPress={() => setModal1(true)}>
-        <View style={styles.option}>
-          <View style={styles.iconsize}>
-            <Icon name="group" size={24} color="white" />
-            <Text
-              style={styles.optiontxt}
-              numberOfLines={1}
-              ellipsizeMode="tail"
-            >
-              Make A New Room
-            </Text>
-          </View>
-        </View>
-      </TouchableOpacity> */}
-        <View style={styles.storyCounters}>
-          <Icon
-            name="users"
-            color="coral"
-            style={styles.iconCounter}
-            onPress={() => setModal1(true)}
-          />
-          <Text style={styles.iconCounterText}>Add A New Group</Text>
-        </View>
-      </Modal>
 
       <FlatList
         refreshControl={
@@ -295,7 +175,6 @@ export default function Contacts({ navigation }) {
         size={50}
         color="#DCDCDC"
         style={styles.fab}
-        // onPress={() => setModal(true)}
         onPress={() => navigation.navigate("FindContact")}
       />
     </View>

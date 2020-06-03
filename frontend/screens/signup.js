@@ -80,16 +80,22 @@ export default function Signup({ navigation }) {
           }}
         >
           {(props) => (
-            <View>
-
+            <View style={{ backgroundColor: "white" }}>
               <Input
-                leftIcon={<Icon name="user" size={24} color="black" style={styles.margin} />}
+                leftIcon={
+                  <Icon
+                    name="user"
+                    size={24}
+                    color="black"
+                    style={styles.margin}
+                  />
+                }
                 style={globalStyles.input}
                 placeholder="Username"
                 onChangeText={props.handleChange("username")}
                 onBlur={props.handleBlur("username")}
                 value={props.values.username}
-                autoCapitalize = 'none'
+                autoCapitalize="none"
               />
               {/* only if the left value is a valid string, will the right value be displayed */}
               <Text style={globalStyles.errorText}>
@@ -98,13 +104,20 @@ export default function Signup({ navigation }) {
 
               <Input
                 secureTextEntry={true}
-                leftIcon={<Icon name="lock" size={24} color="black" style={styles.margin} />}
+                leftIcon={
+                  <Icon
+                    name="lock"
+                    size={24}
+                    color="black"
+                    style={styles.margin}
+                  />
+                }
                 style={globalStyles.input}
                 placeholder="Password"
                 onChangeText={props.handleChange("password")}
                 onBlur={props.handleBlur("password")}
                 value={props.values.password}
-                autoCapitalize = 'none'
+                autoCapitalize="none"
               />
               <Text style={globalStyles.errorText}>
                 {props.touched.password && props.errors.password}
@@ -112,20 +125,34 @@ export default function Signup({ navigation }) {
 
               <Input
                 secureTextEntry={true}
-                leftIcon={<Icon name="lock" size={24} color="black" style={styles.margin} />}
+                leftIcon={
+                  <Icon
+                    name="lock"
+                    size={24}
+                    color="black"
+                    style={styles.margin}
+                  />
+                }
                 style={globalStyles.input}
                 placeholder="Confirm Password"
                 onChangeText={props.handleChange("confPassword")}
                 onBlur={props.handleBlur("confPassword")}
                 value={props.values.confPassword}
-                autoCapitalize = 'none'
+                autoCapitalize="none"
               />
               <Text style={globalStyles.errorText}>
                 {props.touched.confPassword && props.errors.confPassword}
               </Text>
 
               <Input
-                leftIcon={<Icon name="envelope" size={24} color="black" style={styles.margin} />}
+                leftIcon={
+                  <Icon
+                    name="envelope"
+                    size={24}
+                    color="black"
+                    style={styles.margin}
+                  />
+                }
                 style={globalStyles.input}
                 placeholder="email"
                 onChangeText={props.handleChange("email")}
@@ -139,7 +166,7 @@ export default function Signup({ navigation }) {
               </Text>
 
               <Button
-              buttonStyle={{
+                buttonStyle={{
                   backgroundColor: "#43484d",
                 }}
                 title="Signup"
@@ -157,6 +184,7 @@ const styles = StyleSheet.create({
     marginTop: 100,
     padding: 10,
     justifyContent: "center",
+    backgroundColor: "white",
   },
   titleText: {
     fontSize: 55,
@@ -164,7 +192,7 @@ const styles = StyleSheet.create({
     marginLeft: 45,
     justifyContent: "center",
   },
-  margin:{
-    marginRight:10
-  }
+  margin: {
+    marginRight: 10,
+  },
 });

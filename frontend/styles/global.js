@@ -1,4 +1,7 @@
 import { StyleSheet } from "react-native";
+import { Dimensions } from "react-native";
+const deviceWidth = Dimensions.get("window").width;
+const deviceHeight = Dimensions.get("window").height;
 
 export const globalStyles = StyleSheet.create({
   titleText: {
@@ -16,6 +19,7 @@ export const globalStyles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: "white",
+    paddingBottom: 100,
   },
   input: {
     borderWidth: 2,

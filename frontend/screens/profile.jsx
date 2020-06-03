@@ -10,9 +10,12 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
-import Header from '../shared/Profileheader'
+import Header from "../shared/Profileheader";
+import firebase from "../config/firebase";
+
 export default function Profile({ navigation }) {
   [image, setImage] = useState(false);
+  [username, setUsername] = useState("");
 
   const getPermissionAsync = async () => {
     if (Constants.platform.android) {
@@ -45,16 +48,15 @@ export default function Profile({ navigation }) {
   };
   return (
     <View>
-    <View style={styles.mainheader}>
-      <Header title="Profile" navigation={navigation} />
+      <View style={styles.mainheader}>
+        <Header title="Profile" navigation={navigation} />
       </View>
-    <View style={styles.container}>
-      <View style={styles.header}>
-      </View>
-      <Image style={styles.avatar} source={require("../assets/fawaz.jpg")} />
-      {image && <Image style={styles.avatar} source={{ uri: image }} />}
+      <View style={styles.container}>
+        <View style={styles.header}></View>
+        <Image style={styles.avatar} source={require("../assets/fawaz.jpg")} />
+        {image && <Image style={styles.avatar} source={{ uri: image }} />}
 
-      {/* <Image
+        {/* <Image
         style={styles.avatar}
         source={{
           uri:
@@ -62,50 +64,49 @@ export default function Profile({ navigation }) {
         }}
       /> */}
 
-      <View style={styles.body}>
-        <View style={styles.bodyContent}>
-          <Text style={styles.name}>Fawaz Ansari</Text>
-          <Text style={styles.info}>UX/UI Designer / Mobile developer</Text>
-          <Text style={styles.description}>
-          Welcome to crypt chat
-          </Text>
+        <View style={styles.body}>
+          <View style={styles.bodyContent}>
+            <Text style={styles.name}>Shaarif Khan</Text>
+            <Text style={styles.info}>UX/UI Designer / Mobile developer</Text>
+            <Text style={styles.description}>Welcome to crypt chat</Text>
 
-          <TouchableOpacity
-            style={styles.buttonContainer}
-            onPress={() => _pickImage()}
-          >
-            <Text style= {styles.text} >Change Profile</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonContainer}>
-            <Text style= {styles.text}>Change Password</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonContainer}
+              onPress={() => _pickImage()}
+            >
+              <Text style={styles.text}>Change Profile</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.buttonContainer}>
+              <Text style={styles.text}>Change Password</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  text:{
+  text: {
     color: "#FFFFFF",
   },
   header: {
-    backgroundColor:"#43484d",
+    backgroundColor: "#43484d",
     height: 200,
-    marginTop:0
+    marginTop: 0,
     //backgroundColor: "#00868B", height: 70
   },
   mainheader: {
     width: "100%",
     height: "100%",
     flexDirection: "row",
-    backgroundColor: "#00868B", height: 70,
+    backgroundColor: "#00868B",
+    height: 70,
     fontWeight: "bold",
     fontSize: 20,
     color: "white",
     letterSpacing: 1,
-    alignContent: "center"
+    alignContent: "center",
   },
   avatar: {
     width: 130,

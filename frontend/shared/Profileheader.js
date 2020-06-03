@@ -34,24 +34,24 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "white",
     letterSpacing: 1,
-    marginLeft: 20,
+    marginLeft: 35,
     alignContent: "center",
-    marginTop:15,
-    justifyContent:'center'
+    marginTop: 20,
+    justifyContent: "center",
   },
   icon: {
     alignContent: "flex-start",
-    left: 10,
-    marginTop:15,
+    left: 20,
+    marginTop: 20,
     color: "white",
-    justifyContent:"center",
-    alignItems:'center'
+    justifyContent: "center",
+    alignItems: "center",
   },
   headerTitle: {
     flexDirection: "row",
     marginLeft: 20,
-    alignContent:"center",
-    justifyContent: "center"
+    alignContent: "center",
+    justifyContent: "center",
   },
   headerImage: {
     width: 26,

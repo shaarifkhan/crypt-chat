@@ -7,7 +7,6 @@ import {
   Text,
   Alert,
   StyleSheet,
-
 } from "react-native";
 import {
   createDrawerNavigator,
@@ -63,7 +62,7 @@ const customContentComponent = (props) => (
     </View>
     <View style={{ marginLeft: 20, marginTop: 0 }}>
       <DrawerNavigatorItems {...props} />
-      <TouchableOpacity 
+      <TouchableOpacity
         onPress={() =>
           Alert.alert(
             "Log out",
@@ -87,7 +86,7 @@ const customContentComponent = (props) => (
           )
         }
       >
-        <Text style= {styles.contentOptions}>Logout</Text>
+        <Text style={styles.contentOptions}>Logout</Text>
       </TouchableOpacity>
     </View>
   </SafeAreaView>
@@ -129,12 +128,11 @@ const DrawerNavigator = createDrawerNavigator(
 );
 const styles = StyleSheet.create({
   contentOptions: {
-      fontSize: 17,
-      marginLeft: 10,
-      marginTop: 8,
-      color:"white",
-      fontWeight:'bold'
-
-}
-})
+    fontSize: 17,
+    marginLeft: 10,
+    marginTop: 8,
+    color: "white",
+    fontWeight: "bold",
+  },
+});
 export default DrawerNavigator;

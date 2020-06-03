@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   Alert,
   Keyboard,
+  // KeyboardAvoidingView,
 } from "react-native";
 import { globalStyles } from "../styles/global.js";
 import { Formik } from "formik";
@@ -19,7 +20,10 @@ import { StackActions, NavigationActions } from "react-navigation";
 import { Input, Button } from "react-native-elements";
 import { baseUrl } from "../config/dev-config.json";
 import axios from "axios";
-import { ScrollView } from "react-native";
+import { Dimensions } from "react-native";
+const deviceWidth = Dimensions.get("window").width;
+const deviceHeight = Dimensions.get("window").height;
+
 axios.defaults.withCredentials = true;
 const io = require("socket.io-client");
 const socket = io(baseUrl, { forceNode: true });
@@ -75,10 +79,16 @@ export default function Login({ navigation }) {
   };
 
   return (
-    <ScrollView>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <TouchableWithoutFeedback
+      onPress={Keyboard.dismiss}
+      style={globalStyles.container}
+    >
+      <View style={{ flex: 1, backgroundColor: "white" }}>
+        <View style={styles.img}>
+          <Image source={require("../assets/logo.png")} style={styles.img} />
+        </View>
+
         <View style={globalStyles.container}>
-          <Image source={require("../assets/cc.png")} style={styles.img} />
           {error &&
             Alert.alert(
               "Login Error",
@@ -169,8 +179,8 @@ export default function Login({ navigation }) {
             )}
           </Formik>
         </View>
-      </TouchableWithoutFeedback>
-    </ScrollView>
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 const styles = StyleSheet.create({
@@ -178,8 +188,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     color: "#333",
-    alignItems: "center",
-    marginLeft: 70,
+    textAlign: "center",
     marginTop: 20,
   },
   nB: {
@@ -190,5 +199,15 @@ const styles = StyleSheet.create({
   },
   margin: {
     marginRight: 10,
+  },
+  img: {
+    flex: 1,
+    flexDirection: "column",
+
+    resizeMode: "contain",
+    justifyContent: "center",
+    alignContent: "center",
+    height: deviceHeight * 0.25,
+    width: 0.94 * deviceWidth,
   },
 });
