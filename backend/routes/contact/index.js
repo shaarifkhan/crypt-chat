@@ -63,7 +63,7 @@ const getContact = async (req, res, next) => {
           (err, users) => {
             if (err) throw err;
             else {
-              console.log("ye hain users", users);
+              // console.log("ye hain users", users);
               res.status(200).json({
                 success: true,
                 result: users,

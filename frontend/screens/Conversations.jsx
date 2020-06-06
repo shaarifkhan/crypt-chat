@@ -8,6 +8,7 @@ import {
   FlatList,
   Modal,
   RefreshControl,
+  AppState,
 } from "react-native";
 import AddContact from "./Addcontact";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -19,14 +20,17 @@ import { getIdToken } from "../commons/index";
 import Spinner from "react-native-loading-spinner-overlay";
 const io = require("socket.io-client");
 const socket = io(baseUrl, { forceNode: true });
-
 axios.defaults.withCredentials = true;
 
 export default function Conversation({ navigation }) {
   // const { socket } = navigation.state.params;
-  // console.log("in home socket is ", socket.id);
+  console.log("in Conversation is ", socket.id);
+  // const [appState, setAppState] = useState(AppState.currentState);
+
   const [spinner, setSpinner] = useState(false);
+  const [userId, setUserId] = useState("false");
   const [refreshing, setRefreshing] = useState(false);
+  const [socketState, setSocketState] = useState(false);
 
   const [contacts, setContacts] = useState([
     {
@@ -39,12 +43,12 @@ export default function Conversation({ navigation }) {
   ]);
 
   const getConversations = () => {
+    // console.log("in Conversation is ", socket.id);
+
     let isSubscribed = true;
     setContacts([]);
     getIdToken().then((token) => {
-      console.log("first");
       axios.defaults.headers.common["Authorization"] = token;
-      console.log(token);
       axios
         .get(baseUrl + "/secured/getConversations")
         .then((res) => {
@@ -52,7 +56,7 @@ export default function Conversation({ navigation }) {
           // console.log(result);
           for (i = 0; i < result.length; i++) {
             user = result[i];
-            console.log("in Conversation user is\n", user);
+            // console.log("in Conversation user is\n", user);
             if (user.messages.length == 0) continue;
             const body = {
               _id: user.partnerId._id,
@@ -75,33 +79,62 @@ export default function Conversation({ navigation }) {
           throw err;
         });
     });
-    console.log(1);
   };
 
   useEffect(() => {
+    AppState.addEventListener("change", _handleAppStateChange);
     let isSubscribed = true;
 
-    setSpinner(false);
+    socket.on("disconnect", () => {
+      console.log("socket disconnected");
+    });
+
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        // console.log(user.uid);
         console.log("user has joined socket");
         socket.emit("login", {
           uid: user.uid,
         });
         if (isSubscribed) {
+          // console.log("in Conversation is ", socket.id);
+
           getConversations();
-          console.log(2);
         }
       }
     });
 
-    return () => (isSubscribed = false);
+    return () => {
+      AppState.removeEventListener("change", _handleAppStateChange);
+      isSubscribed = false;
+    };
   }, []);
+
+  const _handleAppStateChange = (nextAppState) => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        console.log(nextAppState);
+        if (nextAppState == "active") {
+          socket.emit("login", {
+            uid: user.uid,
+          });
+        }
+        if (nextAppState == "background") {
+          socket.emit("leaveRoom", {
+            uid: user.uid,
+          });
+        }
+        console.log(socket.id);
+      }
+    });
+
+    // if (appState.match(/inactive|background/) && nextAppState === "active") {
+    //   console.log("App has come to the foreground!");
+    // }
+    // setAppState(nextAppState);
+  };
 
   const openChat = (contact) => {
     // navigation.navigate("Conversation", { contact: contact, socket: socket });
-    console.log("this get pressed");
     navigation.navigate("Conversation", { contact: contact, socket: socket });
   };
   function wait(timeout) {

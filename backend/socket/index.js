@@ -6,8 +6,26 @@ const init = (app) => {
 
   global.io.on("connection", (socket) => {
     socket.on("login", ({ uid }) => {
-      console.log("new user has joined socket", uid);
+      // console.log("socket id he", socket.id);
+      console.log(`${socket.id} has joined`, uid);
+      // console.log("this ", io.sockets.adapter.rooms);
       socket.join(uid);
+      console.log(
+        "this ",
+        io.nsps["/"].adapter.rooms["9cfFEFV19JY50lBAX3SzVV1zFbT2"]
+      );
+    });
+    // socket.on("disconnect", () => {
+    //   console.log("disconnected");
+    // });
+    socket.on("leaveRoom", ({ uid }) => {
+      console.log(`${socket.id} has been removed from`, uid);
+      console.log(
+        "this ",
+        io.nsps["/"].adapter.rooms["9cfFEFV19JY50lBAX3SzVV1zFbT2"]
+      );
+
+      socket.leave(uid);
     });
   });
 

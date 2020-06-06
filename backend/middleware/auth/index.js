@@ -2,7 +2,6 @@ const admin = require("./firebaseAdmin");
 
 module.exports = (req, res, next) => {
   const authtoken = req.headers["authorization"];
-  console.log(authtoken);
   if (authtoken) {
     admin
       .auth()

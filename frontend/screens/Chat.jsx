@@ -16,6 +16,7 @@ import {
   FlatList,
   Button,
   RefreshControl,
+  AppState,
 } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay";
 
@@ -25,16 +26,25 @@ import { getIdToken } from "../commons/index";
 import firebase from "../config/firebase";
 import moment from "moment";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { encrypt, decrypt } from "react-native-simple-encryption";
+import CryptoJS from "react-native-crypto-js";
+
 axios.defaults.withCredentials = true;
 
 // const io = require("socket.io-client");
 // const socket = io(baseUrl, { forceNode: true });
+let data = [{ id: 1 }, { id: 2 }];
+let ciphertext = CryptoJS.AES.encrypt(
+  JSON.stringify(data),
+  "secret key 123"
+).toString();
 
 export default function Chat({ navigation }) {
   const { contact, socket } = navigation.state.params;
   // console.log("in conversation contact is ", contact);
   const [spinner, setSpinner] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+  console.log(ciphertext);
 
   const [data, setData] = useState([
     {
@@ -55,6 +65,18 @@ export default function Chat({ navigation }) {
   const renderDate = (date) => {
     return <Text style={styles.time}>{date}</Text>;
   };
+  // //encryption decryption
+  // _doEnc() {
+  //   enc = encrypt('key123', this.state.data);
+  //   console.log('Encrypted:', enc);
+  //   this.setState({ data: enc, });
+  // }
+
+  // _doDec() {
+  //   dec = decrypt('key123', enc);
+  //   console.log('Decrypted:', dec);
+  //   this.setState({ data: dec, });
+  // }
 
   // when the socket connect with the chat
   const playSound = async (option) => {
@@ -90,10 +112,14 @@ export default function Chat({ navigation }) {
       console.log("first");
       axios.defaults.headers.common["Authorization"] = token;
       console.log(token);
+      let ciphertext = CryptoJS.AES.encrypt(
+        message,
+        "secret key 123"
+      ).toString();
 
       axios
         .post(baseUrl + "/secured/postmessage", {
-          message: message,
+          // message: ciphertext,
           receiverId: contact._id,
         })
         .then(({ data }) => {})
@@ -118,14 +144,13 @@ export default function Chat({ navigation }) {
     getIdToken().then((token) => {
       console.log("first");
       axios.defaults.headers.common["Authorization"] = token;
-      console.log(token);
       axios
         .get(baseUrl + `/secured/getmessages?partnerId=${contact._id}`)
         .then(({ data }) => {
           const result = data.result;
           // console.log(result);
           for (i = 0; i < result.length; i++) {
-            console.log(result[i]);
+            // console.log(result[i]);
             const body = {
               id: result[i]._id,
               message: result[i].message,
@@ -136,7 +161,6 @@ export default function Chat({ navigation }) {
             setData((oldMessages) => [...oldMessages, body]);
           }
           setSpinner(false);
-          console.log("data is", data);
         })
         .catch((err) => {
           console.log("yhi par error aa gaya", err);
@@ -147,16 +171,18 @@ export default function Chat({ navigation }) {
 
   //on every component did mount
   useEffect(() => {
+    AppState.addEventListener("change", _handleAppStateChange);
+
     let isSubscribed = true;
+    console.log("in Chat is ", socket.id);
     socket.on("newMessage", ({ msgBody, sender }) => {
-      console.log("dekhte hn kitni baar chalta");
       const body = {
         id: msgBody._id,
         message: msgBody.message,
         type: msgBody.currentUserIsSender ? "out" : "in",
         date: moment(msgBody.dateTime).format("DD/MM/YYYY hh:mm a"),
       };
-      setData((oldMessages) => [...oldMessages, body]);
+      if (isSubscribed) setData((oldMessages) => [...oldMessages, body]);
       playSound("RCV");
     });
     setSpinner(true);
@@ -168,8 +194,17 @@ export default function Chat({ navigation }) {
       }
     });
 
-    return () => (isSubscribed = false);
+    return () => {
+      AppState.removeEventListener("change", _handleAppStateChange);
+      isSubscribed = false;
+    };
   }, []);
+
+  const _handleAppStateChange = (nextAppState) => {
+    if (nextAppState == "active") {
+      console.log("in chat socket is", socket.id);
+    }
+  };
 
   // pull to refresh component
   const onRefresh = React.useCallback(() => {
@@ -198,7 +233,7 @@ export default function Chat({ navigation }) {
           let inMessage = item.type === "in";
           let itemStyle = inMessage ? styles.itemIn : styles.itemOut;
           return (
-            <React.Fragment>
+            <View>
               <View style={[styles.item, itemStyle]}>
                 {/* {!inMessage && renderDate(item.date)} */}
                 <View style={[styles.balloon]}>
@@ -208,7 +243,7 @@ export default function Chat({ navigation }) {
               <View style={itemStyle}>
                 <Text> {renderDate(item.date)}</Text>
               </View>
-            </React.Fragment>
+            </View>
           );
         }}
       />

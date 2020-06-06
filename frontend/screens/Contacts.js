@@ -25,7 +25,7 @@ axios.defaults.withCredentials = true;
 
 export default function Contacts({ navigation }) {
   // const { socket } = navigation.state.params;
-  console.log("in home socket is ", socket.id);
+  // console.log("in home socket is ", socket.id);
   const [spinner, setSpinner] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -68,16 +68,14 @@ export default function Contacts({ navigation }) {
     let isSubscribed = true;
     setContacts([]);
     getIdToken().then((token) => {
-      console.log("first");
       axios.defaults.headers.common["Authorization"] = token;
-      console.log(token);
       axios
         .get(baseUrl + "/secured/getContact")
         .then((res) => {
           const result = res.data.result;
           // console.log(result);
           for (i = 0; i < result.length; i++) {
-            console.log(result[i]);
+            // console.log(result[i]);
             result[i]["image"] =
               "https://www.pngfind.com/pngs/m/110-1102775_download-empty-profile-hd-png-download.png";
             if (isSubscribed) {
@@ -92,7 +90,6 @@ export default function Contacts({ navigation }) {
           throw err;
         });
     });
-    console.log(1);
   };
 
   useEffect(() => {
@@ -104,7 +101,6 @@ export default function Contacts({ navigation }) {
         // console.log(user.uid);
         if (isSubscribed) {
           getContact();
-          console.log(2);
         }
       }
     });

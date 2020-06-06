@@ -1,3 +1,4 @@
 {
-  "baseUrl": "https://crypt-chatt.herokuapp.com"
+  // "baseUrl": "https://crypt-chatt.herokuapp.com"
+  "baseUrl": "http://192.168.1.105:3000"
 }
