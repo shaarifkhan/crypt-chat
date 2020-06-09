@@ -16,7 +16,7 @@ import MakeGroup from "./MakeGroup";
 import firebase from "../config/firebase";
 import axios from "axios";
 import { baseUrl } from "../config/dev-config.json";
-import { getIdToken } from "../commons/index";
+import { getIdToken, decryptData } from "../commons/index";
 import Spinner from "react-native-loading-spinner-overlay";
 const io = require("socket.io-client");
 const socket = io(baseUrl, { forceNode: true });
@@ -58,12 +58,16 @@ export default function Conversation({ navigation }) {
             user = result[i];
             // console.log("in Conversation user is\n", user);
             if (user.messages.length == 0) continue;
+            var imageLink;
+            if (user.partnerId.image) imageLink = user.partnerId.image;
+            else
+              imageLink =
+                "https://www.pngfind.com/pngs/m/110-1102775_download-empty-profile-hd-png-download.png";
             const body = {
               _id: user.partnerId._id,
-              image:
-                "https://www.pngfind.com/pngs/m/110-1102775_download-empty-profile-hd-png-download.png",
+              image: imageLink,
               username: user.partnerId.username,
-              message: user.messages[0].message,
+              message: decryptData(user.messages[0].message),
               email: user.partnerId.email,
             };
 
@@ -151,12 +155,12 @@ export default function Conversation({ navigation }) {
 
   return (
     <View style={{ flex: 1, backgroundColor: "#43484d" }}>
-      <Spinner
+      {/* <Spinner
         visible={spinner}
         textContent={"Loading..."}
         textStyle={styles.spinnerTextStyle}
         animation="slide"
-      />
+      /> */}
 
       <FlatList
         refreshControl={

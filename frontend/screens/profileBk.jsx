@@ -9,7 +9,6 @@ import {
   YellowBox,
 } from "react-native";
 YellowBox.ignoreWarnings(["Setting a timer"]);
-
 import * as ImagePicker from "expo-image-picker";
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
@@ -19,12 +18,10 @@ import axios from "axios";
 import { getIdToken } from "../commons";
 const storage = firebase.storage();
 const { baseUrl } = require("../config/dev-config.json");
-console.ignoredYellowBox = ["Setting a timer"];
 
 export default function Profile({ navigation }) {
-  console.ignoredYellowBox = ["Setting a timer"];
-
-  [image, setImage] = useState(false);
+  [image, setImage] = useState(null);
+  [email, setEmail] = useState("");
   [username, setUsername] = useState("");
 
   const getPermissionAsync = async () => {
@@ -38,9 +35,8 @@ export default function Profile({ navigation }) {
   useEffect(() => {
     getPermissionAsync();
     // axios
-    //   .get(baseUrl + "/secured/getProfile")
+    //   .get(baseUrl + "/getProfile")
     //   .then((res) => {
-    //     console.log(res);
     //     if (res.success == "true") return res;
     //   })
     //   .then(({ result }) => {
@@ -101,7 +97,6 @@ export default function Profile({ navigation }) {
   const _pickImage = async () => {
     try {
       let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,
         // aspect: [4, 3],
         quality: 1,

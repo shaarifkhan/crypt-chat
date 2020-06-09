@@ -22,29 +22,23 @@ import Spinner from "react-native-loading-spinner-overlay";
 
 const { baseUrl } = require("../config/dev-config.json");
 import axios from "axios";
-import { getIdToken } from "../commons/index";
+import { getIdToken, encryptData, decryptData } from "../commons/index";
 import firebase from "../config/firebase";
 import moment from "moment";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { encrypt, decrypt } from "react-native-simple-encryption";
-import CryptoJS from "react-native-crypto-js";
 
 axios.defaults.withCredentials = true;
 
 // const io = require("socket.io-client");
 // const socket = io(baseUrl, { forceNode: true });
-let data = [{ id: 1 }, { id: 2 }];
-let ciphertext = CryptoJS.AES.encrypt(
-  JSON.stringify(data),
-  "secret key 123"
-).toString();
 
 export default function Chat({ navigation }) {
   const { contact, socket } = navigation.state.params;
   // console.log("in conversation contact is ", contact);
   const [spinner, setSpinner] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
-  console.log(ciphertext);
+  // console.log(ciphertext);
 
   const [data, setData] = useState([
     {
@@ -65,18 +59,6 @@ export default function Chat({ navigation }) {
   const renderDate = (date) => {
     return <Text style={styles.time}>{date}</Text>;
   };
-  // //encryption decryption
-  // _doEnc() {
-  //   enc = encrypt('key123', this.state.data);
-  //   console.log('Encrypted:', enc);
-  //   this.setState({ data: enc, });
-  // }
-
-  // _doDec() {
-  //   dec = decrypt('key123', enc);
-  //   console.log('Decrypted:', dec);
-  //   this.setState({ data: dec, });
-  // }
 
   // when the socket connect with the chat
   const playSound = async (option) => {
@@ -84,9 +66,7 @@ export default function Chat({ navigation }) {
       try {
         const messageRcv = new Audio.Sound();
 
-        await messageRcv.loadAsync(
-          require("../assets/sounds/message-received.mp3")
-        );
+        await messageRcv.loadAsync(require("../assets/sounds/send_tone2.mp3"));
 
         await messageRcv.playAsync();
         // Your sound is playing!
@@ -97,7 +77,9 @@ export default function Chat({ navigation }) {
       try {
         const messageSend = new Audio.Sound();
 
-        await messageSend.loadAsync(require("../assets/sounds/send_tone2.mp3"));
+        await messageSend.loadAsync(
+          require("../assets/sounds/message-received.mp3")
+        );
 
         await messageSend.playAsync();
         // Your sound is playing!
@@ -109,17 +91,13 @@ export default function Chat({ navigation }) {
 
   const handleSubmit = () => {
     getIdToken().then((token) => {
-      console.log("first");
       axios.defaults.headers.common["Authorization"] = token;
-      console.log(token);
-      let ciphertext = CryptoJS.AES.encrypt(
-        message,
-        "secret key 123"
-      ).toString();
+      //encrypt
 
+      console.log(typeof ciphertext);
       axios
         .post(baseUrl + "/secured/postmessage", {
-          // message: ciphertext,
+          message: encryptData(message),
           receiverId: contact._id,
         })
         .then(({ data }) => {})
@@ -132,7 +110,7 @@ export default function Chat({ navigation }) {
       ...previousData,
       {
         id: Math.floor(Math.random(10000) * Math.floor(10000)),
-        data: "9:50 am",
+        date: moment(moment.utc().toDate()).format("DD/MM/YYYY hh:mm a"),
         type: "out",
         message: message,
       },
@@ -142,7 +120,6 @@ export default function Chat({ navigation }) {
   };
   const getMessages = () => {
     getIdToken().then((token) => {
-      console.log("first");
       axios.defaults.headers.common["Authorization"] = token;
       axios
         .get(baseUrl + `/secured/getmessages?partnerId=${contact._id}`)
@@ -153,7 +130,7 @@ export default function Chat({ navigation }) {
             // console.log(result[i]);
             const body = {
               id: result[i]._id,
-              message: result[i].message,
+              message: decryptData(result[i].message),
               type: result[i].currentUserIsSender ? "out" : "in",
               date: moment(result[i].dateTime).format("DD/MM/YYYY hh:mm a"),
             };
@@ -178,7 +155,7 @@ export default function Chat({ navigation }) {
     socket.on("newMessage", ({ msgBody, sender }) => {
       const body = {
         id: msgBody._id,
-        message: msgBody.message,
+        message: decryptData(msgBody.message),
         type: msgBody.currentUserIsSender ? "out" : "in",
         date: moment(msgBody.dateTime).format("DD/MM/YYYY hh:mm a"),
       };
@@ -201,9 +178,20 @@ export default function Chat({ navigation }) {
   }, []);
 
   const _handleAppStateChange = (nextAppState) => {
-    if (nextAppState == "active") {
-      console.log("in chat socket is", socket.id);
-    }
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        console.log(nextAppState);
+        if (nextAppState == "active") {
+          console.log("in Chat socket id is", socket.id);
+        }
+        if (nextAppState == "background") {
+          socket.emit("leaveRoom", {
+            uid: user.uid,
+          });
+        }
+        console.log(socket.id);
+      }
+    });
   };
 
   // pull to refresh component

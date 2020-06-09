@@ -18,6 +18,9 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  image: {
+    type: String,
+  },
   contacts: [
     {
       type: ContactSchema,
@@ -28,11 +31,11 @@ UserSchema.plugin(mongoose_fuzzy_searching, {
   fields: [
     {
       name: "firstName",
-      prefixOnly: true,
     },
     {
+      prefixOnly: true,
       name: "email",
-      minSize: 4,
+      minSize: 2,
     },
   ],
 });

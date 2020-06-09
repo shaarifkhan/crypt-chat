@@ -75,11 +75,12 @@ export default function Contacts({ navigation }) {
           const result = res.data.result;
           // console.log(result);
           for (i = 0; i < result.length; i++) {
-            // console.log(result[i]);
-            result[i]["image"] =
-              "https://www.pngfind.com/pngs/m/110-1102775_download-empty-profile-hd-png-download.png";
+            user = result[i];
+            if (!user.image)
+              user["image"] =
+                "https://www.pngfind.com/pngs/m/110-1102775_download-empty-profile-hd-png-download.png";
             if (isSubscribed) {
-              setContacts((oldContacts) => [result[i], ...oldContacts]);
+              setContacts((oldContacts) => [user, ...oldContacts]);
             }
           }
           setSpinner(false);
@@ -87,7 +88,7 @@ export default function Contacts({ navigation }) {
         })
         .catch((err) => {
           console.log("yhi par error aa gaya", err);
-          throw err;
+          return next(err);
         });
     });
   };
@@ -127,12 +128,12 @@ export default function Contacts({ navigation }) {
 
   return (
     <View style={{ flex: 1, backgroundColor: "#43484d" }}>
-      <Spinner
+      {/* <Spinner
         visible={spinner}
         textContent={"Loading..."}
         textStyle={styles.spinnerTextStyle}
         animation="slide"
-      />
+      /> */}
 
       <FlatList
         refreshControl={

@@ -8,8 +8,6 @@ const {
 } = require("../../models/conversation");
 
 const postMessage = async (req, res, next) => {
-  console.log("inside post message");
-  console.log("datetime = ", moment.utc().toDate());
   const { message, receiverId } = req.body;
   const { _id: senderId } = req.currentUser;
 
